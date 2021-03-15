@@ -1,0 +1,4 @@
+D:\sxolh\σχολη\ADOPSE\IMDb-clone\Back\moviesProject\moviesProject\obj\Debug\netcoreapp2.0\moviesProject.csprojAssemblyReference.cache
+D:\sxolh\σχολη\ADOPSE\IMDb-clone\Back\moviesProject\moviesProject\obj\Debug\netcoreapp2.0\moviesProject.AssemblyInfoInputs.cache
+D:\sxolh\σχολη\ADOPSE\IMDb-clone\Back\moviesProject\moviesProject\obj\Debug\netcoreapp2.0\moviesProject.AssemblyInfo.cs
+D:\sxolh\σχολη\ADOPSE\IMDb-clone\Back\moviesProject\moviesProject\obj\Debug\netcoreapp2.0\moviesProject.csproj.CoreCompileInputs.cache

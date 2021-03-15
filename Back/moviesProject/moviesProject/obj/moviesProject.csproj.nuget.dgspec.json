@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj": {}
+    "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj": {}
   },
   "projects": {
-    "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj": {
+    "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj",
+        "projectUniqueName": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
         "projectName": "moviesProject",
-        "projectPath": "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj",
-        "packagesPath": "C:\\Users\\dinos\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\moviesProject\\moviesProject\\obj\\",
+        "projectPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
+        "packagesPath": "C:\\Users\\dimi44\\.nuget\\packages\\",
+        "outputPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dinos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dimi44\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "BouncyCastle.NetCore": {
+              "target": "Package",
+              "version": "[1.8.8, )"
+            },
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.23, )"
@@ -67,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

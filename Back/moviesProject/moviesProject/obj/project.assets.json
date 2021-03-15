@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "BouncyCastle.NetCore/1.8.5": {
+      "BouncyCastle.NetCore/1.8.8": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/BouncyCastle.Crypto.dll": {}
@@ -300,14 +300,14 @@
     }
   },
   "libraries": {
-    "BouncyCastle.NetCore/1.8.5": {
-      "sha512": "6uxsQw2UXrt82VQAWC2td3oBSJjUZ3P4u4DliagB8wf67KsU53V8sW9xwdF+IwZOOZFR0TCZuv/YKZ2BlrfAag==",
+    "BouncyCastle.NetCore/1.8.8": {
+      "sha512": "Jx3dQd4SQOHZmxcImYSp0YT2WpYxosQXoZutbHORhFK/zHGH8aykfIyM6S4DVGyu4g9+KHGJUQEh2RH4qXj/Jg==",
       "type": "package",
-      "path": "bouncycastle.netcore/1.8.5",
+      "path": "bouncycastle.netcore/1.8.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "bouncycastle.netcore.1.8.5.nupkg.sha512",
+        "bouncycastle.netcore.1.8.8.nupkg.sha512",
         "bouncycastle.netcore.nuspec",
         "lib/Mono/BouncyCastle.Crypto.dll",
         "lib/Mono/BouncyCastle.Crypto.xml",
@@ -926,24 +926,25 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "BouncyCastle.NetCore >= 1.8.8",
       "MySql.Data >= 8.0.23",
       "Newtonsoft.Json >= 12.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dinos\\.nuget\\packages\\": {}
+    "C:\\Users\\dimi44\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj",
+      "projectUniqueName": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
       "projectName": "moviesProject",
-      "projectPath": "D:\\Project\\moviesProject\\moviesProject\\moviesProject.csproj",
-      "packagesPath": "C:\\Users\\dinos\\.nuget\\packages\\",
-      "outputPath": "D:\\Project\\moviesProject\\moviesProject\\obj\\",
+      "projectPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
+      "packagesPath": "C:\\Users\\dimi44\\.nuget\\packages\\",
+      "outputPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dinos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dimi44\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -969,6 +970,10 @@
       "netcoreapp3.1": {
         "targetAlias": "netcoreapp3.1",
         "dependencies": {
+          "BouncyCastle.NetCore": {
+            "target": "Package",
+            "version": "[1.8.8, )"
+          },
           "MySql.Data": {
             "target": "Package",
             "version": "[8.0.23, )"
@@ -996,7 +1001,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
