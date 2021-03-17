@@ -33,3 +33,10 @@ D:\Project\moviesProject\moviesProject\obj\Debug\netcoreapp3.1\moviesProject.dll
 D:\Project\moviesProject\moviesProject\obj\Debug\netcoreapp3.1\moviesProject.pdb
 D:\Project\moviesProject\moviesProject\obj\Debug\netcoreapp3.1\moviesProject.genruntimeconfig.cache
 D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+D:\Project\moviesProject\moviesProject\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll

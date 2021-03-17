@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 
+
 namespace moviesProject.Controllers
 {
     public class user
@@ -63,7 +64,7 @@ namespace moviesProject.Controllers
         public static bool authUser(String Email, String Pass)
         {
             
-            String query = "SELECT * FROM users WHERE userEmail="+Email+" AND userPassword="+Pass;
+            String query = "SELECT * FROM users WHERE userEmail='"+Email+"' AND userPassword='"+Pass+"'";
 
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
@@ -76,7 +77,7 @@ namespace moviesProject.Controllers
         public static user getUser(String Email)
         {
 
-            String query = "SELECT * FROM users WHERE userEmail=" + Email;
+            String query = "SELECT * FROM users WHERE userEmail='" + Email+"'";
 
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
@@ -97,7 +98,7 @@ namespace moviesProject.Controllers
         }
         public static void insertUser(string uName, string uEmail, string uPass)
         {
-            String query = "INSERT INTO `users` (`userEmail`, `userName` , `userPassword`) VALUES("+uEmail+", "+uName+", "+uPass+")";
+            String query = "INSERT INTO `users` (`userEmail`, `userName` , `userPassword`) VALUES('"+uEmail+"', '"+uName+"', '"+uPass+"')";
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
             cmd.ExecuteNonQuery();

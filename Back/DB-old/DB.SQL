@@ -15,7 +15,7 @@ CREATE TABLE `users` (
     `userEmail` VARCHAR(255) NOT NULL,
     `userPassword` VARCHAR(255) NOT NULL,
     `isAdmin` BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (userEmail)
+    PRIMARY KEY (userId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -34,7 +34,7 @@ INSERT INTO `users` (`userEmail`, `userName` , `userPassword`, `isAdmin` ) VALUE
 
 
 CREATE TABLE `watchlist` (
-    `userEmail` VARCHAR(255) NOT NULL,
+    `userId` INT NOT NULL,
     `movieId` VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
