@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-namespace moviesProject.Controllers
+namespace moviesProject.Classes
 {
     public static class DbMethods
     {

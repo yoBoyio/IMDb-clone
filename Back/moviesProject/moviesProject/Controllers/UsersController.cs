@@ -34,7 +34,7 @@ namespace moviesProject.Controllers
 
         }
 
-        // (url)/api/Users/info + HEADER Authorization {GET} Json Body: {"Email":" "}
+        // (url)/api/Users/info + HEADER Authorization {GET} Json Body: {"Email":" "} | returns User
 
         [HttpGet("info")]
         public IActionResult GetUser([FromBody] UserCred userCred)
@@ -45,7 +45,7 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
-        // (url)/api/Users/signup {POST} Json Body: {"Email":" ", "Name":" ", "Password":" "}
+        // (url)/api/Users/signup {POST} Json Body: {"Email":" ", "Name":" ", "Password":" "} | Inserts User
         [AllowAnonymous]
         [HttpPost("signup")]
         public IActionResult PostUser([FromBody] UserCred userCred)
@@ -55,7 +55,7 @@ namespace moviesProject.Controllers
             return Ok("200: description: Successfully inserted user");
         }
 
-        // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "}
+        // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserCred userCred)
@@ -65,7 +65,24 @@ namespace moviesProject.Controllers
             if (token == null)
                 return Unauthorized();
 
-            return Ok(token);
+            return Ok(JsonConvert.SerializeObject(token, Formatting.Indented));
+        }
+
+        [HttpGet("watchlist/GetWatchList")]
+        public IActionResult GetWatchlist([FromBody] UserCred userCred)
+        {
+            DbMethods.InitializeDB();
+            WatchList wl = WatchList.GetMovies(userCred.Email);
+            string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
+            return Ok(json);
+        }
+
+        [HttpPost("watchlist/AddToWatchList")]
+        public IActionResult AddToWL([FromBody] UserCred userCred)
+        {
+            DbMethods.InitializeDB();
+            WatchList.insertInWL(userCred.Email, userCred.MovieId);
+            return Ok("200: description: Successfully inserted Movie to user Watchlist");
         }
 
     }
