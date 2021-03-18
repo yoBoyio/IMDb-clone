@@ -11,7 +11,7 @@ namespace moviesProject.Controllers
         private const String SERVER = "localhost";
         private const String DB = "moviesProject";
         private const String UID = "root";
-        private const String PASS = "";
+        private const String PASS = "2905199";
         private static MySqlConnection DbConn;
 
         public static MySqlConnection dbget() 
