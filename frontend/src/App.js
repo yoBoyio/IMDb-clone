@@ -1,6 +1,14 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import React, { useEffect } from 'react';
+
 import styled from "styled-components";
-import { AccountBox } from "./components/accountBox";
+import {Provider} from 'react-redux';
+import {loadUser} from './redux/actions/authActions'
+import AppNavbar from './components/AppNavbar'
+import store from './store';
+
 
 const AppContainer = styled.div`
   width: 100%;
@@ -11,12 +19,21 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 
-function App() {
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
+
+  
   return (
-    <AppContainer>
-      <AccountBox />
-    </AppContainer>
+    <Provider store={store}>
+     <div className="App">
+      <AppNavbar />
+     </div>
+    </Provider>
   );
 }
+
 
 export default App;
