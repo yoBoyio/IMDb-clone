@@ -97,13 +97,20 @@ namespace moviesProject.Controllers
             DbConn.Close();
             return user;
         }
-        public static void insertUser(string uName, string uEmail, string uPass)
+        public static bool insertUser(string uName, string uEmail, string uPass)
         {
-            String query = "INSERT INTO `users` (`userEmail`, `userName` , `userPassword`) VALUES('"+uEmail+"', '"+uName+"', '"+uPass+"')";
-            MySqlCommand cmd = new MySqlCommand(query, DbConn);
-            DbConn.Open();
-            cmd.ExecuteNonQuery();
-            DbConn.Close();
+            try
+            {
+                String query = "INSERT INTO `users` (`userEmail`, `userName` , `userPassword`) VALUES('" + uEmail + "', '" + uName + "', '" + uPass + "')";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                DbConn.Open();
+                cmd.ExecuteNonQuery();
+                DbConn.Close();
+            }catch(Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
         
     }

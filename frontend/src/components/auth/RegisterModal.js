@@ -54,7 +54,7 @@ const RegisterModal = ({
   useEffect(() => {
     // Check for register error
     if (error.id === 'REGISTER_FAIL') {
-      setMsg(error.msg.msg);
+      setMsg(error.msg);
     } else {
       setMsg(null);
     }
@@ -109,7 +109,7 @@ const RegisterModal = ({
                 className="mb-3"
                 onChange={handleChangePassword}
               />
-              <Button color="dark" size="sm" style={{ marginTop: '2rem' }} block>
+              <Button outline color="dark" size="sm" style={{ marginTop: '2rem' }} block>
                 Register
               </Button>
             </FormGroup>

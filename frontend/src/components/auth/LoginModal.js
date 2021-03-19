@@ -47,7 +47,7 @@ const LoginModal = ({
   useEffect(() => {
     // Check for register error
     if (error.id === 'LOGIN_FAIL') {
-      setMsg(error.msg.msg);
+      setMsg(error.msg);
     } else {
       setMsg(null);
     }
@@ -92,7 +92,7 @@ const LoginModal = ({
                 onChange={handleChangePassword}
               />
               <Button
-                color="dark"
+                outline color="dark"
                 style={{ marginTop: '2rem' }}
                 block
                 onClick={handleOnSubmit}

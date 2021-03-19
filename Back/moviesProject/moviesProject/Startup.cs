@@ -30,6 +30,18 @@ namespace moviesProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            // Allow CORS
+            services.AddCors(options =>
+            {
+
+                options.AddDefaultPolicy(
+                    builder => builder.WithOrigins("http://localhost:3000"));
+                options.AddPolicy("mypolicy", builder =>
+                 builder.WithOrigins("http://localhost:3000"));
+            }
+            );
+
+
             var key = "09128898-3de9-49b1-b9a8-40367e9f8175";
             services.AddAuthentication(x =>
             {
@@ -62,12 +74,15 @@ namespace moviesProject
 
             app.UseRouting();
 
+            // Allow CORS
+            app.UseCors();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireCors("mypolicy");
             });
         }
     }
