@@ -35,15 +35,19 @@ namespace moviesProject.Controllers
         }
 
         // (url)/api/Users/info + HEADER Authorization {GET} Json Body: {"Email":" "} | returns User
-
+       
         [HttpGet("info")]
         public IActionResult GetUser([FromBody] UserCred userCred)
         {
             DbMethods.InitializeDB();
             user user = user.getUser(userCred.Email);
+            if(user==null)
+                return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
+
             string json = JsonConvert.SerializeObject(user, Formatting.Indented);
             return Ok(json);
         }
+
 
         // (url)/api/Users/signup {POST} Json Body: {"Email":" ", "Name":" ", "Password":" "} | Inserts User
         [AllowAnonymous]
@@ -51,8 +55,52 @@ namespace moviesProject.Controllers
         public IActionResult PostUser([FromBody] UserCred userCred)
         {
             DbMethods.InitializeDB();
-            user.insertUser(userCred.Name, userCred.Email, userCred.Password);
+            var name= userCred.Name;
+            var email = userCred.Email ;
+            var password = userCred.Password;
+          
+            // validate fields
+            if ( name =="" || email=="" || password == "")
+                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+            
+
+            // check  if user exists
+            if (user.getUser(email)!=null)
+                return NotFound(JsonConvert.SerializeObject("User already exists", Formatting.Indented));
+
+            //check if user saved
+            bool savedUser= user.insertUser(name, email, password);
+            if(!savedUser)
+                return NotFound(JsonConvert.SerializeObject("Something went wrong saving the user", Formatting.Indented));
+
             return Ok("200: description: Successfully inserted user");
+        }
+        // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserCred userCred)
+        {
+            DbMethods.InitializeDB();
+            var email = userCred.Email;
+            var password = userCred.Password;
+
+
+            //validate fields
+            if (email == "" || password == "")
+            {
+                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+            }
+            //validate user
+            var token = jwtAuthenticationManager.Authenticate(email, password);
+            if (token == null)
+                return Unauthorized(JsonConvert.SerializeObject("Invalid credentials", Formatting.Indented));
+
+            user user = user.getUser(email);
+            return Ok(JsonConvert.SerializeObject(token + " user: {" +
+                "id:"+user.uID+
+                "email:"+email+
+                "name:"+user.uName
+                , Formatting.Indented));
         }
 
         // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
