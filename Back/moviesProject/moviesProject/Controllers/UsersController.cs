@@ -104,28 +104,48 @@ namespace moviesProject.Controllers
             return Ok(JsonConvert.SerializeObject(objects, Formatting.Indented));
         }
 
-        [HttpGet("watchlist/GetWatchList")]
+        [HttpGet("watchlist/Get")]
         public IActionResult GetWatchlist([FromBody] UserCred userCred)
         {
+            string email = userCred.Email;
+
+            if (email == "")
+                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+
+            if (user.getUser(email) == null)
+                return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
+
             DbMethods.InitializeDB();
             WatchList wl = WatchList.GetMovies(userCred.Email);
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
             return Ok(json);
         }
 
-        [HttpPost("watchlist/AddToWatchList")]
+        [HttpPost("watchlist/Add")]
         public IActionResult AddToWL([FromBody] UserCred userCred)
         {
+            string email = userCred.Email;
+            string movie = userCred.MovieId;
+
+            if (email == "" || movie == "")
+                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+
+            if (user.getUser(email) == null)
+                return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
+
             DbMethods.InitializeDB();
-            WatchList.insertInWL(userCred.Email, userCred.MovieId);
+
+            if (!WatchList.insertInWL(userCred.Email, userCred.MovieId))
+                return NotFound(JsonConvert.SerializeObject("Invalid user and movie", Formatting.Indented));
+
             return Ok("200: description: Successfully inserted Movie to user Watchlist");
         }
 
-        [HttpPost("watchlist/RemoveFromWatchList")]
+        [HttpPost("watchlist/Remove")]
         public IActionResult RemoveFromWL([FromBody] UserCred userCred)
         {
             DbMethods.InitializeDB();
-            if (WatchList.removeFromWL(userCred.Email, userCred.MovieId))
+            if (!WatchList.removeFromWL(userCred.Email, userCred.MovieId))
                 return NotFound(JsonConvert.SerializeObject("Invalid User and movie", Formatting.Indented));
 
             return Ok("200: description: Successfully removed movie from user Watchlist");
