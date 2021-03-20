@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using moviesProject.Classes;
 using Microsoft.AspNetCore.Authorization;
 
+
 namespace moviesProject.Controllers
 {
     [Authorize]
@@ -75,7 +76,7 @@ namespace moviesProject.Controllers
 
             return Ok("200: description: Successfully inserted user");
         }
-        // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
+        // (url)/api/Users/login {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
         [AllowAnonymous]
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserCred userCred)
@@ -96,24 +97,11 @@ namespace moviesProject.Controllers
                 return Unauthorized(JsonConvert.SerializeObject("Invalid credentials", Formatting.Indented));
 
             user user = user.getUser(email);
-            return Ok(JsonConvert.SerializeObject(token + " user: {" +
-                "id:"+user.uID+
-                "email:"+email+
-                "name:"+user.uName
-                , Formatting.Indented));
-        }
-
-        // (url)/api/Users/authenticate {POST} Json Body: {"Email":" " , "Password":" "} | returns Token
-        [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] UserCred userCred)
-        {
-            DbMethods.InitializeDB();
-            var token = jwtAuthenticationManager.Authenticate(userCred.Email, userCred.Password);
-            if (token == null)
-                return Unauthorized();
-
-            return Ok(JsonConvert.SerializeObject(token, Formatting.Indented));
+            tokenObj sendToken = new tokenObj(token);
+            List<object> objects = new List<object>();
+            objects.Add(sendToken);
+            objects.Add(user);
+            return Ok(JsonConvert.SerializeObject(objects, Formatting.Indented));
         }
 
         [HttpGet("watchlist/GetWatchList")]
@@ -131,6 +119,16 @@ namespace moviesProject.Controllers
             DbMethods.InitializeDB();
             WatchList.insertInWL(userCred.Email, userCred.MovieId);
             return Ok("200: description: Successfully inserted Movie to user Watchlist");
+        }
+
+        [HttpPost("watchlist/RemoveFromWatchList")]
+        public IActionResult RemoveFromWL([FromBody] UserCred userCred)
+        {
+            DbMethods.InitializeDB();
+            if (WatchList.removeFromWL(userCred.Email, userCred.MovieId))
+                return NotFound(JsonConvert.SerializeObject("Invalid User and movie", Formatting.Indented));
+
+            return Ok("200: description: Successfully removed movie from user Watchlist");
         }
 
     }

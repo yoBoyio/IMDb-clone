@@ -45,5 +45,22 @@ namespace moviesProject.Classes
             cmd.ExecuteNonQuery();
             DbConn.Close();
         }
+
+        public static bool removeFromWL(string uEmail,string MovieId) 
+        {
+            try
+            {
+                String query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND 'movieId'=" + MovieId + "'";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                DbConn.Open();
+                cmd.ExecuteNonQuery();
+                DbConn.Close();
+            }
+            catch (Exception ex) 
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
