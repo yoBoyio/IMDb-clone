@@ -29,12 +29,12 @@ import {
           ...state,
           isAuthenticated: true,
           isLoading: false,
-          user: action.payload
+          user: action.payload[1]
         };
         //set token for auth user
       case LOGIN_SUCCESS:
       case REGISTER_SUCCESS:
-        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('token', action.payload[0].token);
         return {
           ...state,
           ...action.payload,
