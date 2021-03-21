@@ -26,7 +26,8 @@ const AppNavbar = ({ auth }) => {
       <NavItem>
         <span className="navbar-text mr-3">
           <strong>
-            {auth && auth.user ? `Welcome ${auth.user.name}` : ''}
+            {auth && auth.uEmail ? `Welcome ${auth.uEmail}` : ''}
+            {`Welcome ${auth.uEmail}`}
           </strong>
         </span>
       </NavItem>
