@@ -8,7 +8,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using moviesProject.Classes;
 using Microsoft.AspNetCore.Authorization;
-using System.IdentityModel.Tokens.Jwt;
+
 
 namespace moviesProject.Controllers
 {
@@ -25,41 +25,27 @@ namespace moviesProject.Controllers
 
         
         [HttpGet]
-        public IActionResult Get([FromHeader] string Authorization) 
+        public IActionResult Get() 
         {
-            //DbMethods.InitializeDB();
-            //List<user> uList = new List<user>();
-            //uList = user.GetUsers();
-            //string json = JsonConvert.SerializeObject(uList, Formatting.Indented);
-
-            var jwt = Authorization.Replace("bearer ","");
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(jwt);
-
-            return Ok(token.Claims.ToArray()[0].Value);
+            DbMethods.InitializeDB();
+            List<user> uList = new List<user>();
+            uList = user.GetUsers();
+            string json = JsonConvert.SerializeObject(uList, Formatting.Indented);
+            return Ok(json);
 
         }
 
-        // (url)/api/Users/info + HEADER Authorization {GET} | returns User
-
+        // (url)/api/Users/info + HEADER Authorization {GET} Json Body: {"Email":" "} | returns User
+       
         [HttpGet("info")]
-        public IActionResult GetUser([FromHeader] string Authorization)
+        public IActionResult GetUser([FromBody] UserCred userCred)
         {
             DbMethods.InitializeDB();
-
-            // Gets auth token replaces bearer and finds name value
-            var jwt = Authorization.Replace("bearer ", ""); 
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(jwt);
-
-            // sends name value to getUser
-            user user = user.getUser(token.Claims.ToArray()[0].Value);
-
+            user user = user.getUser(userCred.Email);
             if(user==null)
                 return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
 
             string json = JsonConvert.SerializeObject(user, Formatting.Indented);
-
             return Ok(json);
         }
 
