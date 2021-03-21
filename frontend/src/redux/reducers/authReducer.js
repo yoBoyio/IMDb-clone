@@ -29,7 +29,7 @@ import {
           ...state,
           isAuthenticated: true,
           isLoading: false,
-          user: action.payload[1]
+          user: action.payload
         };
         //set token for auth user
       case LOGIN_SUCCESS:
