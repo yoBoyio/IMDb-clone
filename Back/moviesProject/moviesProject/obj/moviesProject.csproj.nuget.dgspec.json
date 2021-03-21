@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\moviesProject.csproj": {}
+    "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj": {}
   },
   "projects": {
-    "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\moviesProject.csproj": {
+    "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\moviesProject.csproj",
+        "projectUniqueName": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
         "projectName": "moviesProject",
-        "projectPath": "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\moviesProject.csproj",
+        "projectPath": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
         "packagesPath": "C:\\Users\\dinos\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\obj\\",
+        "outputPath": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dinos\\AppData\\Roaming\\NuGet\\NuGet.Config",

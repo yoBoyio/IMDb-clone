@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IeNz6mKf8DPu3arfwGzVbdzDiLAnmpyvRCO8bGzSjDyOipXPZvIV4j7fU3yAI6U+ikXLJmUiw3Ti7O55Kgmmkg==",
+  "dgSpecHash": "X+XyQ6xONF53EjIBBmBxpaRtt6iDbGGvHwqzcSuT0MvAHWy/2NhqVK8lg/K/NI1A2pB19g64zVvP6H1HYpuO9A==",
   "success": true,
-  "projectFilePath": "D:\\Project\\Movies project now\\moviesProject\\moviesProject\\moviesProject.csproj",
+  "projectFilePath": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dinos\\.nuget\\packages\\bouncycastle.netcore\\1.8.5\\bouncycastle.netcore.1.8.5.nupkg.sha512",
     "C:\\Users\\dinos\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",

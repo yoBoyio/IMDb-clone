@@ -8,7 +8,7 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using moviesProject.Classes;
 using Microsoft.AspNetCore.Authorization;
-
+using System.IdentityModel.Tokens.Jwt;
 
 namespace moviesProject.Controllers
 {
@@ -35,13 +35,22 @@ namespace moviesProject.Controllers
 
         }
 
-        // (url)/api/Users/info + HEADER Authorization {GET} Json Body: {"Email":" "} | returns User
+        // (url)/api/Users/info + HEADER Authorization {GET} | returns User
        
         [HttpGet("info")]
-        public IActionResult GetUser([FromBody] UserCred userCred)
+        public IActionResult GetUser([FromHeader] string Authorization)
         {
             DbMethods.InitializeDB();
-            user user = user.getUser(userCred.Email);
+
+            //Gets token replaces bearer and decrypts it
+            var jwt = Authorization.Replace("bearer ", "");
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(jwt);
+
+            //Sends token user email to getUser 
+            user user = user.getUser(token.Claims.ToArray()[0].Value);
+
+
             if(user==null)
                 return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
 
