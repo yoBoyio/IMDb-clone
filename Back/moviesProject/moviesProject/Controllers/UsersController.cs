@@ -42,16 +42,11 @@ namespace moviesProject.Controllers
         {
             DbMethods.InitializeDB();
 
-            //Gets token replaces bearer and decrypts it
-            var jwt = Authorization.Replace("bearer ", "");
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(jwt);
+            string email = tokenObj.GetNameClaims(Authorization);
 
-            //Sends token user email to getUser 
-            user user = user.getUser(token.Claims.ToArray()[0].Value);
+            user user = user.getUser(email);
 
-
-            if(user==null)
+            if (user==null)
                 return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
 
             string json = JsonConvert.SerializeObject(user, Formatting.Indented);
@@ -114,9 +109,9 @@ namespace moviesProject.Controllers
         }
 
         [HttpGet("watchlist/Get")]
-        public IActionResult GetWatchlist([FromBody] UserCred userCred)
+        public IActionResult GetWatchlist([FromHeader] string Authorization)
         {
-            string email = userCred.Email;
+            string email = tokenObj.GetNameClaims(Authorization);
 
             if (email == "")
                 return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
@@ -125,36 +120,43 @@ namespace moviesProject.Controllers
                 return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
 
             DbMethods.InitializeDB();
-            WatchList wl = WatchList.GetMovies(userCred.Email);
+
+            WatchList wl = WatchList.GetMovies(email);
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
+
             return Ok(json);
         }
 
         [HttpPost("watchlist/Add")]
-        public IActionResult AddToWL([FromBody] UserCred userCred)
+        public IActionResult AddToWL([FromHeader] string Authorization,[FromBody] UserCred userCred)
         {
-            string email = userCred.Email;
+            string email = tokenObj.GetNameClaims(Authorization);
             string movie = userCred.MovieId;
 
             if (email == "" || movie == "")
                 return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
 
+            DbMethods.InitializeDB();
+
             if (user.getUser(email) == null)
                 return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
 
-            DbMethods.InitializeDB();
+            
 
-            if (!WatchList.insertInWL(userCred.Email, userCred.MovieId))
+            if (!WatchList.insertInWL(email, movie))
                 return NotFound(JsonConvert.SerializeObject("Invalid user and movie", Formatting.Indented));
 
             return Ok("200: description: Successfully inserted Movie to user Watchlist");
         }
 
         [HttpPost("watchlist/Remove")]
-        public IActionResult RemoveFromWL([FromBody] UserCred userCred)
+        public IActionResult RemoveFromWL([FromHeader] string Authorization, [FromBody] UserCred userCred)
         {
+            string email = tokenObj.GetNameClaims(Authorization);
+            string movie = userCred.MovieId;
+
             DbMethods.InitializeDB();
-            if (!WatchList.removeFromWL(userCred.Email, userCred.MovieId))
+            if (!WatchList.removeFromWL(email,movie))
                 return NotFound(JsonConvert.SerializeObject("Invalid User and movie", Formatting.Indented));
 
             return Ok("200: description: Successfully removed movie from user Watchlist");

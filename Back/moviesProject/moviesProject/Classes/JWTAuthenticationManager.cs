@@ -40,7 +40,7 @@ namespace moviesProject.Classes
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-            } 
         }
     }
+}
 
