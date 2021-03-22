@@ -121,7 +121,7 @@ namespace moviesProject.Controllers
 
             
 
-            WatchList wl = WatchList.GetMovies(email);
+            List<Movie> wl = WatchList.GetMovies(email);
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
 
             return Ok(json);
@@ -131,9 +131,9 @@ namespace moviesProject.Controllers
         public IActionResult AddToWL([FromHeader] string Authorization,[FromBody] UserCred userCred)
         {
             string email = tokenObj.GetNameClaims(Authorization);
-            string movie = userCred.MovieId;
+            int movie = userCred.MovieId;
 
-            if (email == "" || movie == "")
+            if (email == "" || movie == 0)
                 return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
 
             DbMethods.InitializeDB();
@@ -153,7 +153,7 @@ namespace moviesProject.Controllers
         public IActionResult RemoveFromWL([FromHeader] string Authorization, [FromBody] UserCred userCred)
         {
             string email = tokenObj.GetNameClaims(Authorization);
-            string movie = userCred.MovieId;
+            int movie = userCred.MovieId;
 
             DbMethods.InitializeDB();
             if (!WatchList.removeFromWL(email,movie))

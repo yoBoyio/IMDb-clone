@@ -35,7 +35,7 @@ INSERT INTO `users` (`userEmail`, `userName` , `userPassword`, `isAdmin` ) VALUE
 
 CREATE TABLE `watchlist` (
     `userEmail` VARCHAR(255) NOT NULL,
-    `movieId` VARCHAR(255) NOT NULL
+    `movieId` INT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

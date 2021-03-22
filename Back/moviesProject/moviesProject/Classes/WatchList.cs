@@ -9,39 +9,38 @@ namespace moviesProject.Classes
 
     public class WatchList
     {
-        public List<String> movies = new List<string>();
+     
 
         private static MySqlConnection DbConn = DbMethods.dbget();
 
         WatchList() { }
 
-        public static WatchList GetMovies(String uEmail)
+        public static List<Movie> GetMovies(String uEmail)
         {
             
             String query = "SELECT movieId FROM watchlist WHERE userEmail='"+uEmail+"'";
-            WatchList wl = new WatchList();
+            List<Movie> MovieList = new List<Movie>();
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
-                
-                String movieId = reader["movieId"].ToString();
-                
-
-                wl.movies.Add(movieId);
+                Movie movie = new Movie();
+                int movieId = (int)reader["movieId"];
+                movie = Movie.getMovie(movieId);
+                MovieList.Add(movie);
             }
 
             DbConn.Close();
-            return wl;
+            return MovieList;
         }
 
-        public static bool insertInWL(string uEmail, string MovieId)
+        public static bool insertInWL(string uEmail, int MovieId)
         {
             try
             {
-                String query = "INSERT INTO `watchlist` (`userEmail`, `movieId` ) VALUES('" + uEmail + "', '" + MovieId + "')";
+                String query = "INSERT INTO `watchlist` (`userEmail`, `movieId` ) VALUES('" + uEmail + "', " + MovieId + ")";
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
             cmd.ExecuteNonQuery();
@@ -54,11 +53,11 @@ namespace moviesProject.Classes
             return true;
         }
 
-        public static bool removeFromWL(string uEmail,string MovieId) 
+        public static bool removeFromWL(string uEmail,int MovieId) 
         {
             try
             {
-                String query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND movieId='" + MovieId + "'";
+                String query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND movieId=" + MovieId + "";
                 MySqlCommand cmd = new MySqlCommand(query, DbConn);
                 DbConn.Open();
                 cmd.ExecuteNonQuery();
