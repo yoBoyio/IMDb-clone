@@ -7,7 +7,7 @@ using moviesProject.Classes;
 
 
 
-namespace moviesProject.Controllers
+namespace moviesProject.Classes
 {
     public class user
     {

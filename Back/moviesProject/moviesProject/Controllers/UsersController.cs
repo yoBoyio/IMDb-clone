@@ -112,14 +112,14 @@ namespace moviesProject.Controllers
         public IActionResult GetWatchlist([FromHeader] string Authorization)
         {
             string email = tokenObj.GetNameClaims(Authorization);
-
+            DbMethods.InitializeDB();
             if (email == "")
                 return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
 
             if (user.getUser(email) == null)
                 return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
 
-            DbMethods.InitializeDB();
+            
 
             WatchList wl = WatchList.GetMovies(email);
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
