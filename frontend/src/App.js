@@ -20,12 +20,8 @@ const App = () => {
   
   return (
     <Provider store={store}>
-   
       <AppNavbar />
-      <Container>
-          <HomePage />
-      </Container>
-     
+      <HomePage /> 
     </Provider>
   );
 }
