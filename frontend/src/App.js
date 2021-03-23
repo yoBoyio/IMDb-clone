@@ -8,29 +8,24 @@ import {Provider} from 'react-redux';
 import {loadUser} from './redux/actions/authActions'
 import AppNavbar from './components/AppNavbar'
 import store from './store';
+import { Container } from 'reactstrap';
+import HomePage from './components/HomePage';
 
 
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
 
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-
-
   
   return (
     <Provider store={store}>
-     <div className="App">
+   
       <AppNavbar />
-     </div>
+      <Container>
+          <HomePage />
+      </Container>
+     
     </Provider>
   );
 }
