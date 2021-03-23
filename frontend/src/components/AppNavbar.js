@@ -14,7 +14,7 @@ import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
-
+import PersonIcon from '@material-ui/icons/Person';
 
 const AppNavbar = ({ auth }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +29,7 @@ const AppNavbar = ({ auth }) => {
             {auth && auth.user ? `Welcome ${auth.user.uName}` : ''}
           </strong>
         </span>
+        <PersonIcon color="secondary"/>
       </NavItem>
       <NavItem>
         <Logout />
@@ -49,10 +50,10 @@ const AppNavbar = ({ auth }) => {
 
   return (
     <div>
-      <Navbar color="dark" dark expand="sm" className="mb-5">
+      <Navbar light color="faded" dark expand="sm" className="mb-5">
         <Container>
           <NavbarBrand href="/">IMDb</NavbarBrand>
-          <NavbarToggler onClick={handleToggle} />
+          <NavbarToggler onClick={handleToggle} className="mr-2" />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               {auth && auth.isAuthenticated ? authLinks : guestLinks}
