@@ -17,6 +17,7 @@ import {
       case GET_MOVIES:
         return {
           ...state,
+         // movies: action.payload,
           movies: action.payload,
           loading: false
         };

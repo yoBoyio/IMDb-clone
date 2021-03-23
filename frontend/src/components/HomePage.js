@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { connect } from 'react-redux';
-import { getMovies, deleteMovie } from '../actions/getMovies';
-
+import { getMovies, deleteMovie } from '../redux/actions/movieActions';
+import CardContent from '@material-ui/core/CardContent';
+import MovieCard from './MovieCard';
+import './styles/HomePage.css';
 const MovieList = ({
-    getMovies,
+  getMovies,
   movie,
   isAuthenticated,
   deleteMovie
@@ -21,34 +23,18 @@ const MovieList = ({
   const { movies } = movie;
   return (
     <Container>
-      <ListGroup>
-        <TransitionGroup className="shopping-list">
-          {movie.map(({ _id, name }) => (
-            <CSSTransition key={_id} timeout={500} classNames="fade">
-              <ListGroupItem>
-                {isAuthenticated ? (
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleDelete(_id)}
-                  >
-                    &times;
-                  </Button>
-                ) : null}
-                {name}
-              </ListGroupItem>
-            </CSSTransition>
-          ))}
+        <TransitionGroup className="movie-container">
+          {movies.length>0 && movies.map((movieMap) => 
+            <MovieCard movie={movieMap} key={movieMap.Id} />
+          )}
         </TransitionGroup>
-      </ListGroup>
     </Container>
   );
 };
 
 const mapStateToProps = (state) => ({
-  movies: state.movies,
+  movie: state.movie,
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { getMovies, deleteItem })(ShoppingList);
+export default connect(mapStateToProps, { getMovies, deleteMovie })(MovieList);

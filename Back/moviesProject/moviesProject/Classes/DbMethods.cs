@@ -11,7 +11,7 @@ namespace moviesProject.Classes
         private const String SERVER = "localhost";
         private const String DB = "moviesProject";
         private const String UID = "root";
-        private const String PASS = ""; //change pass local db
+        private const String PASS = "2905199"; //change pass local db
         private static MySqlConnection DbConn;
 
         public static MySqlConnection dbget() 
