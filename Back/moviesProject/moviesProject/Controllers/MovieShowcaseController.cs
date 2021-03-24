@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using moviesProject.Classes;
 using Newtonsoft;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace moviesProject.Controllers
 {
@@ -18,7 +19,7 @@ namespace moviesProject.Controllers
         public IActionResult getLatest(int page)
         {
             List<Movie> movies = new List<Movie>();
-            movies= Movie.getLatest(page);
+            movies = Movie.getLatest(page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -32,7 +33,7 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
-        [HttpGet("getTopRated")]
+        [HttpGet("TopRated")]
         public IActionResult getTopRated(int page)
         {
             List<Movie> movies = new List<Movie>();
@@ -42,15 +43,19 @@ namespace moviesProject.Controllers
         }
 
         [HttpGet("search")]
-        public IActionResult getTopRated(int page,string query)
+        public IActionResult getTopRated(int page, string query)
         {
 
             List<Movie> movies = new List<Movie>();
-            movies = Movie.searchMovies(query,page);
+            movies = Movie.searchMovies(query, page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
 
-
+        [HttpGet("movie")]
+        public IActionResult getMovie(int id)
+        {
+            return Ok(Movie.getMovieInfo(id));
+        }
     }
 }

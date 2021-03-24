@@ -2271,19 +2271,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dimi44\\.nuget\\packages\\": {}
+    "C:\\Users\\dinos\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
+      "projectUniqueName": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
       "projectName": "moviesProject",
-      "projectPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
-      "packagesPath": "C:\\Users\\dimi44\\.nuget\\packages\\",
-      "outputPath": "D:\\sxolh\\σχολη\\ADOPSE\\IMDb-clone\\Back\\moviesProject\\moviesProject\\obj\\",
+      "projectPath": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\moviesProject.csproj",
+      "packagesPath": "C:\\Users\\dinos\\.nuget\\packages\\",
+      "outputPath": "D:\\Project\\IMDb-clone\\Back\\moviesProject\\moviesProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dimi44\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\dinos\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2348,7 +2348,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

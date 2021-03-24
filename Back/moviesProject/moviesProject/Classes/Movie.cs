@@ -28,8 +28,6 @@ namespace moviesProject.Classes
 
             // Get the response.
             WebResponse response = request.GetResponse();
-            // Display the status.
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
 
             // Get the stream containing content returned by the server.
             // The using block ensures the stream is automatically closed.
@@ -40,20 +38,7 @@ namespace moviesProject.Classes
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 string json = reader.ReadToEnd();
-                var data = (JObject)JsonConvert.DeserializeObject(json);
-
-                List<Movie> MovieList = new List<Movie>();
-
-                foreach (var item in data["results"])
-                {
-                    Movie movie = new Movie();
-                    movie.Id = item["id"].Value<int>();
-                    movie.Title = item["title"].Value<string>();
-                    movie.Poster_path = "https://image.tmdb.org/t/p/w500" + item["poster_path"].Value<string>();
-                    movie.Vote_average = item["vote_average"].Value<double>();
-                    MovieList.Add(movie);
-                }
-                return MovieList;
+                return JSONToMovieList(json);
             }
         }
 
@@ -67,25 +52,12 @@ namespace moviesProject.Classes
             request.Credentials = CredentialCache.DefaultCredentials;
 
             WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+
             using (Stream dataStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 string json = reader.ReadToEnd();
-                var data = (JObject)JsonConvert.DeserializeObject(json);
-
-                List<Movie> MovieList = new List<Movie>();
-
-                foreach (var item in data["results"])
-                {
-                    Movie movie = new Movie();
-                    movie.Id = item["id"].Value<int>();
-                    movie.Title = item["title"].Value<string>();
-                    movie.Poster_path = "https://image.tmdb.org/t/p/w500" + item["poster_path"].Value<string>();
-                    movie.Vote_average = item["vote_average"].Value<double>();
-                    MovieList.Add(movie);
-                }
-                return MovieList;
+                return JSONToMovieList(json);
             }
         }
         public static List<Movie> getTopRated(int page)
@@ -97,25 +69,11 @@ namespace moviesProject.Classes
             request.Credentials = CredentialCache.DefaultCredentials;
 
             WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
             using (Stream dataStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 string json = reader.ReadToEnd();
-                var data = (JObject)JsonConvert.DeserializeObject(json);
-
-                List<Movie> MovieList = new List<Movie>();
-
-                foreach (var item in data["results"])
-                {
-                    Movie movie = new Movie();
-                    movie.Id = item["id"].Value<int>();
-                    movie.Title = item["title"].Value<string>();
-                    movie.Poster_path = "https://image.tmdb.org/t/p/w500" + item["poster_path"].Value<string>();
-                    movie.Vote_average = item["vote_average"].Value<double>();
-                    MovieList.Add(movie);
-                }
-                return MovieList;
+                return JSONToMovieList(json);
             }
         }
 
@@ -128,7 +86,6 @@ namespace moviesProject.Classes
             request.Credentials = CredentialCache.DefaultCredentials;
 
             WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
             using (Stream dataStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
@@ -154,26 +111,46 @@ namespace moviesProject.Classes
             request.Credentials = CredentialCache.DefaultCredentials;
 
             WebResponse response = request.GetResponse();
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
             using (Stream dataStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
                 string json = reader.ReadToEnd();
-                var data = (JObject)JsonConvert.DeserializeObject(json);
-
-                List<Movie> MovieList = new List<Movie>();
-
-                foreach (var item in data["results"])
-                {
-                    Movie movie = new Movie();
-                    movie.Id = item["id"].Value<int>();
-                    movie.Title = item["title"].Value<string>();
-                    movie.Poster_path = "https://image.tmdb.org/t/p/w500" + item["poster_path"].Value<string>();
-                    movie.Vote_average = item["vote_average"].Value<double>();
-                    MovieList.Add(movie);
-                }
-                return MovieList;
+                return JSONToMovieList(json);
             }
+        }
+
+        public static string getMovieInfo(int id)
+        {
+            WebRequest request = WebRequest.Create(
+              "https://api.themoviedb.org/3/movie/" + id + "?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US");
+
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            WebResponse response = request.GetResponse();
+            using (Stream dataStream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(dataStream);
+                string json = reader.ReadToEnd();
+                return json;
+            }
+        }
+
+            public static List<Movie> JSONToMovieList(string json) 
+        {
+            var data = (JObject)JsonConvert.DeserializeObject(json);
+
+            List<Movie> MovieList = new List<Movie>();
+
+            foreach (var item in data["results"])
+            {
+                Movie movie = new Movie();
+                movie.Id = item["id"].Value<int>();
+                movie.Title = item["title"].Value<string>();
+                movie.Poster_path = "https://image.tmdb.org/t/p/w500" + item["poster_path"].Value<string>();
+                movie.Vote_average = item["vote_average"].Value<double>();
+                MovieList.Add(movie);
+            }
+            return MovieList;
         }
     }
 } 
