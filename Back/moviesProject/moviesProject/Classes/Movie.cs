@@ -152,6 +152,25 @@ namespace moviesProject.Classes
             }
             return MovieList;
         }
+
+        public static List<Movie> searchGenreMovies(int genre, int page)
+        {
+            if (page == 0) page = 1;
+            WebRequest request = WebRequest.Create(
+              "https://api.themoviedb.org/3/discover/movie?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page="+page+"&with_genres="+genre);
+
+            request.Credentials = CredentialCache.DefaultCredentials;
+
+            WebResponse response = request.GetResponse();
+            using (Stream dataStream = response.GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(dataStream);
+                string json = reader.ReadToEnd();
+                return JSONToMovieList(json);
+            }
+        }
+
+
     }
 } 
 

@@ -42,8 +42,8 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
-        [HttpGet("search")]
-        public IActionResult getTopRated(int page, string query)
+        [HttpGet("Search")]
+        public IActionResult SearchMovieQuery(int page, string query)
         {
 
             List<Movie> movies = new List<Movie>();
@@ -52,10 +52,21 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
+
         [HttpGet("movie")]
         public IActionResult getMovie(int id)
         {
             return Ok(Movie.getMovieInfo(id));
+        }
+
+        [HttpGet("Search/genre")]
+        public IActionResult SearchMovieGenre(int genre, int page)
+        {
+
+            List<Movie> movies = new List<Movie>();
+            movies = Movie.searchGenreMovies(genre, page);
+            string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
+            return Ok(json);
         }
     }
 }
