@@ -41,15 +41,15 @@ CREATE TABLE `watchlist` (
 
 -- --------------------------------------------------------
 --
--- Table structure for table `Comments`
+-- Table structure for table `Ratings`
 --
 
 
-CREATE TABLE `comments` (
-    `commentId` INT NOT NULL unique auto_increment,
-    `movieId` VARCHAR(255) NOT NULL,
-    `userId` INT NOT NULL,
-    `commentContent` VARCHAR(255) NOT NULL,
-    `Likes` INT DEFAULT 0,
-    PRIMARY KEY (commentId)
+CREATE TABLE `ratings` (
+    `ratingId` INT NOT NULL unique auto_increment,
+    `movieId` INT NOT NULL,
+    `userEmail` VARCHAR(255) NOT NULL,
+    `commentContent` VARCHAR(255) DEFAULT NULL,
+    `rating` INT NOT NULL,
+    PRIMARY KEY (ratingId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -9,5 +9,9 @@
 
         public int MovieId { get; set; }
 
+        public string commentContent { get; set; }
+
+        public int rating { get; set; }
+
     }
 }
