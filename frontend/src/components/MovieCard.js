@@ -71,7 +71,6 @@ class MovieCard extends Component {
 
     const { classes } = this.props;
 
-    const IMG_API = 'https://image.tmdb.org/t/p/w500';
     return (
       <Card variant="outlined" className={classes.card}>
         <CardActionArea>

@@ -1,6 +1,10 @@
 import React, { useEffect, useState, Component } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-
+import { InputBase } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
+import MicIcon from '@material-ui/icons/Mic';
+import { IconButton } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core/styles';
 
 //-----------------SPEECH RECOGNITION SETUP---------------------
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -12,6 +16,41 @@ recognition.lang = 'en-US'
 const axios = require('axios');
 //------------------------COMPONENT-----------------------------
 
+
+const styles = {
+    search: {
+        position: 'relative',
+        borderRadius: '4px',
+        backgroundColor: '#fff',
+        '&:hover': {
+            backgroundColor: '#fff'
+        },
+        marginLeft: '10px',
+        width: '20%',
+        height: '35px',
+        display: 'flex'
+    },
+    searchIcon: {
+        padding: '0px 2px',
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    inputRoot: {
+        color: 'dark',
+    },
+    inputInput: {
+        padding: '1px 1px 1px 0px',
+        // vertical padding + font size from searchIcon
+        paddingLeft: '30px',
+        transition: 'width',
+        width: '100%',
+
+    }
+};
 
 class SearchBox extends Component {
 
@@ -64,13 +103,31 @@ class SearchBox extends Component {
 
 
     render() {
-        return (
-            <div>
-                <input type="text" id="searchinput" onChange={(e) => this.handleChange(e)} value={this.state.query} />
+        const { classes } = this.props;
 
-                <button onClick={this.toggleListen}>Voice</button>
-      &nbsp;
-                <button type="submit" onClick={() => { this.Search() }} >Search</button>
+        return (
+            <div className={classes.search}>
+
+                <div className={classes.searchIcon}>
+                    <SearchIcon />
+                </div>
+                <InputBase placeholder="Search…"
+                    classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                    onChange={(e) => this.handleChange(e)}
+                    value={this.state.query}
+                    onKeyPress={event => {
+                        if (event.key === 'Enter')
+                            this.Search()
+                    }}
+                />
+
+                <IconButton onClick={this.toggleListen}>
+                    <MicIcon />
+                </IconButton>
             </div>
 
 
@@ -80,4 +137,4 @@ class SearchBox extends Component {
 }
 
 
-export default SearchBox;
+export default withStyles(styles)(SearchBox);

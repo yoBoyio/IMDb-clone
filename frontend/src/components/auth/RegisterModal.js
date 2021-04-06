@@ -1,27 +1,52 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  NavLink,
-  Alert
-} from 'reactstrap';
+import React, { useState, useEffect, useCallback } from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, withStyles, createMuiTheme } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 import { register } from '../../redux/actions/authActions';
 import { clearErrors } from '../../redux/actions/errorActions';
+import Alert from '@material-ui/lab/Alert';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { MyTextField, StyledButton, StyledLink } from '../../util/MyTextfield';
 
-const RegisterModal = ({
-  isAuthenticated,
-  error,
-  register,
-  clearErrors
-}) => {
-  const [modal, setModal] = useState(false);
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    color: 'white',
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'white',
+    '&:hover': {
+      textDecoration: 'none',
+    }
+  }
+}));
+
+function LoginModal(props) {
+  const classes = useStyles();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,102 +54,133 @@ const RegisterModal = ({
 
   const handleToggle = useCallback(() => {
     // Clear errors
-    clearErrors();
-    setModal(!modal);
-  }, [clearErrors, modal]);
+    props.clearErrors();
+  }, [props.clearErrors]);
 
   const handleChangeName = (e) => setName(e.target.value);
   const handleChangeEmail = (e) => setEmail(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
-
     // Create user object
     const user = {
       name,
       email,
       password
     };
-
     // Attempt to login
-    register(user);
+    props.register(user);
   };
 
   useEffect(() => {
     // Check for register error
-    if (error.id === 'REGISTER_FAIL') {
-      setMsg(error.msg);
+    if (props.error.id === 'REGISTER_FAIL') {
+      setMsg(props.error.msg);
+      //clear errors after 5 seconds
+      setTimeout(() => {
+        handleToggle();
+      }, 5000);
     } else {
       setMsg(null);
     }
 
-    // If authenticated, close modal
-    if (modal) {
-      if (isAuthenticated) {
-        handleToggle();
-      }
+    if (props.isAuthenticated) {
+      handleToggle();
+      props.history.push('/')
     }
-  }, [error, handleToggle, isAuthenticated, modal]);
+  }, [props.error, handleToggle, props.isAuthenticated]);
+  //clear errors after 5 seconds
+  setTimeout(() => {
+    handleToggle();
+  }, 5000);
 
   return (
-    <div>
-    
-      <NavLink onClick={handleToggle} href="#">
-        Register
-      </NavLink>
-
-      <Modal isOpen={modal} toggle={handleToggle}>
-        <ModalHeader  toggle={handleToggle}>Register</ModalHeader>
-        <ModalBody>
-          {msg ? <Alert color="danger">{msg}</Alert> : null}
-          <Form onSubmit={handleOnSubmit}>
-            <FormGroup >
-              <Label for="name">Name</Label>
-              <Input
-                type="text"
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+      </Typography>
+        {msg ? <Alert severity="error"> {msg}</Alert> : null}
+        <form className={classes.form} onSubmit={handleOnSubmit} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} >
+              <MyTextField
+                autoComplete="fname"
                 name="name"
+                variant="outlined"
+                required
+                fullWidth
                 id="name"
-                placeholder="Name"
-                className="mb-3"
-                onChange={handleChangeName}f
+                label="Name"
+                autoFocus
+                onChange={handleChangeName}
               />
+            </Grid>
 
-              <Label for="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
+            <Grid item xs={12}>
+              <MyTextField
+                variant="outlined"
+                required
+                fullWidth
                 id="email"
-                placeholder="Email"
-                className="mb-3"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
                 onChange={handleChangeEmail}
               />
-
-              <Label for="password">Password</Label>
-              <Input
-                type="password"
+            </Grid>
+            <Grid item xs={12}>
+              <MyTextField
+                variant="outlined"
+                required
+                fullWidth
                 name="password"
+                label="Password"
+                type="password"
                 id="password"
-                placeholder="Password"
-                className="mb-3"
+                autoComplete="current-password"
                 onChange={handleChangePassword}
               />
-              <Button outline color="dark" size="sm" style={{ marginTop: '2rem' }} block>
-                Register
-              </Button>
-            </FormGroup>
-          </Form>
-        </ModalBody>
-      </Modal>
-    </div>
+            </Grid>
+
+          </Grid>
+          <StyledButton
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign Up
+        </StyledButton>
+          {props.loading && (
+            <CircularProgress size={30} className={classes.progress} />
+          )}
+          <Grid container justify="flex-end">
+            <Grid item>
+              Already have an account?
+              <StyledLink to="/login" variant="body2">
+                Sign in
+            </StyledLink>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+
+    </Container>
   );
-};
+}
+
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
+  loading: state.isLoading
 });
 
-export default connect(mapStateToProps, { register, clearErrors })(
-  RegisterModal
-);
+
+export default connect(mapStateToProps, { register, clearErrors })(LoginModal);
