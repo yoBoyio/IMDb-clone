@@ -1,74 +1,162 @@
-import React, { Fragment, useState } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Container
-} from 'reactstrap';
+import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
-import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+import SearchBox from './SearchBox'
+import { StyledLink } from '../util/MyTextfield';
+
+//MUI stuff
+import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import PersonIcon from '@material-ui/icons/Person';
-import SearchBox from './SearchBox';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
-const AppNavbar = ({ auth }) => {
-  const [isOpen, setIsOpen] = useState(false);
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu'
+//icons
+import HomeIcon from '@material-ui/icons/Home';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import purple from '@material-ui/core/colors/purple';
+import Logout from './auth/Logout';
 
-  const handleToggle = () => setIsOpen(!isOpen);
 
-  const authLinks = (
-    <Fragment>
-      <NavItem>
-        <span className="navbar-text mr-3">
-          <strong>
-            {auth && auth.user ? `Welcome ${auth.user.uName}` : ''}
-          </strong>
-        </span>
-        <PersonIcon color="secondary" />
-      </NavItem>
-      <NavItem>
-        <Logout />
-      </NavItem>
-    </Fragment>
-  );
 
-  const guestLinks = (
-    <Fragment>
-      <NavItem>
-        <RegisterModal />
-      </NavItem>
-      <NavItem>
-        <LoginModal />
-      </NavItem>
-    </Fragment>
-  );
+const styles = {
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: '2px'
+  },
+  title: {
+    display: 'none',
+    display: 'block',
+  },
+  search: {
+    position: 'relative',
+    borderRadius: '2px',
+    backgroundColor: fade('#fff', 0.15),
+    '&:hover': {
+      backgroundColor: fade('#fff', 0.25),
+    },
+    marginRight: '2px',
+    marginLeft: 0,
+    width: '100%',
+    marginLeft: '3px',
+    width: 'auto',
+  },
+  sectionDesktop: {
+    display: 'block',
 
-  return (
-    <div>
-      <Navbar light color="faded" dark expand="sm" className="mb-5">
-        <Container>
-          <NavbarBrand href="/">IMDb</NavbarBrand>
-          <NavbarToggler onClick={handleToggle} className="mr-2" />
-          <SearchBox />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              {auth && auth.isAuthenticated ? authLinks : guestLinks}
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    </div>
-  );
+  },
+  appbar: {
+    background: 'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
+    boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)',
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#fff',
+    '&:hover': {
+      textDecoration: 'none',
+      color: '#fff',
+    }
+  }
 };
 
-const mapStateToProps = (state) => ({
+class AppNavBar extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      anchorEl: null,
+      setAnchorEl: null
+    }
+  }
+  handleProfileMenuOpen = (event) => {
+    this.setState({ anchorEl: event.currentTarget })
+  };
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null })
+
+  };
+  render() {
+    const { classes, auth } = this.props;
+    const isMenuOpen = this.state.anchorEl;
+    const accent = purple['#ff0fb']; // #e040fb
+
+    const renderMenu = (
+      <Menu
+        anchorEl={this.state.anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isMenuOpen}
+        onClose={this.handleMenuClose}
+      >
+        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this.handleMenuClose}> <Logout /></MenuItem>
+      </Menu>
+    );
+    return (
+      <div className={classes.grow}>
+        <AppBar className={classes.appbar} position="static">
+          <Toolbar className="nav-container">
+            <Fragment>
+              <Typography className={classes.title} variant="h4" noWrap>
+                <Link className={classes.link} color="action" to="/">
+                  IMDb
+              </Link>
+
+              </Typography>
+            </Fragment>
+
+            <div className={classes.grow} />
+            <SearchBox />
+            <div className={classes.sectionDesktop}>
+              {//auth && auth.isAuthenticated
+              }
+              {auth && auth.isAuthenticated ? (
+                <Fragment>
+
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls='primary-search-account-menu'
+                    aria-haspopup="true"
+                    onClick={this.handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    <AccountCircle />
+                  </IconButton>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Button color="inherit" component={Link} to="/login">Login</Button>
+
+                  <Button color="inherit" component={Link} to="/signup">Signup</Button>
+                </Fragment>
+              )}
+            </div>
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
+
+      </div >
+    )
+  }
+}
+
+AppNavBar.propTypes = {
+  auth: PropTypes.bool.isRequired
+}
+
+const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, null)(AppNavbar);
+export default withStyles(styles)(connect(mapStateToProps, null)(AppNavBar));
