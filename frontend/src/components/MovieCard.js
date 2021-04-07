@@ -10,6 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Rating from '@material-ui/lab/Rating';
+import movie from './Movie';
+import { Link } from 'react-router-dom'
+
 
 
 
@@ -70,7 +73,7 @@ class MovieCard extends Component {
     } = this.state;
 
     const { classes } = this.props;
-
+    const { movies } = this.props;
     return (
       <Card variant="outlined" className={classes.card}>
         <CardActionArea>
@@ -89,6 +92,12 @@ class MovieCard extends Component {
 
         </CardContent>
         <Rating className={classes.rating} name="half-rating" defaultValue={0} precision={0.5} />
+        <div>
+            <Link className="btn btn-primary" to={'/movie/' + id}>
+            Movie Details
+            <i className="fas fa-chevron-right" />
+            </Link>
+          </div>
       </Card>
     );
   }

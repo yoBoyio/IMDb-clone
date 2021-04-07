@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_MOVIES,DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING } from './types';
+import { GET_MOVIES,DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING,FETCH_MOVIE,LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -66,5 +66,23 @@ export const deleteMovie = (id) => (
 export const setMoviesLoading = () => {
   return {
     type: MOVIES_LOADING
+  };
+};
+
+export const fetchMovie = id => dispatch => {
+  axios
+    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
+    .then(response =>
+      dispatch({
+        type: FETCH_MOVIE,
+        payload: response.data
+      })
+    )
+    .catch(err => console.log(err));
+};
+
+export const setLoading = () => {
+  return {
+    type: LOADING
   };
 };

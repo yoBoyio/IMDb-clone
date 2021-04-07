@@ -8,7 +8,7 @@ const MovieList = ({
   getMovies,
   movie,
   isAuthenticated,
-  deleteMovie
+  deleteMoviezz
 }) => {
   useEffect(() => {
     getMovies();
