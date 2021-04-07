@@ -16,28 +16,31 @@ namespace moviesProject.Controllers
     public class RatingController : ControllerBase
     {
         [HttpGet("get")]
-        public IActionResult GetMovieRatings(int movieId)
+        public async Task<IActionResult> GetMovieRatingsAsync(int movieId)
         {
             DbMethods.InitializeDB();
 
-            List<Rating> Rlist = Rating.getMovieRatings(movieId);
+            List<Rating> Rlist = await Rating.getMovieRatingsAsync(movieId);
+            if (Rlist.Count == 0)
+                return NotFound(JsonConvert.SerializeObject("Not found", Formatting.Indented));
+
             string json = JsonConvert.SerializeObject(Rlist, Formatting.Indented);
 
             return Ok(json);
         }
 
         [HttpGet("get/average")]
-        public IActionResult GetMovieAverage(int movieId)
+        public async Task<IActionResult> GetMovieAverageAsync(int movieId)
         {
             DbMethods.InitializeDB();
-            string json = JsonConvert.SerializeObject(Rating.getMovieAverage(movieId));
+            string json = JsonConvert.SerializeObject(await Rating.getMovieAverageAsync(movieId));
 
             return Ok(json);
         }
 
 
         [HttpPost("insert")]
-        public IActionResult insertRatings([FromBody] UserCred userCred)
+        public async Task<IActionResult> insertRatingsAsync([FromBody] UserCred userCred)
         {
             int movieId = userCred.MovieId;
             string userEmail = userCred.Email;
@@ -46,7 +49,7 @@ namespace moviesProject.Controllers
 
             DbMethods.InitializeDB();
 
-            if (!Rating.insertRating(movieId, userEmail, commentContent, ratingScore))
+            if (! (await Rating.insertRatingAsync(movieId, userEmail, commentContent, ratingScore)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully inserted user", Formatting.Indented);

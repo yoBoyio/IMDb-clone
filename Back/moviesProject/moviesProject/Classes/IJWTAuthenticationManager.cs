@@ -7,6 +7,6 @@ namespace moviesProject.Classes
 {
     public interface IJWTAuthenticationManager
     {
-        String Authenticate(string uname, string upass);
+        string Authenticate(string uname, string upass);
     }
 }
