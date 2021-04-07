@@ -2,12 +2,16 @@ import {
     GET_MOVIES,
     ADD_MOVIE,
     DELETE_MOVIE,
-    MOVIES_LOADING
+    MOVIES_LOADING,
+    FETCH_MOVIE,
+    LOADING
   } from '../actions/types';
   
   const initialState = {
     movies: [],
-    loading: false
+    loading: false,
+    text:'',
+    movie: []
   };
   
 
@@ -36,6 +40,17 @@ import {
           ...state,
           loading: true
         };
+        case FETCH_MOVIE:
+          return {
+            ...state,
+            movie: action.payload,
+            loading: false
+          };
+        case LOADING:
+          return {
+            ...state,
+            loading: true
+          };
       default:
         return state;
     }

@@ -2,6 +2,8 @@ export const ADD_MOVIE = "ADD_MOVIE";
 export const GET_MOVIES = "GET_MOVIES";
 export const DELETE_MOVIE = "DELETE_MOVIE";
 export const MOVIES_LOADING = "MOVIES_LOADING";
+export const FETCH_MOVIE = 'FETCH_MOVIE';
+export const LOADING = 'LOADING';
 //user reducer types
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADED = "USER_LOADED";

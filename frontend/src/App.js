@@ -15,6 +15,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginModal from './components/auth/LoginModal'
 import RegisterModal from './components/auth/RegisterModal'
 import AuthRoute from './util/AuthRoute'
+import Movie from './components/Movie';
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -27,7 +28,9 @@ const App = () => {
 
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/movie/:id" component={Movie} />
           <AuthRoute exact path="/login" component={LoginModal}
+          
           />
           <AuthRoute exact path="/signup" component={RegisterModal}
           />
