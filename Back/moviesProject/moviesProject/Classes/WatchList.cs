@@ -105,7 +105,7 @@ namespace moviesProject.Classes
                 List<Movie> MovieList = new List<Movie>();
                 String query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND movieId=" + MovieId + "";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    await cmd.ExecuteReaderAsync()
+                    await cmd.ExecuteReaderAsync();
             }
             catch (Exception ex) 
             {
