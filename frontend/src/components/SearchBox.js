@@ -1,10 +1,11 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { Component } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { InputBase } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
 import MicIcon from '@material-ui/icons/Mic';
 import { IconButton } from '@material-ui/core';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { searchMovies } from '../redux/actions/movieActions';
 
 //-----------------SPEECH RECOGNITION SETUP---------------------
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -56,9 +57,10 @@ class SearchBox extends Component {
 
 
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
+            movies: props.movies.searchMovies,
             listening: false,
             query: ""
         }
@@ -89,12 +91,14 @@ class SearchBox extends Component {
     }
 
     Search() {
-        axios.get('api/movieshowcase/search?query=' + this.state.query)
-            .then((response) => {
-                console.log(response.data);
-            }).catch((error) => {
+        this.props.searchMovies('search?query=' + this.state.query)
+        console.log(this.state.movies);
+        // axios.get('api/movieshowcase/search?query=' + this.state.query)
+        //     .then((response) => {
+        //         console.log(response.data);
+        //     }).catch((error) => {
 
-            });
+        //     });
     }
 
     handleChange(event) {
@@ -136,5 +140,7 @@ class SearchBox extends Component {
     }
 }
 
-
-export default withStyles(styles)(SearchBox);
+const mapStateToProps = (state) => ({
+    movies: state.movie,
+});
+export default withStyles(styles)(connect(mapStateToProps, { searchMovies })(SearchBox));

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { GET_MOVIES,DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING,FETCH_MOVIE,LOADING } from './types';
+import { SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING, FETCH_MOVIE, LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
 
-export const getMovies = () => (dispatch) => {
+export const getMovies = (url) => (dispatch) => {
   dispatch(setMoviesLoading());
   const config = {
     headers: {
@@ -12,16 +12,41 @@ export const getMovies = () => (dispatch) => {
     }
   };
   axios
-    .get('api/movieshowcase/latest?page=1',{
+    .get(`api/movieshowcase/${url}`, {
       headers: {
         'Content-Type': 'application/json'
-      }})
+      }
+    })
     .then(res =>
-      
+
       dispatch({
         type: GET_MOVIES,
         payload: res.data
-        
+
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const searchMovies = (url) => (dispatch) => {
+  dispatch(setSearchMoviesLoading());
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  axios
+    .get(`api/movieshowcase/${url}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res =>
+      dispatch({
+        type: SEARCH_MOVIES,
+        payload: res.data
       })
     )
     .catch(err =>
@@ -63,11 +88,6 @@ export const deleteMovie = (id) => (
     );
 };
 
-export const setMoviesLoading = () => {
-  return {
-    type: MOVIES_LOADING
-  };
-};
 
 export const fetchMovie = id => dispatch => {
   axios
@@ -81,8 +101,19 @@ export const fetchMovie = id => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const setMoviesLoading = () => {
+  return {
+    type: MOVIES_LOADING
+  };
+};
 export const setLoading = () => {
   return {
     type: LOADING
+  };
+};
+
+export const setSearchMoviesLoading = () => {
+  return {
+    type: SEARCH_MOVIES_LOADING
   };
 };
