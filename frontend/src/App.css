@@ -58,3 +58,10 @@
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
 }
+.app {
+  min-height: 100vh;
+  background-color: #141414;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

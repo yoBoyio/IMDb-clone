@@ -25,16 +25,17 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <AppNavbar />
+        <div className="app">
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/movie/:id" component={Movie} />
+            <AuthRoute exact path="/login" component={LoginModal}
 
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/movie/:id" component={Movie} />
-          <AuthRoute exact path="/login" component={LoginModal}
-          
-          />
-          <AuthRoute exact path="/signup" component={RegisterModal}
-          />
-        </Switch>
+            />
+            <AuthRoute exact path="/signup" component={RegisterModal}
+            />
+          </Switch>
+        </div>
         {/* <StickyFooter /> */}
 
       </Router>
