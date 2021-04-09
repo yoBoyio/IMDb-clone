@@ -4,14 +4,14 @@ import "../styles/Row.css";
 import Youtube from "react-youtube";
 import { Link } from "react-router-dom";
 import { CircularProgressbar } from 'react-circular-progressbar';
+import { connect } from 'react-redux';
+import { getMovies } from '../../redux/actions/movieActions';
 
 
-const baseImgUrl = "https://image.tmdb.org/t/p/original";
+function Row({ title, url, isLargeRow, getMovies, movie }) {
 
-function Row({ title, url, isLargeRow }) {
-    const [movies, setMovies] = useState([]);
     const [trailerUrl, setTrailerUrl] = useState("");
-
+    const { movies } = movie
     // Options for react-youtube
     const opts = {
         height: "390",
@@ -22,12 +22,7 @@ function Row({ title, url, isLargeRow }) {
     };
 
     useEffect(() => {
-        async function fetchData() {
-            const request = await axios.get(url);
-            setMovies(request.data);
-            return request;
-        }
-        fetchData();
+        getMovies(url);
     }, [url]);
 
     const handleClick = async (movie) => {
@@ -80,5 +75,7 @@ function Row({ title, url, isLargeRow }) {
         </div>
     );
 }
-
-export default Row;
+const mapStateToProps = (state) => ({
+    movie: state.movie,
+});
+export default connect(mapStateToProps, { getMovies })(Row);

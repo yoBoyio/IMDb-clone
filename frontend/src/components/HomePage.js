@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getMovies, deleteMovie } from '../redux/actions/movieActions';
-import CardContent from '@material-ui/core/CardContent';
 import MovieCard from './MovieCard';
 import './styles/HomePage.css';
 import Row from './homepage/Row'
+
 const MovieList = ({
   getMovies,
   movie,
   isAuthenticated,
-  deleteMoviezz
+  deleteMovies
 }) => {
   useEffect(() => {
-    getMovies();
+    getMovies('latest?page=1');
   }, [getMovies]);
 
   const handleDelete = (id) => {
@@ -25,17 +25,17 @@ const MovieList = ({
     <div className="movie-container">
       <Row
         title="Latest"
-        url={'api/movieshowcase/Latest'}
+        url={'Latest'}
         isLargeRow
       />
       <Row
         title="Upcoming"
-        url={'api/movieshowcase/Upcomming'}
+        url={'Upcomming'}
         isLargeRow
       />
       <Row
         title="Top Rated"
-        url={'api/movieshowcase/TopRated'}
+        url={'TopRated'}
         isLargeRow
       />
       {movies.length > 0 && movies.map((movieMap) =>

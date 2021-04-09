@@ -3,24 +3,19 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SearchBox from './SearchBox'
-import { StyledLink } from '../util/MyTextfield';
-
 //MUI stuff
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu'
 //icons
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
-import purple from '@material-ui/core/colors/purple';
 import Logout from './auth/Logout';
 
 
@@ -33,7 +28,6 @@ const styles = {
     marginRight: '2px'
   },
   title: {
-    display: 'none',
     display: 'block',
   },
   search: {
@@ -44,8 +38,6 @@ const styles = {
       backgroundColor: fade('#fff', 0.25),
     },
     marginRight: '2px',
-    marginLeft: 0,
-    width: '100%',
     marginLeft: '3px',
     width: 'auto',
   },
@@ -149,9 +141,6 @@ class AppNavBar extends Component {
   }
 }
 
-AppNavBar.propTypes = {
-  auth: PropTypes.bool.isRequired
-}
 
 const mapStateToProps = state => ({
   auth: state.auth
