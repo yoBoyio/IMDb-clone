@@ -4,6 +4,7 @@ import { getMovies, deleteMovie } from '../redux/actions/movieActions';
 import CardContent from '@material-ui/core/CardContent';
 import MovieCard from './MovieCard';
 import './styles/HomePage.css';
+import Row from './homepage/Row'
 const MovieList = ({
   getMovies,
   movie,
@@ -20,13 +21,28 @@ const MovieList = ({
 
   const { movies } = movie;
   return (
-    
-        <div className="movie-container">
-          {movies.length>0 && movies.map((movieMap) => 
-            <MovieCard movie={movieMap} key={movieMap.Id} />
-          )}
-        </div>
-    
+
+    <div className="movie-container">
+      <Row
+        title="Latest"
+        url={'api/movieshowcase/Latest'}
+        isLargeRow
+      />
+      <Row
+        title="Upcoming"
+        url={'api/movieshowcase/Upcomming'}
+        isLargeRow
+      />
+      <Row
+        title="Top Rated"
+        url={'api/movieshowcase/TopRated'}
+        isLargeRow
+      />
+      {movies.length > 0 && movies.map((movieMap) =>
+        <MovieCard movie={movieMap} key={movieMap.Id} />
+      )}
+    </div>
+
   );
 };
 

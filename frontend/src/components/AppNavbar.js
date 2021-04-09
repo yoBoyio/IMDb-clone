@@ -86,8 +86,6 @@ class AppNavBar extends Component {
   render() {
     const { classes, auth } = this.props;
     const isMenuOpen = this.state.anchorEl;
-    const accent = purple['#ff0fb']; // #e040fb
-
     const renderMenu = (
       <Menu
         anchorEl={this.state.anchorEl}
