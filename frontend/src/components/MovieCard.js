@@ -76,6 +76,7 @@ class MovieCard extends Component {
     const { movies } = this.props;
     return (
       <Card variant="outlined" className={classes.card}>
+        <Link to={'/movie/' + id}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -84,6 +85,7 @@ class MovieCard extends Component {
             image={Poster_path}
           />
         </CardActionArea>
+        </Link>
         <CardContent className={classes.movieinfo}>
           <Typography component="h2">
             {title}
@@ -92,12 +94,6 @@ class MovieCard extends Component {
 
         </CardContent>
         <Rating className={classes.rating} name="half-rating" defaultValue={0} precision={0.5} />
-        <div>
-            <Link className="btn btn-primary" to={'/movie/' + id}>
-            Movie Details
-            <i className="fas fa-chevron-right" />
-            </Link>
-          </div>
       </Card>
     );
   }

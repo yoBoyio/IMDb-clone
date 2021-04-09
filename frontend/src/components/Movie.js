@@ -16,41 +16,20 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Autorenew } from '@material-ui/icons';
 
-const useStyles = theme =>({
-  card: {
+import Divider from "@material-ui/core/Divider";
 
-    marginBottom: 20,
-    width: 200,
-    margin: '1rem 5px 1rem 5px',
-    boxShadow: '3px 3px 5px rgba(0,0,0,0.1)',
-    overflow: 'hiden',
-    background: '#2B2929',
-    margin: 'auto',
-    display: 'flex'
-  },
-  Media: {
-    height: "550px"
-  },
-  image: {
-    height: 550,
-    width: '100%'
-  },
-  content: {
-    padding: 5,
-    objectFit: 'cover'
-  },
-  movieinfo: {
-    display: 'flex',
-    padding: '5',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    fontSize: '15px',
-    color: "#fff"
-  },
-  rating: {
-    position: 'relative',
-    justifyContent: 'space-between',
-    bottom: '1px'
+const useStyles = theme =>({
+  root: {
+    maxWidth: 500,
+    width: "800px",
+    padding: "40px",
+    textalign: "center",
+    margin: "auto",
+    margintop: "5%",
+    fontsize: "17px",
+    borderradius: "10px 10px 10px 10px",
+    transition: "0.3s"
+
   }
 });
 
@@ -68,39 +47,35 @@ export class Movie extends Component {
     
     //material UI
     const {classes} = this.props;
-
+    
     let movieInfo = (
-      
-      <Card className={classes.card}>
+      <Card className={classes.root}>
       <CardActionArea>
-      <CardMedia
-          className={classes.Media}
+        <CardMedia
           component="img"
-          height="200"
+          alt=""
+          height="400"
+          width="300"
           image={getImage(movie.poster_path)}
-          title="Contemplative Reptile"
+          title={movie.title}
         />
-      </CardActionArea>
-      <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {movie.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+          <Typography variant="body2" color="textSecondary" component="p" >
+            {movie.overview}
           </Typography>
         </CardContent>
-
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
       </CardActionArea>
+      <CardActions>
+        <Button size="small" color="primary">
+          Share
+        </Button>
+        <Button size="small" color="primary">
+          Learn More
+        </Button>
+      </CardActions>
     </Card>
     );
 
