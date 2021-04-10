@@ -22,7 +22,7 @@ const MovieList = ({
   const { movies } = movie;
   return (
 
-    <div className="movie-container">
+    <div className="">
       <Row
         title="Latest"
         url={'Latest'}
@@ -38,9 +38,7 @@ const MovieList = ({
         url={'TopRated'}
         isLargeRow
       />
-      {movies.length > 0 && movies.map((movieMap) =>
-        <MovieCard movie={movieMap} key={movieMap.Id} />
-      )}
+
     </div>
 
   );
