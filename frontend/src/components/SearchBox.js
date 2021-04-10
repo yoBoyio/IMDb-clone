@@ -93,12 +93,7 @@ class SearchBox extends Component {
     Search() {
         this.props.searchMovies('search?query=' + this.state.query)
         console.log(this.state.movies);
-        // axios.get('api/movieshowcase/search?query=' + this.state.query)
-        //     .then((response) => {
-        //         console.log(response.data);
-        //     }).catch((error) => {
 
-        //     });
     }
 
     handleChange(event) {

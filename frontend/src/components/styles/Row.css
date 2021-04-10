@@ -5,12 +5,25 @@
   
   .row_poster {
     object-fit: contain;
-    width: 100%;
+    width: 150px;
     max-height: 100px;
     transition: transform 450ms;
     margin-right: 10px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    overflow: 'hiden',
   }
-  
+  .img_poster {
+    object-fit: contain;
+    width: 150px;
+    max-height: 100px;
+    transition: transform 450ms;
+    margin-right: 10px;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+    overflow: 'hiden',
+  }
+  .img_posterLarge {
+    max-height: 250px;
+  }
   .row_posters {
     display: flex;
     overflow-y: hidden;
@@ -82,3 +95,25 @@
     display: flex;
     flex-wrap: wrap;
   }
+
+  .slider{
+    width:100%;
+    margin-top: 0vh;
+}
+
+.card_image{
+  width:100%;
+  cursor:pointer;
+}
+
+.lgksPe{
+  height: 0px!important;
+  width: 0px!important;
+}
+.iLquPE:disabled{
+  height: 0px!important;
+  width: 0px!important;
+}
+.sc-gKsewC{
+  visibility:hidden;
+}
