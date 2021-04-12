@@ -9,16 +9,17 @@ namespace moviesProject.Classes
 {
     public class Firebase
     {
-        FirestoreDb db;
+        public FirestoreDb db;
         //init firebase
-    public Firebase()
-    {
+        public Firebase()
+        {
             string path = AppDomain.CurrentDomain.BaseDirectory + @"cloudfire.json";
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
 
              db = FirestoreDb.Create("imdb-clone-project");
 
         }
+
         public  static void getDoc()
         {
            

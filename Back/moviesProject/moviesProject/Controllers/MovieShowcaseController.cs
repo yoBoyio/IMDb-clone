@@ -16,19 +16,19 @@ namespace moviesProject.Controllers
     public class MovieShowcaseController : ControllerBase
     {
         [HttpGet("Latest")]
-        public IActionResult getLatest(int page)
+        public async Task<IActionResult> getLatestAsync(int page)
         {
-            List<Movie> movies = new List<Movie>();
-            movies = Movie.getLatest(page);
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.GetPopular(page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
 
-        [HttpGet("Upcomming")]
-        public IActionResult getUpComming(int page)
+        [HttpGet("Upcoming")]
+        public async Task<IActionResult> getUpCommingAsync(int page)
         {
-            List<Movie> movies = new List<Movie>();
-            movies = Movie.getUpcoming(page);
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.GetUpcoming(page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -43,20 +43,21 @@ namespace moviesProject.Controllers
         }
 
         [HttpGet("Search")]
-        public IActionResult SearchMovieQuery(int page, string query)
+        public async Task<IActionResult> SearchMovieQueryAsync(string query)
         {
 
-            List<Movie> movies = new List<Movie>();
-            movies = Movie.searchMovies(query, page);
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.SearchMovie(query);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
 
 
         [HttpGet("movie")]
-        public IActionResult getMovie(int id)
+        public async Task<IActionResult> getMovieAsync(int id)
         {
-            return Ok(Movie.getMovieInfo(id));
+            string json = JsonConvert.SerializeObject( await MovieMethods.GetMovie(id), Formatting.Indented);
+            return Ok(json);
         }
 
         [HttpGet("Search/genre")]
