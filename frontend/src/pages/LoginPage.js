@@ -7,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import { register } from '../../redux/actions/authActions';
-import { clearErrors } from '../../redux/actions/errorActions';
+import { login } from '../redux/actions/authActions';
+import { clearErrors } from '../redux/actions/errorActions';
 import Alert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { MyTextField, StyledButton, StyledLink } from '../../util/MyTextfield';
+import { MyTextField, StyledButton, StyledLink } from '../util/MyTextfield';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -26,25 +26,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+
+    width: '100%',
+    height: '100%',
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  link: {
-    textDecoration: 'none',
-    color: 'white',
-    '&:hover': {
-      textDecoration: 'none',
-    }
+  progress: {
+    position: 'absolute'
   }
 }));
 
 function LoginModal(props) {
   const classes = useStyles();
 
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [msg, setMsg] = useState(null);
@@ -52,26 +49,23 @@ function LoginModal(props) {
   const handleToggle = useCallback(() => {
     // Clear errors
     props.clearErrors();
+
   }, [props.clearErrors]);
 
-  const handleChangeName = (e) => setName(e.target.value);
   const handleChangeEmail = (e) => setEmail(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    // Create user object
-    const user = {
-      name,
-      email,
-      password
-    };
+
+    const user = { email, password };
     // Attempt to login
-    props.register(user);
+    props.login(user);
+
   };
 
   useEffect(() => {
     // Check for register error
-    if (props.error.id === 'REGISTER_FAIL') {
+    if (props.error.id === 'LOGIN_FAIL') {
       setMsg(props.error.msg);
       //clear errors after 5 seconds
       setTimeout(() => {
@@ -80,16 +74,13 @@ function LoginModal(props) {
     } else {
       setMsg(null);
     }
-
+    // If authenticated, go to home 
     if (props.isAuthenticated) {
       handleToggle();
       props.history.push('/')
     }
-  }, [props.error, handleToggle, props.isAuthenticated]);
-  //clear errors after 5 seconds
-  setTimeout(() => {
-    handleToggle();
-  }, 5000);
+  }, [props.error, handleToggle, props.isAuthenticated,]);
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -99,52 +90,36 @@ function LoginModal(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
-      </Typography>
+          Sign in
+        </Typography>
         {msg ? <Alert severity="error"> {msg}</Alert> : null}
+
         <form className={classes.form} onSubmit={handleOnSubmit} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} >
-              <MyTextField
-                autoComplete="fname"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                autoFocus
-                onChange={handleChangeName}
-              />
-            </Grid>
+          <MyTextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={handleChangeEmail}
+          />
+          <MyTextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={handleChangePassword}
+          />
 
-            <Grid item xs={12}>
-              <MyTextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={handleChangeEmail}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MyTextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={handleChangePassword}
-              />
-            </Grid>
-
-          </Grid>
           <StyledButton
             type="submit"
             fullWidth
@@ -152,17 +127,22 @@ function LoginModal(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
-        </StyledButton>
+            Sign In
+          </StyledButton>
           {props.loading && (
             <CircularProgress size={30} className={classes.progress} />
           )}
-          <Grid container justify="flex-end">
+          <Grid container>
+            <Grid item xs>
+              <StyledLink href="#" variant="body2">
+                Forgot password?
+              </StyledLink>
+            </Grid>
             <Grid item>
-              Already have an account?
-              <StyledLink to="/login" variant="body2">
-                Sign in
-            </StyledLink>
+              Don't have an account?
+              <StyledLink to="/signup" variant="body2">
+                {" Sign Up"}
+              </StyledLink>
             </Grid>
           </Grid>
         </form>
@@ -180,4 +160,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { register, clearErrors })(LoginModal);
+export default connect(mapStateToProps, { login, clearErrors })(LoginModal);

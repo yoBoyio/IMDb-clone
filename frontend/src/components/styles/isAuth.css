@@ -1,0 +1,20 @@
+.AuthModal {
+  display: block;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  scrollbar-width: none;
+}
+
+.btn1{
+  position: relative;
+  padding-top: 10px;
+  top:50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  }
+  

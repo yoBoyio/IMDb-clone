@@ -5,7 +5,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import MicIcon from '@material-ui/icons/Mic';
 import { IconButton } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { searchMovies } from '../redux/actions/movieActions';
+import { searchMovies } from '../../redux/actions/movieActions';
 
 //-----------------SPEECH RECOGNITION SETUP---------------------
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -27,12 +27,13 @@ const styles = {
             backgroundColor: '#fff'
         },
         marginLeft: '10px',
-        width: '20%',
+        width: '250px',
         height: '35px',
-        display: 'flex'
+        display: 'flex',
     },
     searchIcon: {
-        padding: '0px 2px',
+        color: '#B0B0B0',
+        padding: '3px 3px',
         height: '100%',
         position: 'absolute',
         pointerEvents: 'none',
@@ -41,7 +42,7 @@ const styles = {
         justifyContent: 'center',
     },
     inputRoot: {
-        color: 'dark',
+        color: '#000',
     },
     inputInput: {
         padding: '1px 1px 1px 0px',
