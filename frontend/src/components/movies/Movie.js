@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMovie, setLoading } from '../redux/actions/movieActions';
-import Spinner from './layout/Spinner';
+import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
+import Spinner from '../layout/Spinner';
 
 //material UI
 import { withStyles } from '@material-ui/core/'

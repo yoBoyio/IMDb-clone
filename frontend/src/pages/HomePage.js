@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getMovies, deleteMovie } from '../redux/actions/movieActions';
-import MovieCard from './MovieCard';
-import './styles/HomePage.css';
-import Row from './homepage/Row'
+import MovieCard from '../components/movies/MovieCard';
+import '../components/styles/HomePage.css';
+import Row from '../components/movies/Row'
 
 const MovieList = ({
   getMovies,
@@ -22,7 +22,7 @@ const MovieList = ({
   const { movies } = movie;
   return (
 
-    <div className="">
+    <div className="movie-container">
       <Row
         title="Latest"
         url={'Latest'}
@@ -30,7 +30,7 @@ const MovieList = ({
       />
       <Row
         title="Upcoming"
-        url={'Upcomming'}
+        url={'Upcoming'}
         isLargeRow
       />
       <Row

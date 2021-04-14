@@ -41,12 +41,16 @@ export const MyTextField = withStyles({
 export const StyledButton = withStyles({
     root: {
         background: 'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
-        boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .3)',
         borderRadius: 3,
         border: 0,
         color: 'white',
         height: 48,
         padding: '0 30px',
+        "&:hover": {
+            boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .1)',
+            transform: 'scale(1.02)',
+
+        }
     },
     label: {
         textTransform: 'capitalize',

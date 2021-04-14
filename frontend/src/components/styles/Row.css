@@ -1,5 +1,5 @@
 .row {
-    margin-left: 20px;
+    margin-left: 0px;
     color: #fff;
   }
   
@@ -11,6 +11,8 @@
     margin-right: 10px;
     box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
     overflow: 'hiden',
+
+    
   }
   .img_poster {
     object-fit: contain;
@@ -29,7 +31,10 @@
     overflow-y: hidden;
     overflow-x: scroll;
     padding: 20px;
+    
+  
   }
+
   
   .row_posters::-webkit-scrollbar {
     display: none;
@@ -37,6 +42,8 @@
   
   .row_poster:hover {
     transform: scale(1.08);
+    cursor: pointer;
+
   }
   
   .row_posterLarge {
@@ -45,6 +52,7 @@
   
   .row_posterLarge:hover {
     transform: scale(1.09);
+    
   }
 
   .movie {
@@ -105,7 +113,7 @@
   width:100%;
   cursor:pointer;
 }
-
+/* overwrite carousel */
 .lgksPe{
   height: 0px!important;
   width: 0px!important;
@@ -117,3 +125,19 @@
 .sc-gKsewC{
   visibility:hidden;
 }
+
+/* movies details */
+.content {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  transition: background-color ease 0.2s;
+ 
+  }
+  .content:hover {
+    background-color: rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+  }

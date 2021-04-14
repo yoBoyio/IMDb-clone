@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import SearchBox from './SearchBox'
 //MUI stuff
 import AppBar from '@material-ui/core/AppBar';
@@ -16,7 +15,7 @@ import Menu from '@material-ui/core/Menu'
 //icons
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
-import Logout from './auth/Logout';
+import Logout from '../auth/Logout';
 
 
 
@@ -108,8 +107,7 @@ class AppNavBar extends Component {
             <div className={classes.grow} />
             <SearchBox />
             <div className={classes.sectionDesktop}>
-              {//auth && auth.isAuthenticated
-              }
+
               {auth && auth.isAuthenticated ? (
                 <Fragment>
 

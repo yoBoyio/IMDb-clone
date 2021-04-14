@@ -12,7 +12,7 @@ export const getMovies = (url) => (dispatch) => {
     }
   };
   axios
-    .get(`api/movieshowcase/${url}`, {
+    .get(`api/movieshowcase/${url}/page=1`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -38,7 +38,7 @@ export const searchMovies = (url) => (dispatch) => {
     }
   };
   axios
-    .get(`api/movieshowcase/${url}`, {
+    .get(`api/movieshowcase/${url}/page=1`, {
       headers: {
         'Content-Type': 'application/json'
       }

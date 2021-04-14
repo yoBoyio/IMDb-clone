@@ -1,0 +1,33 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    background: #2b2b2a;
+    width: 100%;
+    display: flex;
+    padding: 7px 0 0;
+    justify-content: center;
+    align-items: center;
+  
+    @media (--desktop) {
+      padding: 10px 0 5;
+    }
+  }
+  
+  .tmdb {
+    display: block;
+    width: 70px;
+    margin-right: 20px;
+  
+    @media (--desktop) {
+      width: 100px;
+    }
+  }
+  
+  .github {
+    display: block;
+    width: 60px;
+  
+    @media (--desktop) {
+      width: 80px;
+    }
+  }

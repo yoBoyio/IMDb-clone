@@ -4,9 +4,9 @@ import axios from "axios";
 import "../styles/Row.css";
 import Youtube from "react-youtube";
 import { Link } from "react-router-dom";
-import { CircularProgressbar } from 'react-circular-progressbar';
 import { connect } from 'react-redux';
-import MovieCard from '../MovieCard'
+import MovieCard from './MovieCard'
+
 
 function Row({ title, url, isLargeRow, }) {
 
@@ -34,7 +34,7 @@ function Row({ title, url, isLargeRow, }) {
         { width: 1, itemsToShow: 1 },
         { width: 550, itemsToShow: 3 },
         { width: 768, itemsToShow: 5 },
-        { width: 1200, itemsToShow: 10 },
+        { width: 1200, itemsToShow: 12 },
     ];
     const handleClick = async (movie) => {
         if (trailerUrl) {
@@ -54,6 +54,7 @@ function Row({ title, url, isLargeRow, }) {
             <h2>{title}</h2>
             <div className='slider'>
                 <Carousel breakPoints={breakPoints} >
+
                     {movies.map(
                         (movie) =>
                         (
@@ -61,7 +62,9 @@ function Row({ title, url, isLargeRow, }) {
                                 key={movie.Id}
                                 isLargeRow={isLargeRow}
                                 onClick={() => handleClick(movie)}
-                            />
+                            >
+
+                            </MovieCard>
                         )
                     )}
                 </Carousel>
