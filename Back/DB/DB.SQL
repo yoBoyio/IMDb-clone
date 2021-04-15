@@ -50,6 +50,6 @@ CREATE TABLE `ratings` (
     `movieId` INT NOT NULL,
     `userEmail` VARCHAR(255) NOT NULL,
     `commentContent` VARCHAR(255) DEFAULT NULL,
-    `rating` INT NOT NULL,
+    `like` BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (ratingId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

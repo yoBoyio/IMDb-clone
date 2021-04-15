@@ -13,17 +13,17 @@ namespace moviesProject.Classes
         public int movieId;
         public string userEmail;
         public string commentContent;
-        public int rating;
+        public bool like;
 
         public Rating() { }
 
-        public Rating(int ratingId, int movieId, string userEmail, string commentContent, int rating)
+        public Rating(int ratingId, int movieId, string userEmail, string commentContent, bool like)
         {
             this.ratingId = ratingId;
             this.movieId = movieId;
             this.userEmail = userEmail;
             this.commentContent = commentContent;
-            this.rating = rating;
+            this.like = like;
         }
 
         private static MySqlConnection DbConn = DbMethods.dbget();
@@ -48,8 +48,8 @@ namespace moviesProject.Classes
                         int movieId = (int)reader["movieId"];
                         String uEmail = reader["userEmail"].ToString();
                         String commentContent = reader["commentContent"].ToString();
-                        int ratingScore = (int)reader["rating"];
-                        rating = new Rating(rid, movieId, uEmail, commentContent, ratingScore);
+                        bool like = (bool)reader["like"];
+                        rating = new Rating(rid, movieId, uEmail, commentContent, like);
                         Rlist.Add(rating);
                     }
                     
@@ -65,13 +65,13 @@ namespace moviesProject.Classes
             DbConn.CloseAsync();
             return Rlist;
         }
-        public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int rating)
+        public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int like)
         {
             bool flag = true;
             try
             {
                 await DbConn.OpenAsync();
-                String query = "INSERT INTO `ratings` (`movieId`,`userEmail`, `commentContent` , `rating`) VALUES('" + movieId + "', '" + userEmail + "', '" + commentContent + "', '" + rating + "')";
+                String query = "INSERT INTO `ratings` (`movieId`,`userEmail`, `commentContent` , `like`) VALUES('" + movieId + "', '" + userEmail + "', '" + commentContent + "', '" + like + "')";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                     cmd.ExecuteReaderAsync();
 
@@ -86,24 +86,26 @@ namespace moviesProject.Classes
 
         public static async Task<decimal> getMovieAverageAsync(int MovieId)
         {
-            Decimal average = 0;
+            Decimal like=1,dislike=1,percentage;
             try
             {
                 await DbConn.OpenAsync();
-                String query = "SELECT SUM(rating)/COUNT(rating) AS AVERAGE FROM ratings WHERE movieId='" + MovieId + "'";
+                String query = "Select sum(case when `like` = 1 then 1 else 0 end) AS Truecount,sum(case when `like` = 0 then 1 else 0 end) AS Falsecount FROM ratings WHERE movieId='" + MovieId + "'";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                 using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                 {
                     reader.Read();
-                    average = (Decimal)reader["AVERAGE"];
+                    like = (Decimal)reader["Truecount"];
+                    dislike = (Decimal)reader["Falsecount"];
                 }
             }
             catch (MySqlException e) 
             {
-                average = 405;
+                percentage = -1;
             }
             await DbConn.CloseAsync();
-            return average;
+            percentage = (like / (like + dislike)) * 100;
+            return percentage;
         }
 
     }

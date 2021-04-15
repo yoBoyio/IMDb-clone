@@ -40,19 +40,24 @@ namespace moviesProject.Controllers
 
 
         [HttpPost("insert")]
-        public async Task<IActionResult> insertRatingsAsync([FromBody] UserCred userCred)
+        public async Task<IActionResult> insertRatingsAsync([FromBody] UserCred userCred, [FromHeader] string Authorization)
         {
             int movieId = userCred.MovieId;
-            string userEmail = userCred.Email;
+            string email = tokenObj.GetNameClaims(Authorization);
             string commentContent = userCred.commentContent;
-            int ratingScore = userCred.rating;
+            bool like = userCred.like;
+            
+            
+            int likepass=0;
+            if (like)
+                likepass = 1;
 
             DbMethods.InitializeDB();
 
-            if (! (await Rating.insertRatingAsync(movieId, userEmail, commentContent, ratingScore)))
+            if (! (await Rating.insertRatingAsync(movieId, email, commentContent, likepass)))
                 return NotFound();
 
-            string json = JsonConvert.SerializeObject("200: description: Successfully inserted user", Formatting.Indented);
+            string json = JsonConvert.SerializeObject("200: description: Successfully inserted rating", Formatting.Indented);
 
             return Ok(json);
         }

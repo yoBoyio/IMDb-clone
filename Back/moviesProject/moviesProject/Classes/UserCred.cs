@@ -11,7 +11,7 @@
 
         public string commentContent { get; set; }
 
-        public int rating { get; set; }
+        public bool like { get; set; }
 
     }
 }

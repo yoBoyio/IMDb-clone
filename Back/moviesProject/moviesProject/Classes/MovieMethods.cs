@@ -105,19 +105,13 @@ namespace moviesProject.Classes
 
         async public static Task<List<MovieFirebase>> SearchMovie(string query)
         {
-            Firebase fb = new Firebase();
-            FirestoreDb db = fb.db;
-            // thelei douleia akoma
-            Query docQ = db.Collection("movies").OrderBy("title").StartAt(query).EndAt(query + "\uf8ff");
-            QuerySnapshot snap = await docQ.GetSnapshotAsync();
-            MovieFirebase movie = new MovieFirebase();
-
             List<MovieFirebase> mlist = new List<MovieFirebase>();
+            lucene search = new lucene();
+            int[] ids = search.searchIndex(query);
 
-            foreach (DocumentSnapshot docsnap in snap)
+            foreach (int id in ids)
             {
-                movie = docsnap.ConvertTo<MovieFirebase>();
-                mlist.Add(movie);
+                mlist.Add(await GetMovie(id));
             }
 
             return mlist;
