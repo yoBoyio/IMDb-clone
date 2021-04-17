@@ -47,7 +47,6 @@ namespace moviesProject.Controllers
             string commentContent = userCred.commentContent;
             bool like = userCred.like;
             
-            
             int likepass=0;
             if (like)
                 likepass = 1;
@@ -67,17 +66,10 @@ namespace moviesProject.Controllers
         {
             int movieId = userCred.MovieId;
             string email = tokenObj.GetNameClaims(Authorization);
-            string commentContent = userCred.commentContent;
-            bool like = userCred.like;
-
-
-            int likepass = 0;
-            if (like)
-                likepass = 1;
 
             DbMethods.InitializeDB();
 
-            if (!(await Rating.deleteRatingAsync(movieId, email, commentContent, likepass)))
+            if (!(await Rating.deleteRatingAsync(movieId, email)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully deleted rating", Formatting.Indented);

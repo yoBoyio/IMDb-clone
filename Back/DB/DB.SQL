@@ -9,6 +9,7 @@
 -- Table structure for table `users`
 --
 
+drop table users;
 CREATE TABLE `users` (
     `userId` INT NOT NULL unique auto_increment,
     `userName` VARCHAR(255) NOT NULL,
@@ -32,7 +33,7 @@ INSERT INTO `users` (`userEmail`, `userName` , `userPassword`, `isAdmin` ) VALUE
 -- Table structure for table `Watchlist`
 --
 
-
+drop table watchlist;
 CREATE TABLE `watchlist` (
     `userEmail` VARCHAR(255) NOT NULL,
     `movieId` INT NOT NULL
@@ -45,11 +46,13 @@ CREATE TABLE `watchlist` (
 --
 
 
-CREATE TABLE `ratings` (
-    `ratingId` INT NOT NULL unique auto_increment,
-    `movieId` INT NOT NULL,
-    `userEmail` VARCHAR(255) NOT NULL,
-    `commentContent` VARCHAR(255) DEFAULT NULL,
-    `like` BOOLEAN DEFAULT FALSE,
+drop table ratings;
+CREATE TABLE ratings (
+    ratingId INT NOT NULL unique auto_increment,
+    movieId INT NOT NULL,
+    userEmail VARCHAR(255) NOT NULL,
+    commentContent VARCHAR(255) DEFAULT NULL,
+    like BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (ratingId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE ratings ADD UNIQUE unique_index(userEmail, movieId);

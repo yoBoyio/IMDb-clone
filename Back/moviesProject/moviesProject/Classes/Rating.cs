@@ -71,7 +71,7 @@ namespace moviesProject.Classes
             try
             {
                 await DbConn.OpenAsync();
-                String query = "INSERT INTO `ratings` (`movieId`,`userEmail`, `commentContent` , `like`) VALUES('" + movieId + "', '" + userEmail + "', '" + commentContent + "', '" + like + "')";
+                String query = "REPLACE INTO ratings VALUES (0," + movieId + ",'" + userEmail+"','"+commentContent+"',"+like+")";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                     cmd.ExecuteReaderAsync();
 
@@ -83,7 +83,7 @@ namespace moviesProject.Classes
             DbConn.CloseAsync();
             return flag;
         }
-        public static async Task<bool> deleteRatingAsync(int movieId, string userEmail, string commentContent, int like)
+        public static async Task<bool> deleteRatingAsync(int movieId, string userEmail)
         {
             bool flag = true;
             try
