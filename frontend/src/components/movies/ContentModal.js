@@ -17,7 +17,8 @@ import ManageList from '../watchlist/AddToWatchlist'
 import CommentModal from '../likeDislike/CommentModal'
 import { connect } from 'react-redux';
 import AuthModal from '../auth/isAuth'
-
+import Genres from '../genres/genres'
+import useGenre from '../../util/useGenre'
 const useStyles = makeStyles((theme) => ({
     modal: {
         display: "flex",
@@ -45,6 +46,10 @@ function ContentModal({ children, id, auth }) {
     const [open, setOpen] = useState(false);
     const [content, setContent] = useState();
     const [animateMeter, setanimateMeter] = useState(false);
+
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const genreforURL = useGenre(selectedGenres);
 
     const handleOpen = () => {
         setOpen(true);
@@ -115,6 +120,13 @@ function ContentModal({ children, id, auth }) {
                                     className="ContentModal__landscape"
                                 />
                                 <div className="ContentModal__about">
+                                    <Genres
+                                        movieIds={content.genres}
+                                        selectedGenres={selectedGenres}
+                                        setSelectedGenres={setSelectedGenres}
+                                        genres={genres}
+                                        setGenres={setGenres}
+                                    />
                                     <span className="ContentModal__title">
                                         {content.name || content.title} (
                     {(
@@ -135,17 +147,15 @@ function ContentModal({ children, id, auth }) {
                                     <div className='actions'>
                                         {auth && auth.isAuthenticated ? (
                                             <CommentModal>
-                                                <Like />
+                                                <Like movieId={id} auth={true} />
                                             </CommentModal>
 
                                         ) : (
-                                            <AuthModal > <Like />   </AuthModal>
+                                            <AuthModal > <Like movieId={id} auth={false} />   </AuthModal>
                                         )}
                                         <ManageList />
 
-                                        <CommentModal>
-                                            <DisLike />
-                                        </CommentModal>
+
                                     </div>
 
                                     <div className='score'>
@@ -173,6 +183,7 @@ function ContentModal({ children, id, auth }) {
                                         >
                                             Show More
                              </StyledButton>
+
                                     </div>
                                 </div>
                             </div>

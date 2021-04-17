@@ -6,7 +6,8 @@ import {
   FETCH_MOVIE,
   LOADING,
   SEARCH_MOVIES,
-  SEARCH_MOVIES_LOADING
+  SEARCH_MOVIES_LOADING,
+  GENRES_MAP
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   text: '',
   movie: [],
   searchMovies: [],
+  genres: [],
 };
 
 
@@ -65,6 +67,11 @@ export default function (state = initialState, action) {
         ...state,
         searchMovies: action.payload,
         searchLoading: false
+      };
+    case GENRES_MAP:
+      return {
+        ...state,
+        genres: action.payload,
       };
     default:
       return state;

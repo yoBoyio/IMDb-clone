@@ -36,17 +36,6 @@ function Row({ title, url, isLargeRow, }) {
         { width: 768, itemsToShow: 5 },
         { width: 1200, itemsToShow: 12 },
     ];
-    const handleClick = async (movie) => {
-        if (trailerUrl) {
-            setTrailerUrl("");
-        } else {
-            let trailerurl = await axios.get(
-                `https://api.themoviedb.org/3/movie/${movie.Id}/videos?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US`
-            );
-            setTrailerUrl(trailerurl.data.results[0].key);
-        }
-    };
-
     return (
 
 
@@ -56,20 +45,18 @@ function Row({ title, url, isLargeRow, }) {
                 <Carousel breakPoints={breakPoints} >
 
                     {movies.map(
+
                         (movie) =>
                         (
                             <MovieCard movie={movie}
-                                key={movie.Id}
+                                key={movie.id}
                                 isLargeRow={isLargeRow}
-                                onClick={() => handleClick(movie)}
                             >
-
                             </MovieCard>
                         )
                     )}
                 </Carousel>
             </div>
-            {trailerUrl && <Youtube videoId={trailerUrl} opts={opts} />}
         </div>
     );
 }

@@ -1,5 +1,6 @@
 
 .like{
+    
     position:absolute;
     width: 50px;
      height: 50px;
@@ -7,24 +8,51 @@
      -moz-border-radius: 70px; 
      -webkit-border-radius: 70px; 
      border-radius: 70px;
-    background: linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%);
+     border:solid 2px;
+     border-color:  #9d50bb;
+     
   }
   .like:hover{
     box-shadow: 0 2px 3px 2px rgba(255	, 175, 189, .1);
     transform: scale(1.08);
     cursor: pointer;
   }
+  .like_filled{
+    position:absolute;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    -moz-border-radius: 70px; 
+    -webkit-border-radius: 70px; 
+    border-radius: 70px;
+    background: linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%);
+
+  }
   .dislike{
     position:absolute;
-    
     width: 50px;
      height: 50px;
      align-items: center;
      -moz-border-radius: 70px; 
      -webkit-border-radius: 70px; 
      border-radius: 70px;
-    background: linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%);
+     border:solid 2px;
+     border-color:  #9d50bb;
+     
   }
+  .dislike_filled{
+    margin:0px 20px 0px 80px;
+
+    position:absolute;
+    width: 50px;
+     height: 50px;
+     align-items: center;
+     -moz-border-radius: 70px; 
+     -webkit-border-radius: 70px; 
+     border-radius: 70px;
+     background: linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%);     
+  }
+
   .dislike:hover{
     box-shadow: 0 2px 3px 2px rgba(255	, 175, 189, .1);
     transform: scale(1.08);
@@ -78,7 +106,11 @@
     box-shadow: inset 0 0 5px #000000;
     text-align: justify;
     align-items: center;
+    color:white;
+    outline: none;
+
   }
+  
   
   .commentModal__textarea::-webkit-scrollbar {
     display: none;

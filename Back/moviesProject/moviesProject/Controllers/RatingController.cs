@@ -61,5 +61,29 @@ namespace moviesProject.Controllers
 
             return Ok(json);
         }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> deleteRatingsAsync([FromBody] UserCred userCred, [FromHeader] string Authorization)
+        {
+            int movieId = userCred.MovieId;
+            string email = tokenObj.GetNameClaims(Authorization);
+            string commentContent = userCred.commentContent;
+            bool like = userCred.like;
+
+
+            int likepass = 0;
+            if (like)
+                likepass = 1;
+
+            DbMethods.InitializeDB();
+
+            if (!(await Rating.deleteRatingAsync(movieId, email, commentContent, likepass)))
+                return NotFound();
+
+            string json = JsonConvert.SerializeObject("200: description: Successfully deleted rating", Formatting.Indented);
+
+            return Ok(json);
+        }
+
     }
 }

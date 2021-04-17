@@ -36,17 +36,17 @@ const MovieCard = ({ isLargeRow, movie, children }) => {
   const [content, setContent] = useState();
 
   return (
-    <ContentModal id={movie.Id}>
+    <ContentModal id={movie.id}>
 
       <div
         className='row_posters'>
 
         <img
           className={`row_poster ${isLargeRow && "row_posterLarge"}`}
-          // src={`${img_500}/${movie.poster_path}`}
-          src={movie.Poster_path}
+          src={`${img_500}/${movie.poster_path}`}
+
           alt={movie.title}
-          key={movie.Id}
+          key={movie.id}
 
         />
 

@@ -83,7 +83,24 @@ namespace moviesProject.Classes
             DbConn.CloseAsync();
             return flag;
         }
+        public static async Task<bool> deleteRatingAsync(int movieId, string userEmail, string commentContent, int like)
+        {
+            bool flag = true;
+            try
+            {
+                await DbConn.OpenAsync();
+                String query = "DELETE  FROM RATINGS WHERE movieId = '" + movieId + "' AND userEmail = '"+userEmail+"'";
+                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
+                    cmd.ExecuteReaderAsync();
 
+            }
+            catch (Exception ex)
+            {
+                flag = false;
+            }
+            DbConn.CloseAsync();
+            return flag;
+        }
         public static async Task<decimal> getMovieAverageAsync(int MovieId)
         {
             Decimal like=1,dislike=1,percentage;

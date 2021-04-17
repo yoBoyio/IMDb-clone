@@ -79,11 +79,10 @@ export default function CommentModal({ children }) {
                                     Leave a comment
                                 </span>
                                 <form className="commentModal__about" noValidate>
-                                    <TextareaAutosize className="commentModal__textarea" aria-label="minimum height" rowsMin={5} placeholder="Write here..." />
+                                    <textarea className="commentModal__textarea" aria-label="minimum height" rowsMin={5} placeholder="Write here..." />
 
                                     <div>
-                                        <Like />
-                                        <DisLike />
+                                        <Like auth={true} />
                                     </div>
 
                                     <div className='btn2'>
