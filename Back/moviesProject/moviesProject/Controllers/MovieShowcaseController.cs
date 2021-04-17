@@ -34,10 +34,10 @@ namespace moviesProject.Controllers
         }
 
         [HttpGet("TopRated")]
-        public IActionResult getTopRated(int page)
+        public async Task<IActionResult> getTopRated(int page)
         {
-            List<Movie> movies = new List<Movie>();
-            movies = Movie.getTopRated(page);
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.GetTopRated(page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }

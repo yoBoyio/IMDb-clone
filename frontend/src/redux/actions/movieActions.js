@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING, FETCH_MOVIE, LOADING } from './types';
+import { GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING, FETCH_MOVIE, LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -101,6 +101,19 @@ export const fetchMovie = id => dispatch => {
     .catch(err => console.log(err));
 };
 
+export const fetchGenre = () => dispatch => {
+
+  axios
+    .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
+    .then(response =>
+      dispatch({
+        type: GENRES_MAP,
+        payload: response.data
+      })
+    )
+    .catch(err => console.log(err));
+}
+
 export const setMoviesLoading = () => {
   return {
     type: MOVIES_LOADING
@@ -117,3 +130,4 @@ export const setSearchMoviesLoading = () => {
     type: SEARCH_MOVIES_LOADING
   };
 };
+

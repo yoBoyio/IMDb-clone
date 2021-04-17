@@ -17,5 +17,6 @@ export const GET_ERRORS = 'GET_ERRORS';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';
 export const SEARCH_MOVIES_LOADING = 'SEARCH_MOVIES_LOADING';
+export const GENRES_MAP = 'GENRES_MAP';
 
 

@@ -39,15 +39,21 @@ namespace moviesProject.Classes
 
         public static bool authUser(String Email, String Pass)
         {
-            
+            bool flag = false;
+            try
+            {
+
             String query = "SELECT * FROM users WHERE userEmail='"+Email+"' AND userPassword='"+Pass+"'";
 
             MySqlCommand cmd = new MySqlCommand(query, DbConn);
             DbConn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
-            bool flag = false;
             if (reader.HasRows) flag = true;
             DbConn.Close();
+            }catch(MySqlException ex)
+            {
+
+            }
             return flag;
         }
 
