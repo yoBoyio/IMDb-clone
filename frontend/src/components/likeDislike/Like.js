@@ -6,6 +6,7 @@ import '../styles/likeDislike.css'
 import AuthModal from '../auth/isAuth'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import Axios from 'axios';
+import CommentModal from './CommentModal'
 
 export function Like({ auth, like_dislike, movieId }) {
     const [Likes, setLikes] = useState(0)
@@ -16,12 +17,12 @@ export function Like({ auth, like_dislike, movieId }) {
     const tokenConfig = () => {
         // Get token from localstorage
         const token = 'bearer ' + auth.token;
-
         // Headers
         const config = {
             headers: {
                 'Content-type': 'application/json'
-            }
+            },
+            params: { 'movieId': movieId }
         };
 
         // If token, add to headers
@@ -32,6 +33,40 @@ export function Like({ auth, like_dislike, movieId }) {
         return config;
     };
 
+    useEffect(() => {
+        const body = JSON.stringify({ movieId: movieId });
+        const params = { params: { 'movieId': movieId }, }
+        Axios.get('/api/rating/get', tokenConfig())
+            .then(response => {
+                console.log('getLikes', response.data)
+
+                if (response.status === 200) {
+                    //How many likes does this video or comment have 
+
+                    //if I already click this like button or not
+                    let sumLikes = 0;
+                    let sumDislikes = 0;
+
+                    response.data.map(like => {
+                        if (like.like === true) {
+                            sumLikes++;
+                            if (like.userEmail === auth.user.uEmail) {
+                                setLikeAction('liked')
+                            }
+                        } else {
+                            sumDislikes++;
+                            if (like.userEmail === auth.user.uEmail) {
+                                setDislikeAction('disliked')
+                            }
+                        }
+                    })
+                    setLikes(sumLikes)
+                    setDislikes(sumDislikes)
+                } else {
+                    alert('Failed to get likes and dislikes')
+                }
+            })
+    }, [])
 
     const onLike = () => {
         const body = JSON.stringify({ movieId: movieId, commentContent: '', like: true });
@@ -44,9 +79,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
                         setLikes(Likes + 1)
                         setLikeAction('liked')
-
                         //If dislike button is already clicked
-
                         if (DislikeAction !== null) {
                             setDislikeAction(null)
                             setDislikes(Dislikes - 1)
@@ -120,6 +153,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
 
     return (
+
         <div>
             <div className={LikeAction === 'liked' ? 'like_filled' : 'like'} >
                 <IconButton

@@ -8,7 +8,9 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  COMMENT_SUCCESS,
+  COMMENT_FAIL
 } from './types';
 
 // Check token and load user
@@ -96,7 +98,49 @@ export const login = ({ email, password }) => (
       });
     });
 };
+//comment
+export const commentAction = (comment, movieId, token_value) => (
+  dispatch
+) => {
+  // Headers
+  const tokenConf = (token_value) => {
+    // Get token from localstorage
+    const token = 'bearer ' + token_value;
 
+    // Headers
+    const config = {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    };
+
+    // If token, add to headers
+    if (token) {
+      config.headers['Authorization'] = token;
+    }
+
+    return config;
+  };
+  // Request body
+  const body = JSON.stringify({ movieId: movieId, commentContent: comment, like: true });
+
+  axios
+    .post('api/rating/insert', body, tokenConf(token_value))
+    .then(res =>
+      dispatch({
+        type: COMMENT_SUCCESS,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(
+        returnErrors(err.response.data, err.response.status, 'COMMENT_FAIL')
+      );
+      dispatch({
+        type: COMMENT_FAIL
+      });
+    });
+};
 // Logout User
 export const logout = () => {
   return {

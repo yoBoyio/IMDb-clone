@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AuthModal({ children, id }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [content, setContent] = useState();
 
     const handleOpen = () => {
         setOpen(true);

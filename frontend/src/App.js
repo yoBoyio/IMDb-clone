@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { loadUser } from './redux/actions/authActions'
+import { getWatchlist } from './redux/actions/movieActions'
 import AppNavbar from './components/navbar/AppNavbar'
 import store from './store';
 import HomePage from './pages/HomePage';
@@ -17,6 +18,7 @@ import Movie from './components/movies/Movie';
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(getWatchlist());
   }, []);
 
   return (
