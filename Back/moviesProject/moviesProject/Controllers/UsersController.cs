@@ -114,9 +114,9 @@ namespace moviesProject.Controllers
             if (await user.getUser(email) == null)
                 return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
 
-            
 
-            List<Movie> wl = await WatchList.GetMoviesAsync(email);
+
+            List<MovieFirebase> wl = await WatchList.GetMoviesAsync(email);
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
 
             return Ok(json);
@@ -147,7 +147,7 @@ namespace moviesProject.Controllers
             if (!(await WatchList.insertInWLAsync(email, movie)))
                 return NotFound(JsonConvert.SerializeObject("Invalid user and movie", Formatting.Indented));
 
-            return Ok("200: description: Successfully inserted Movie to user Watchlist");
+            return Ok(JsonConvert.SerializeObject(MovieMethods.GetMovie(movie), Formatting.Indented));
         }
 
         [HttpPost("watchlist/Remove")]

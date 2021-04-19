@@ -15,22 +15,22 @@ namespace moviesProject.Classes
 
         WatchList() { }
 
-        public static async Task<List<Movie>> GetMoviesAsync(String uEmail)
+        public static async Task<List<MovieFirebase>> GetMoviesAsync(String uEmail)
         {
             try
             {
 
                 await DbConn.OpenAsync();
-                List<Movie> MovieList = new List<Movie>();
+                List<MovieFirebase> MovieList = new List<MovieFirebase>();
                 String query = "SELECT movieId FROM watchlist WHERE userEmail='" + uEmail + "'";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                 using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        Movie movie = new Movie();
+                        MovieFirebase movie = new MovieFirebase();
                         int movieId = (int)reader["movieId"];
-                        movie = Movie.getMovie(movieId);
+                        movie = await MovieMethods.GetMovie(movieId);
                         MovieList.Add(movie);
                     }
 

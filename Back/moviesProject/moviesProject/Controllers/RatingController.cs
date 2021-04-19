@@ -15,21 +15,34 @@ namespace moviesProject.Controllers
     [ApiController]
     public class RatingController : ControllerBase
     {
+        [AllowAnonymous]
         [HttpGet("get")]
-        public async Task<IActionResult> GetMovieRatingsAsync(int movieId)
+        public async Task<IActionResult> GetMovieRatingsAsync([FromHeader] string Authorization, int movieId, int page)
         {
             DbMethods.InitializeDB();
-
-            List<Rating> Rlist = await Rating.getMovieRatingsAsync(movieId);
-            if (Rlist.Count == 0)
+            string email = "";
+            if (Authorization!=null)
+            email = tokenObj.GetNameClaims(Authorization);
+            Dictionary<string, List<Rating>> dictionary = await Rating.getMovieRatingsAsync(movieId,page,email);
+            if (dictionary["Ratings"].Count == 0)
                 return NotFound(JsonConvert.SerializeObject("Not found", Formatting.Indented));
 
-            string json = JsonConvert.SerializeObject(Rlist, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
             return Ok(json);
         }
 
-        [HttpGet("get/average")]
+        [HttpGet("get/userRating")]
+        public async Task<IActionResult> GetMovieUserRatingsAsync([FromHeader] string Authorization, int movieId, int page)
+        {
+            string email = tokenObj.GetNameClaims(Authorization);
+            return Ok(JsonConvert.SerializeObject(Rating.getMovieSingleRatingAsync(movieId, email), Formatting.Indented));
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpGet("get/stats")]
         public async Task<IActionResult> GetMovieAverageAsync(int movieId)
         {
             DbMethods.InitializeDB();
