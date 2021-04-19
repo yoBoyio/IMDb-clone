@@ -34,7 +34,8 @@ function Row({ title, url, isLargeRow, }) {
         { width: 1, itemsToShow: 1 },
         { width: 550, itemsToShow: 3 },
         { width: 768, itemsToShow: 5 },
-        { width: 1200, itemsToShow: 12 },
+        { width: 1200, itemsToShow: 8 },
+        { width: 1400, itemsToShow: 12 },
     ];
     return (
 

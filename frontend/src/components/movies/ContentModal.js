@@ -146,9 +146,11 @@ function ContentModal({ children, id, auth }) {
 
                                     <div className='actions'>
                                         {auth && auth.isAuthenticated ? (
-                                            <CommentModal>
+
+                                            <CommentModal movieId={id}>
                                                 <Like movieId={id} auth={true} />
-                                            </CommentModal>
+                                            </CommentModal >
+
 
                                         ) : (
                                             <AuthModal > <Like movieId={id} auth={false} />   </AuthModal>

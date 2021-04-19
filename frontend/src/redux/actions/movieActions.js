@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_MOVIE, ADD_MOVIE, MOVIES_LOADING, FETCH_MOVIE, LOADING } from './types';
+import { GET_WATCHLIST, GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_WATCHLIST, ADD_WATCHLIST, MOVIES_LOADING, FETCH_MOVIE, LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
@@ -38,7 +38,7 @@ export const searchMovies = (url) => (dispatch) => {
     }
   };
   axios
-    .get(`api/movieshowcase/${url}/page=1`, {
+    .get(`api/movieshowcase/Search/${url}`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -54,15 +54,15 @@ export const searchMovies = (url) => (dispatch) => {
     );
 };
 
-export const addmovie = (movie) => (
+export const getWatchlist = () => (
   dispatch,
   getState
 ) => {
   axios
-    .post('/api/movies', movie, tokenConfig(getState))
+    .get('/api/watchlist/Get', tokenConfig(getState))
     .then(res =>
       dispatch({
-        type: ADD_MOVIE,
+        type: GET_WATCHLIST,
         payload: res.data
       })
     )
@@ -71,16 +71,33 @@ export const addmovie = (movie) => (
     );
 };
 
-export const deleteMovie = (id) => (
+export const addWatchlist = (usercred) => (
   dispatch,
   getState
 ) => {
   axios
-    .delete(`/api/movies/${id}`, tokenConfig(getState))
+    .post('/api/watchlist/Add', usercred, tokenConfig(getState))
     .then(res =>
       dispatch({
-        type: DELETE_MOVIE,
-        payload: id
+        type: ADD_WATCHLIST,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+
+export const deleteWatchlist = (usercred) => (
+  dispatch,
+  getState
+) => {
+  axios
+    .post(`/apiwatchlist/Remove`, tokenConfig(getState))
+    .then(res =>
+      dispatch({
+        type: DELETE_WATCHLIST,
+        payload: usercred
       })
     )
     .catch(err =>

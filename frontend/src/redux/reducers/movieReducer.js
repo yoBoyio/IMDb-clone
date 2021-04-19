@@ -7,7 +7,10 @@ import {
   LOADING,
   SEARCH_MOVIES,
   SEARCH_MOVIES_LOADING,
-  GENRES_MAP
+  GENRES_MAP,
+  DELETE_WATCHLIST,
+  ADD_WATCHLIST,
+  GET_WATCHLIST
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   movie: [],
   searchMovies: [],
   genres: [],
+  watchlist: [],
 };
 
 
@@ -31,15 +35,22 @@ export default function (state = initialState, action) {
         movies: action.payload,
         loading: false
       };
-    case DELETE_MOVIE:
+    case GET_WATCHLIST:
       return {
         ...state,
-        movies: state.movies.filter(movie => movie._id !== action.payload)
+        // movies: action.payload,
+        watchlist: action.payload,
+        loading: false
       };
-    case ADD_MOVIE:
+    case DELETE_WATCHLIST:
       return {
         ...state,
-        movies: [action.payload, ...state.movies]
+        watchlist: state.watchlist.filter(movie => movie.Id !== action.payload)
+      };
+    case ADD_WATCHLIST:
+      return {
+        ...state,
+        watchlist: [action.payload, ...state.movies]
       };
     case MOVIES_LOADING:
       return {

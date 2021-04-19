@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getMovies, deleteMovie } from '../redux/actions/movieActions';
 import MovieCard from '../components/movies/MovieCard';
 import '../components/styles/HomePage.css';
 import Row from '../components/movies/Row'
@@ -11,13 +10,13 @@ const MovieList = ({
   isAuthenticated,
   deleteMovies
 }) => {
-  useEffect(() => {
-    getMovies('latest?page=1');
-  }, [getMovies]);
+  // useEffect(() => {
+  //   getMovies('latest?page=1');
+  // }, [getMovies]);
 
-  const handleDelete = (id) => {
-    deleteMovie(id);
-  };
+  // const handleDelete = (id) => {
+  //   addWatchlist(id);
+  // };
 
   const { movies } = movie;
   return (
@@ -49,4 +48,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { getMovies, deleteMovie })(MovieList);
+export default connect(mapStateToProps)(MovieList);
