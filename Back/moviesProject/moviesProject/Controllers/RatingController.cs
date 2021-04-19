@@ -15,6 +15,9 @@ namespace moviesProject.Controllers
     [ApiController]
     public class RatingController : ControllerBase
     {
+
+        // gurnaei ena pinaka me 2 antikeimena prwto to userrating kai deftero mia lista me 10 rating sta opoia den uparxei to rate tou user,
+        // meta apo to 0 page to user rating den gurnaei alla mono dekades apo ratings ana page
         [AllowAnonymous]
         [HttpGet("get")]
         public async Task<IActionResult> GetMovieRatingsAsync([FromHeader] string Authorization, int movieId, int page)
@@ -24,6 +27,7 @@ namespace moviesProject.Controllers
             if (Authorization!=null)
             email = tokenObj.GetNameClaims(Authorization);
             Dictionary<string, List<Rating>> dictionary = await Rating.getMovieRatingsAsync(movieId,page,email);
+
             if (dictionary["Ratings"].Count == 0)
                 return NotFound(JsonConvert.SerializeObject("Not found", Formatting.Indented));
 
@@ -31,16 +35,25 @@ namespace moviesProject.Controllers
 
             return Ok(json);
         }
-
+        // gurnaeu mono ena rating tou logged in user gia ena sugkekrimeno movie
         [HttpGet("get/userRating")]
         public async Task<IActionResult> GetMovieUserRatingsAsync([FromHeader] string Authorization, int movieId, int page)
         {
             string email = tokenObj.GetNameClaims(Authorization);
-            return Ok(JsonConvert.SerializeObject(Rating.getMovieSingleRatingAsync(movieId, email), Formatting.Indented));
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            DbMethods.InitializeDB();
+            Rating rating = await Rating.getMovieSingleRatingAsync(movieId, email);
+            if (rating.ratingId == 0)
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Rating not found");
+                return NotFound(dictionary);
+            }
+            return Ok(JsonConvert.SerializeObject(rating, Formatting.Indented));
         }
 
 
-
+        // gurnaei likes dislikes kai percentage twn likes
         [AllowAnonymous]
         [HttpGet("get/stats")]
         public async Task<IActionResult> GetMovieAverageAsync(int movieId)
@@ -51,7 +64,7 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
-
+        // kanei insert rating
         [HttpPost("insert")]
         public async Task<IActionResult> insertRatingsAsync([FromBody] UserCred userCred, [FromHeader] string Authorization)
         {
@@ -74,6 +87,7 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
+        // diagrafei
         [HttpPost("delete")]
         public async Task<IActionResult> deleteRatingsAsync([FromBody] UserCred userCred, [FromHeader] string Authorization)
         {

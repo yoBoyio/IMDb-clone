@@ -106,14 +106,23 @@ namespace moviesProject.Controllers
         [HttpGet("watchlist/Get")]
         public async Task<IActionResult> GetWatchlistAsync([FromHeader] string Authorization)
         {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
             string email = tokenObj.GetNameClaims(Authorization);
             DbMethods.InitializeDB();
             if (email == "")
-                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Please enter all fields");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
 
             if (await user.getUser(email) == null)
-                return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
-
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "User not found");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
 
 
             List<MovieFirebase> wl = await WatchList.GetMoviesAsync(email);
@@ -123,44 +132,66 @@ namespace moviesProject.Controllers
         }
 
 
-        [HttpPost("watchlist/Add")]
+        [HttpPost("watchlist/insert")]
         public async Task<IActionResult> AddToWLAsync([FromHeader] string Authorization,[FromBody] UserCred userCred)
         {
             string email = tokenObj.GetNameClaims(Authorization);
             int movie = userCred.MovieId;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
 
             if (email == "" || movie == 0)
-                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
-            
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Please enter all fields");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
             DbMethods.InitializeDB();
 
             if (await WatchList.IsInList(email, movie) == true)
-                return NotFound(JsonConvert.SerializeObject("Already in list", Formatting.Indented));
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Please enter all fields");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
 
 
 
             if (user.getUser(email) == null)
-                return NotFound(JsonConvert.SerializeObject("User not found", Formatting.Indented));
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "User not found");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
 
-            
 
             if (!(await WatchList.insertInWLAsync(email, movie)))
-                return NotFound(JsonConvert.SerializeObject("Invalid user and movie", Formatting.Indented));
-
-            return Ok(JsonConvert.SerializeObject(MovieMethods.GetMovie(movie), Formatting.Indented));
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Something went wrong");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+            MovieFirebase retMov = await MovieMethods.GetMovie(movie);
+            return Ok(JsonConvert.SerializeObject(retMov, Formatting.Indented));
         }
 
-        [HttpPost("watchlist/Remove")]
+        [HttpDelete("watchlist/Remove")]
         public async Task<IActionResult> RemoveFromWLAsync([FromHeader] string Authorization, [FromBody] UserCred userCred)
         {
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
             string email = tokenObj.GetNameClaims(Authorization);
             int movie = userCred.MovieId;
 
             DbMethods.InitializeDB();
-            if (!(await WatchList.removeFromWLAsync(email,movie)))
-                return NotFound(JsonConvert.SerializeObject("Invalid User and movie", Formatting.Indented));
-
-            return Ok("200: description: Successfully removed movie from user Watchlist");
+            if (!(await WatchList.removeFromWLAsync(email, movie)))
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Something went wrong");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+            dictionary.Add("Message:","OK");
+            dictionary.Add("Description:", "Successfully removed movie from user Watchlist");
+            return Ok(JsonConvert.SerializeObject(dictionary));
         }
 
     }

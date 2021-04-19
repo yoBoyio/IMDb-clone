@@ -34,7 +34,7 @@ namespace moviesProject.Classes
             List<Rating> userRating = new List<Rating>();
             Dictionary<string, List<Rating>> dictionary = new Dictionary<string, List<Rating>>();
             String query;
-            Rating rating;
+            Rating rating = new Rating(); ;
             try
             {
                 
@@ -45,15 +45,18 @@ namespace moviesProject.Classes
                     using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                         using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                         {
-                            reader.Read();
-                            int rid = (int)reader["ratingId"];
-                            int movieId = (int)reader["movieId"];
-                            String uEmail = reader["userEmail"].ToString();
-                            String commentContent = reader["commentContent"].ToString();
-                            bool like = (bool)reader["like"];
-                            rating = new Rating(rid, movieId, uEmail, commentContent, like);
-                            userRating.Add(rating);
 
+                            reader.Read();
+                            if (reader.HasRows)
+                            {
+                                int rid = (int)reader["ratingId"];
+                                int movieId = (int)reader["movieId"];
+                                String uEmail = reader["userEmail"].ToString();
+                                String commentContent = reader["commentContent"].ToString();
+                                bool like = (bool)reader["like"];
+                                rating = new Rating(rid, movieId, uEmail, commentContent, like);
+                                userRating.Add(rating);
+                            }
 
                         }
                     dictionary.Add("UserRating", userRating);
@@ -63,10 +66,11 @@ namespace moviesProject.Classes
                 using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                 {
 
-                    
 
-                    while (reader.Read())
+                    if (reader.HasRows)
                     {
+                        while (reader.Read())
+                        {
                             int rid = (int)reader["ratingId"];
                             int movieId = (int)reader["movieId"];
                             String uEmail = reader["userEmail"].ToString();
@@ -74,8 +78,8 @@ namespace moviesProject.Classes
                             bool like = (bool)reader["like"];
                             rating = new Rating(rid, movieId, uEmail, commentContent, like);
                             Rlist.Add(rating);
+                        }
                     }
-                    
                 }
                 dictionary.Add("Ratings", Rlist);
             }
@@ -92,24 +96,28 @@ namespace moviesProject.Classes
         }
         public static async Task<Rating> getMovieSingleRatingAsync(int MovieId, string userEmail)
         {
-            Rating rating;
+            await DbConn.OpenAsync();
+            Rating rating= new Rating();
             String query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
             using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
             using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
             {
-                reader.Read();
-                int rid = (int)reader["ratingId"];
-                int movieId = (int)reader["movieId"];
-                String uEmail = reader["userEmail"].ToString();
-                String commentContent = reader["commentContent"].ToString();
-                bool like = (bool)reader["like"];
-                rating = new Rating(rid, movieId, uEmail, commentContent, like);
+                
+                    reader.Read();
+                if (reader.HasRows)
+                {
+                    int rid = (int)reader["ratingId"];
+                    int movieId = (int)reader["movieId"];
+                    String uEmail = reader["userEmail"].ToString();
+                    String commentContent = reader["commentContent"].ToString();
+                    bool like = (bool)reader["like"];
+                    rating = new Rating(rid, movieId, uEmail, commentContent, like);
+                }
             }
-
+            DbConn.CloseAsync();
             return rating;
-
         }
-            public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int like)
+        public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int like)
         {
             bool flag = true;
             try
