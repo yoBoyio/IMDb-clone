@@ -155,8 +155,8 @@ namespace moviesProject.Classes
         }
         public static async Task<Dictionary<string, decimal>> getMovieAverageAsync(int MovieId)
         {
-            decimal like=1,dislike=1,percentage;
-            
+            decimal like = 0, dislike = 0, percentage = 0;
+
             Dictionary<string, decimal> dictionary = new Dictionary<string, decimal>();
             try
             {
@@ -170,16 +170,19 @@ namespace moviesProject.Classes
                     dislike = (decimal)reader["Falsecount"];
                 }
             }
-            catch (MySqlException e)
+            catch (Exception e1)
             {
                 percentage = -1;
             }
-            catch (Exception e1) { }
             await DbConn.CloseAsync();
-            percentage = (like / (like + dislike)) * 100;
+
+            if (like > 0 || dislike > 0)
+                percentage = (like / (like + dislike)) * 100;
+
             dictionary.Add("likes", like);
             dictionary.Add("dislikes", dislike);
             dictionary.Add("percentage", percentage);
+
             return dictionary;
         }
 

@@ -59,7 +59,16 @@ namespace moviesProject.Controllers
         public async Task<IActionResult> GetMovieAverageAsync(int movieId)
         {
             DbMethods.InitializeDB();
-            string json = JsonConvert.SerializeObject(await Rating.getMovieAverageAsync(movieId));
+            Dictionary<string, decimal> retDict = await Rating.getMovieAverageAsync(movieId);
+            if (retDict["percentage"] == -1)
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "Ratings not found");
+                return NotFound(dictionary);
+            }
+
+            string json = JsonConvert.SerializeObject(retDict, Formatting.Indented);
 
             return Ok(json);
         }
