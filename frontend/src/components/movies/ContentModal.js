@@ -13,7 +13,7 @@ import "../styles/ContentModal.css";
 import { StyledButton } from '../../util/MyTextfield'
 import Like from '../likeDislike/Like';
 import DisLike from '../likeDislike/Dislike';
-import ManageList from '../watchlist/AddToWatchlist'
+import WatchlistBtn from '../watchlist/AddToWatchlist'
 import CommentModal from '../likeDislike/CommentModal'
 import { connect } from 'react-redux';
 import AuthModal from '../auth/isAuth'
@@ -155,7 +155,7 @@ function ContentModal({ children, id, auth }) {
                                         ) : (
                                             <AuthModal > <Like movieId={id} auth={false} />   </AuthModal>
                                         )}
-                                        <ManageList />
+                                        <WatchlistBtn movieId={id} />
 
 
                                     </div>

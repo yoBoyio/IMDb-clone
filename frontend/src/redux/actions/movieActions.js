@@ -6,11 +6,7 @@ import { returnErrors } from './errorActions';
 
 export const getMovies = (url) => (dispatch) => {
   dispatch(setMoviesLoading());
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
+
   axios
     .get(`api/movieshowcase/${url}/page=1`, {
       headers: {
@@ -32,17 +28,9 @@ export const getMovies = (url) => (dispatch) => {
 
 export const searchMovies = (url) => (dispatch) => {
   dispatch(setSearchMoviesLoading());
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
+
   axios
-    .get(`api/movieshowcase/Search/${url}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    .get(`api/movieshowcase/Search/${url}`, config)
     .then(res =>
       dispatch({
         type: SEARCH_MOVIES,
@@ -59,7 +47,7 @@ export const getWatchlist = () => (
   getState
 ) => {
   axios
-    .get('/api/watchlist/Get', tokenConfig(getState))
+    .get('/api/users/watchlist/Get', tokenConfig(getState))
     .then(res =>
       dispatch({
         type: GET_WATCHLIST,
@@ -71,12 +59,14 @@ export const getWatchlist = () => (
     );
 };
 
-export const addWatchlist = (usercred) => (
+export const addWatchlist = (movieId) => (
   dispatch,
   getState
 ) => {
+  const body = JSON.stringify({ movieId: movieId });
+
   axios
-    .post('/api/watchlist/Add', usercred, tokenConfig(getState))
+    .post('/api/users/watchlist/Insert', body, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: ADD_WATCHLIST,
@@ -88,16 +78,16 @@ export const addWatchlist = (usercred) => (
     );
 };
 
-export const deleteWatchlist = (usercred) => (
+export const deleteWatchlist = (id) => (
   dispatch,
   getState
 ) => {
   axios
-    .post(`/apiwatchlist/Remove`, tokenConfig(getState))
+    .post(`/api/watchlist/Remove`, tokenConfig(getState))
     .then(res =>
       dispatch({
         type: DELETE_WATCHLIST,
-        payload: usercred
+        payload: id
       })
     )
     .catch(err =>
@@ -141,7 +131,11 @@ export const setLoading = () => {
     type: LOADING
   };
 };
-
+export const config = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
 export const setSearchMoviesLoading = () => {
   return {
     type: SEARCH_MOVIES_LOADING
