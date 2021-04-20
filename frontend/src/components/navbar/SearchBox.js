@@ -102,7 +102,7 @@ class SearchBox extends Component {
   render() {
     const { classes } = this.props;
     const { submit } = this.state;
-    const test = submit ? <Redirect to="/search" /> : null;
+    const changeScene = submit ? <Redirect to="/search" /> : null;
     return (
       <div className={classes.search}>
         <div className={classes.searchIcon}>
@@ -125,7 +125,7 @@ class SearchBox extends Component {
         <IconButton onClick={this.toggleListen}>
           <MicIcon />
         </IconButton>
-        {test}
+        {changeScene}
       </div>
     );
   }
