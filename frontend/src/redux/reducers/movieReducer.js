@@ -1,7 +1,5 @@
 import {
   GET_MOVIES,
-  ADD_MOVIE,
-  DELETE_MOVIE,
   MOVIES_LOADING,
   FETCH_MOVIE,
   LOADING,
@@ -50,7 +48,7 @@ export default function (state = initialState, action) {
     case ADD_WATCHLIST:
       return {
         ...state,
-        watchlist: [action.payload, ...state.movies]
+        watchlist: [action.payload, ...state.watchlist]
       };
     case MOVIES_LOADING:
       return {

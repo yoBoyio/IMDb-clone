@@ -14,16 +14,16 @@ export function Like({ auth, like_dislike, movieId }) {
     const [LikeAction, setLikeAction] = useState(null)
     const [DislikeAction, setDislikeAction] = useState(null)
 
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        },
+        params: { 'movieId': movieId }
+    };
     const tokenConfig = () => {
         // Get token from localstorage
         const token = 'bearer ' + auth.token;
         // Headers
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            params: { 'movieId': movieId }
-        };
 
         // If token, add to headers
         if (token) {
@@ -35,37 +35,38 @@ export function Like({ auth, like_dislike, movieId }) {
 
     useEffect(() => {
         const body = JSON.stringify({ movieId: movieId });
-        const params = { params: { 'movieId': movieId }, }
-        Axios.get('/api/rating/get', tokenConfig())
+
+        //How many likes does this movie have 
+
+        Axios.get('/api/rating/get/stats', config)
             .then(response => {
-                console.log('getLikes', response.data)
-
                 if (response.status === 200) {
-                    //How many likes does this video or comment have 
-
-                    //if I already click this like button or not
-                    let sumLikes = 0;
-                    let sumDislikes = 0;
-
-                    response.data.map(like => {
-                        if (like.like === true) {
-                            sumLikes++;
-                            if (like.userEmail === auth.user.uEmail) {
-                                setLikeAction('liked')
-                            }
-                        } else {
-                            sumDislikes++;
-                            if (like.userEmail === auth.user.uEmail) {
-                                setDislikeAction('disliked')
-                            }
-                        }
-                    })
+                    let sumLikes = response.data.likes;
+                    let sumDislikes = response.data.dislikes;
                     setLikes(sumLikes)
                     setDislikes(sumDislikes)
                 } else {
                     alert('Failed to get likes and dislikes')
                 }
             })
+
+        // if movie liked by current user and user is logged
+        if (auth.isAuthenticated) {
+            Axios.get('/api/rating/get/userRating', tokenConfig())
+                .then(response => {
+                    if (response.status === 200) {
+                        if (response.data.like) {
+                            setLikeAction('liked')
+                        }
+                        if (!response.data.like) {
+                            setDislikeAction('disliked')
+                        }
+                    } else {
+                        alert('Failed to get likes and dislikes')
+                    }
+                })
+        }
+
     }, [])
 
     const onLike = () => {
