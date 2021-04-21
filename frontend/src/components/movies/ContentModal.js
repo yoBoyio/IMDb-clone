@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import  { Link }  from "react-router-dom";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -178,6 +179,7 @@ function ContentModal({ children, id, auth }) {
                                     <div className='btn'>
 
                                         <StyledButton
+                                            component={Link} to={`/movie/${id}`}
                                             fullWidth
                                             variant="contained"
                                             color="primary"
