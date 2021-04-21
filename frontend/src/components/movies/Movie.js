@@ -1,106 +1,160 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
-import Spinner from '../layout/Spinner';
+import { connect } from 'react-redux';
+import Spinner from '../../layout/Spinner';
 
 //material UI
-import { withStyles } from '@material-ui/core/'
+import { Grid, withStyles } from '@material-ui/core/'
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
+import Chip from '@material-ui/core/Chip';
+import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = theme => ({
-  card: {
-    marginBottom: 20,
-    width: 200,
-    margin: '1rem 5px 1rem 5px',
-    boxShadow: '3px 3px 5px rgba(0,0,0,0.1)',
-    overflow: 'hiden',
-    background: '#2B2929',
-    display: 'flex'
+function time_convert(num)
+ { 
+  var hours = Math.floor(num / 60);  
+  var minutes = num % 60;
+  return hours +"h " + minutes +"m";         
+}
+const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
+
+const useStyles = theme =>({
+  imageContainer: {
+    display: 'flex',
+    marginLeft:100,
+    marginRight:100,
+    // marginTop:-100,
+    border: "none", 
+    boxShadow: "none",
+    alignItems: 'center',
+    justifyContent: 'left',
+    width: 700
   },
-  Media: {
-    height: "550px"
+  videoContainer: {
+    display: 'flex',
+    border: "none", 
+    boxShadow: "none",
+    alignItems: 'center',
+    justifyContent: 'center',
+    justify: "center",
+    marginLeft:150,
+    width: 1200
   },
-  image: {
-    height: 550,
-    width: '100%'
+  descriptionContainer: {
+    display: 'inline-block',
+    marginLeft:100,
+    marginRight:100,
+    border: "none", 
+    boxShadow: "none", 
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  bold: {
+    fontWeight:'Bold',
+    fontSize: "28px"
+  },
+  cover: {
+    width: 250,
+    height: 300,
+    borderRadius: '5%'
+  },
+  subs: {
+    fontSize: "18px",
+  },
+  description: {
+    fontWeight:'Bold',
+    fontSize: "32px",
+    marginTop: "10px"
+  },
+  overview: {
+    fontSize: "18px",
+    marginTop: "10px"
+  },
+  details: {
+    display: 'flex',
+    marginLeft:250,
+
   },
   content: {
-    padding: 5,
-    objectFit: 'cover'
+    flex: '1 0 auto',
+    marginTop: "20px",
+    marginLeft: "10px"
   },
-  movieinfo: {
-    display: 'flex',
-    padding: '5',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    fontSize: '15px',
-    color: "#fff"
+  chipCover: {
+    background: 'linear-gradient(45deg, #E80133 40%, #fe7037 90%)',
+    border: "none",
+    color: 'white',
+    margin: "10px 10px 0 0",
+    fontSize: "18px"
   },
-  rating: {
-    position: 'relative',
-    justifyContent: 'space-between',
-    bottom: '1px'
+  barCover:{
+    height: 10,
+    borderRadius: 5,
+    width:120
   }
 });
 
-const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 export class Movie extends Component {
-
-  componentDidMount() {
-    this.props.fetchMovie(this.props.match.params.id);
-    this.props.setLoading();
-  }
-
+  // componentDidMount() {
+  //   this.props.fetchTrailer(this.props.match.params.id);
+  //   this.props.setLoading();
+  // }
   render() {
     const { loading, movie } = this.props;
+    const {classes} = this.props;
 
-    //material UI
-    const { classes } = this.props;
 
     let movieInfo = (
 
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.Media}
-            component="img"
-            height="200"
-            image={getImage(movie.poster_path)}
-            title="Contemplative Reptile"
-          />
-        </CardActionArea>
-        <CardActionArea>
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Lizard
-          </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica
-          </Typography>
-          </CardContent>
 
-          <CardActions>
-            <Button size="small" color="primary">
-              Share
-          </Button>
-            <Button size="small" color="primary">
-              Learn More
-          </Button>
-          </CardActions>
-        </CardActionArea>
-      </Card>
+
+    <div>   
+      {/* <div className={classes.videoContainer}><Trailer /></div> */}
+      <Card className={classes.imageContainer}>
+        <CardMedia
+        className={classes.cover}
+        image={getImage(movie.poster_path)}
+        title="Cover" >
+          <div className={classes.details}>
+        <CardContent className={classes.content}>
+          <Typography className={classes.bold} variant='h1' paragraph gutterBottom>
+           {movie.title}
+          </Typography>
+          <Typography className={classes.subs} variant="subtitle1" color="textSecondary">
+             {movie.release_date}          
+          </Typography>
+          <Typography className={classes.subs} variant="subtitle1" color="textSecondary">
+             {movie.original_language} | {time_convert(movie.runtime)}        
+          </Typography >
+          <Chip className={classes.chipCover}  label={movie.vote_count}/>
+          <Chip className={classes.chipCover}  label={movie.vote_average}/> 
+        </CardContent>
+      </div> 
+     </CardMedia>
+    </Card>
+    
+    <Card className={classes.descriptionContainer}>
+      <div >
+        <CardContent className={classes.content}>
+          <Typography className={classes.description} gutterBottom>
+            Description
+          </Typography>
+          <LinearProgress className={classes.barCover} variant="determinate" color="Secondary"  />
+          <Typography className={classes.overview} variant="subtitle1" color="textSecondary" gutterBottom>
+             {movie.overview}
+          </Typography>
+        </CardContent>
+      </div> 
+    </Card>
+  </div>
     );
 
     let content = loading ? <Spinner /> : movieInfo;
-    return <div>{content}</div>;
+    return <div >{content}</div>
+    
   }
 }
 

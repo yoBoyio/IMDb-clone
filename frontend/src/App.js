@@ -15,6 +15,7 @@ import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import AuthRoute from "./util/AuthRoute";
 import Movie from "./components/movies/Movie";
+import MoviePage from "./pages/MoviePage";
 
 const App = () => {
   useEffect(() => {
@@ -30,7 +31,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/search" component={SearchPage} />
-            <Route exact path="/movie/:id" component={Movie} />
+            <Route exact path="/movie/:id" component={MoviePage} />
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
           </Switch>

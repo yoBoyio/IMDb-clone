@@ -3,6 +3,8 @@ import {
   MOVIES_LOADING,
   FETCH_MOVIE,
   LOADING,
+  FETCH_CREDITS,
+  FETCH_TRAILER,
   SEARCH_MOVIES,
   SEARCH_MOVIES_LOADING,
   GENRES_MAP,
@@ -17,6 +19,8 @@ const initialState = {
   searchLoading: false,
   text: '',
   movie: [],
+  credits: [],
+  trailer: [],
   searchMovies: [],
   genres: [],
   watchlist: [],
@@ -60,17 +64,6 @@ export default function (state = initialState, action) {
         ...state,
         searchLoading: true
       };
-    case FETCH_MOVIE:
-      return {
-        ...state,
-        movie: action.payload,
-        loading: false
-      };
-    case LOADING:
-      return {
-        ...state,
-        loading: true
-      };
     case SEARCH_MOVIES:
       return {
         ...state,
@@ -82,7 +75,31 @@ export default function (state = initialState, action) {
         ...state,
         genres: action.payload,
       };
+      case FETCH_MOVIE:
+      return {
+        ...state,
+        movie: action.payload,
+        loading: false
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+      case FETCH_CREDITS:
+        return {
+          ...state,
+          credits: action.payload,
+          loading: false
+        };
+        case FETCH_TRAILER:
+        return {
+          ...state,
+          trailer: action.payload,
+          loading: false
+        };
     default:
       return state;
   }
+
 }
