@@ -18,24 +18,30 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 const useStyles = theme =>({
 
   container: {
+    background: '#141414',
+    color:'#fff',
     display: 'flex',
     margin: '0 100px 0px 100px',
     border: "none", 
     boxShadow: "none"
   },
   item: {
+    background: '#141414',
+    color:'#fff',
     textAlign : "center",
     border: "none", 
     boxShadow: "none",
-    height:400,
+    height:340,
     width:200
   },
   castCharacter: {
+    background: '#141414',
+    color:'#fff',
     fontSize: "18px"
   },   
-  image: {
+  image: { 
     borderRadius: '10%',
-    border: '3px solid #fff',
+    border: '3px solid #141414',
     height: 250
   },
   cast: {
@@ -59,14 +65,10 @@ const useStyles = theme =>({
   barCover:{
     height: 10,
     borderRadius: 5,
-    width:120
-  },
-  barCover:{
-    height: 10,
-    borderRadius: 5,
     width:50,
     marginLeft:125,
-    marginBottom: "20px"
+    marginBottom: "20px",
+    background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)'
   },
   videoContainer: {
     display: 'flex',
@@ -114,8 +116,8 @@ export class Credits extends Component {
 
            </CardMedia>
            <CardContent >
-           <Typography className={classes.castCharacter} color="textSecondary" gutterBottom>{castMember.name}</Typography>
-           <Typography color="textSecondary" gutterBottom>{castMember.character}</Typography>
+           <Typography className={classes.castCharacter}  gutterBottom>{castMember.name}</Typography>
+           <Typography className={classes.castCharacter} gutterBottom>{castMember.character}</Typography>
           </CardContent>
           </CardActionArea>
       ) : (
@@ -129,8 +131,8 @@ export class Credits extends Component {
           alt="">  
              
            </CardMedia>
-           <Typography className={classes.castCharacter} color="textSecondary" gutterBottom>{castMember.name}</Typography>
-           <Typography color="textSecondary" gutterBottom>{castMember.character}</Typography>
+           <Typography className={classes.castCharacter} gutterBottom>{castMember.name}</Typography>
+           <Typography gutterBottom>{castMember.character}</Typography>
            </Card>
       )}
      </Card>
@@ -140,7 +142,9 @@ export class Credits extends Component {
   let contents = loading ? <Spinner /> : castList;
   return  <div>
   <Typography className={classes.cast}>Cast</Typography>
-  <LinearProgress className={classes.barCover} variant="determinate" color="Secondary"  />
+  <LinearProgress className={classes.barCover} variant="determinate" classes={{
+        barColorPrimary: classes.barCover // class name, e.g. `classes-nesting-root-x`
+      }} />
   <div className={classes.container} > {contents}</div>
   
   </div> ; }; } 

@@ -15,7 +15,7 @@ const useStyles = theme =>({
   trailer: {
     fontWeight:'Bold',
     fontSize: "32px",
-    marginTop: "10px",
+    marginTop: "30px",
     marginBottom: "10px",
     textAlign : "left",
     marginLeft:125
@@ -25,7 +25,8 @@ const useStyles = theme =>({
     borderRadius: 5,
     width:50,
     marginLeft:125,
-    marginBottom: "20px"
+    marginBottom: "20px",
+    background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)'
   },
   videoContainer: {
     display: 'flex',
@@ -57,7 +58,9 @@ class MoviePage extends Component {
                return <div>{content}
                            <Credits id={id}/>
                            <Typography className={classes.trailer}>Trailer</Typography>
-                           <LinearProgress className={classes.barCover} variant="determinate" color="Secondary"  />
+                           <LinearProgress className={classes.barCover} variant="determinate" classes={{
+                            barColorPrimary: classes.barCover 
+                            }} /> 
                            <div className={classes.videoContainer}>
                            <Trailer /></div>  
                       </div>;

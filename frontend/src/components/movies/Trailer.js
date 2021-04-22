@@ -20,7 +20,7 @@ export class Trailer extends Component {
       <div>
            <ReactPlayer
             url={"https://www.youtube.com/watch?v=" + video.key}
-            width="1400px"
+            width="1200px"
             height="500px"
             controls={true}
           ></ReactPlayer>

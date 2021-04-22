@@ -22,6 +22,8 @@ const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
 const useStyles = theme =>({
   imageContainer: {
+    background: '#141414',
+    color:'#fff',
     display: 'flex',
     marginLeft:100,
     marginRight:100,
@@ -43,6 +45,8 @@ const useStyles = theme =>({
     width: 1200
   },
   descriptionContainer: {
+    background: '#141414',
+    color:'#fff',
     display: 'inline-block',
     marginLeft:100,
     marginRight:100,
@@ -53,7 +57,7 @@ const useStyles = theme =>({
   },
   bold: {
     fontWeight:'Bold',
-    fontSize: "28px"
+    fontSize: "32px"
   },
   cover: {
     width: 250,
@@ -92,7 +96,9 @@ const useStyles = theme =>({
   barCover:{
     height: 10,
     borderRadius: 5,
-    width:120
+    width:120,
+    background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
+    // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   }
 });
 
@@ -123,10 +129,10 @@ export class Movie extends Component {
           <Typography className={classes.bold} variant='h1' paragraph gutterBottom>
            {movie.title}
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" color="textSecondary">
+          <Typography className={classes.subs} variant="subtitle1" >
              {movie.release_date}          
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" color="textSecondary">
+          <Typography className={classes.subs} variant="subtitle1" >
              {movie.original_language} | {time_convert(movie.runtime)}        
           </Typography >
           <Chip className={classes.chipCover}  label={movie.vote_count}/>
@@ -142,8 +148,10 @@ export class Movie extends Component {
           <Typography className={classes.description} gutterBottom>
             Description
           </Typography>
-          <LinearProgress className={classes.barCover} variant="determinate" color="Secondary"  />
-          <Typography className={classes.overview} variant="subtitle1" color="textSecondary" gutterBottom>
+          <LinearProgress className={classes.barCover} variant="determinate" classes={{
+                      barColorPrimary: classes.barCover 
+                      }} />
+          <Typography className={classes.overview} variant="subtitle1"  gutterBottom>
              {movie.overview}
           </Typography>
         </CardContent>
