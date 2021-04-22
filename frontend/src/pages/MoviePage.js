@@ -36,6 +36,7 @@ const useStyles = theme =>({
     justifyContent: 'center',
     justify: "center",
     marginLeft:160,
+    marginBottom:30,
     width: 1200
   }
 });

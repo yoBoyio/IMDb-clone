@@ -11,6 +11,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Chip from '@material-ui/core/Chip';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 function time_convert(num)
  { 
@@ -32,7 +33,7 @@ const useStyles = theme =>({
     boxShadow: "none",
     alignItems: 'center',
     justifyContent: 'left',
-    width: 700
+    width: 800
   },
   videoContainer: {
     display: 'flex',
@@ -50,14 +51,14 @@ const useStyles = theme =>({
     display: 'inline-block',
     marginLeft:100,
     marginRight:100,
-    border: "none", 
-    boxShadow: "none", 
+    // border: "none", 
+    // boxShadow: "none", 
     alignItems: 'center',
     justifyContent: 'center'
   },
   bold: {
     fontWeight:'Bold',
-    fontSize: "32px"
+    fontSize: "38px"
   },
   cover: {
     width: 250,
@@ -73,7 +74,7 @@ const useStyles = theme =>({
     marginTop: "10px"
   },
   overview: {
-    fontSize: "18px",
+    fontSize: "22px",
     marginTop: "10px"
   },
   details: {
@@ -99,6 +100,10 @@ const useStyles = theme =>({
     width:120,
     background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
     // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
+  },
+  heart:{
+    display:'flex',
+    marginRight:4
   }
 });
 
@@ -129,14 +134,18 @@ export class Movie extends Component {
           <Typography className={classes.bold} variant='h1' paragraph gutterBottom>
            {movie.title}
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" >
+          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
              {movie.release_date}          
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" >
+          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
              {movie.original_language} | {time_convert(movie.runtime)}        
           </Typography >
-          <Chip className={classes.chipCover}  label={movie.vote_count}/>
-          <Chip className={classes.chipCover}  label={movie.vote_average}/> 
+          <div className={classes.heart}>
+          <FavoriteIcon className={classes.heart} fontSize="medium" color="secondary" />
+          <Typography className={classes.subs}> {movie.vote_average *10 +'%'} </Typography>
+          </div>
+          {/* <Chip className={classes.chipCover}  label={movie.vote_count}/>
+          <Chip className={classes.chipCover}  label={movie.vote_average}/>  */}
         </CardContent>
       </div> 
      </CardMedia>
