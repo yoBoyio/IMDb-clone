@@ -136,5 +136,25 @@ namespace moviesProject.Classes
 
             return mlist;
         }
+
+        async public static Task<List<MovieFirebase>> SearchLangMovie(string lang, int page)
+        {
+            Firebase fb = new Firebase();
+            FirestoreDb db = fb.db;
+
+            Query docQ = db.Collection("movies").WhereEqualTo("original_language", lang).OrderByDescending("popularity").Limit(20).Offset(page * 20);
+            QuerySnapshot snap = await docQ.GetSnapshotAsync();
+            MovieFirebase movie = new MovieFirebase();
+
+            List<MovieFirebase> mlist = new List<MovieFirebase>();
+
+            foreach (DocumentSnapshot docsnap in snap)
+            {
+                movie = docsnap.ConvertTo<MovieFirebase>();
+                mlist.Add(movie);
+            }
+
+            return mlist;
+        }
     }
 }

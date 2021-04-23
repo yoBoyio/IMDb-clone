@@ -69,5 +69,15 @@ namespace moviesProject.Controllers
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
+
+        [HttpGet("Search/lang")]
+        public async Task<IActionResult> SearchlangMovieAsync(string lang, int page)
+        {
+
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.SearchLangMovie(lang, page);
+            string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
+            return Ok(json);
+        }
     }
 }

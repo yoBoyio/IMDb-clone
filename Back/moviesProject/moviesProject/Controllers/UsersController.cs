@@ -138,11 +138,11 @@ namespace moviesProject.Controllers
             string email = tokenObj.GetNameClaims(Authorization);
             int movie = userCred.MovieId;
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-
+            
 
             if (email == "" || movie == 0)
             {
-                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "Please enter all fields");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
@@ -150,20 +150,28 @@ namespace moviesProject.Controllers
 
             if (await WatchList.IsInList(email, movie) == true)
             {
-                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "Please enter all fields");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
-
+            
 
             if (user.getUser(email) == null)
             {
-                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "User not found");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
+            MovieFirebase retMov = await MovieMethods.GetMovie(movie);
+
+            if (retMov.id == 0)
+            {
+                dictionary.Add("Message:", " Not Found");
+                dictionary.Add("Description:", "Movie Not Found");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
 
             if (!(await WatchList.insertInWLAsync(email, movie)))
             {
@@ -171,7 +179,7 @@ namespace moviesProject.Controllers
                 dictionary.Add("Description:", "Something went wrong");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
-            MovieFirebase retMov = await MovieMethods.GetMovie(movie);
+            
             return Ok(JsonConvert.SerializeObject(retMov, Formatting.Indented));
         }
 
@@ -183,6 +191,14 @@ namespace moviesProject.Controllers
             int movie = userCred.MovieId;
 
             DbMethods.InitializeDB();
+
+            if (await WatchList.IsInList(email, movie) == false)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Not Found In List");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             if (!(await WatchList.removeFromWLAsync(email, movie)))
             {
                 dictionary.Add("Message:", "Not Found");
