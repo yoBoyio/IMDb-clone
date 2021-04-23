@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from "react";
 import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
+import useGenre from '../../util/useGenre';
+import Genres from '../genres/genres'
 
 //material UI
-import { Grid, withStyles } from '@material-ui/core/'
+import { makeStyles, withStyles } from '@material-ui/core/'
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Chip from '@material-ui/core/Chip';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 function time_convert(num)
  { 
@@ -20,7 +22,7 @@ function time_convert(num)
 }
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-const useStyles = theme =>({
+const useStyles = makeStyles((theme) =>({
   imageContainer: {
     background: '#141414',
     color:'#fff',
@@ -32,7 +34,7 @@ const useStyles = theme =>({
     boxShadow: "none",
     alignItems: 'center',
     justifyContent: 'left',
-    width: 700
+    width: 800
   },
   videoContainer: {
     display: 'flex',
@@ -50,14 +52,14 @@ const useStyles = theme =>({
     display: 'inline-block',
     marginLeft:100,
     marginRight:100,
-    border: "none", 
-    boxShadow: "none", 
+    // border: "none", 
+    // boxShadow: "none", 
     alignItems: 'center',
     justifyContent: 'center'
   },
   bold: {
     fontWeight:'Bold',
-    fontSize: "32px"
+    fontSize: "38px"
   },
   cover: {
     width: 250,
@@ -73,7 +75,7 @@ const useStyles = theme =>({
     marginTop: "10px"
   },
   overview: {
-    fontSize: "18px",
+    fontSize: "22px",
     marginTop: "10px"
   },
   details: {
@@ -86,39 +88,34 @@ const useStyles = theme =>({
     marginTop: "20px",
     marginLeft: "10px"
   },
-  chipCover: {
-    background: 'linear-gradient(45deg, #E80133 40%, #fe7037 90%)',
-    border: "none",
-    color: 'white',
-    margin: "10px 10px 0 0",
-    fontSize: "18px"
-  },
   barCover:{
     height: 10,
     borderRadius: 5,
     width:120,
     background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
     // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
+  },
+  heart:{
+    display:'flex',
+    marginRight:4
   }
-});
+}));
 
 
-export class Movie extends Component {
-  // componentDidMount() {
-  //   this.props.fetchTrailer(this.props.match.params.id);
-  //   this.props.setLoading();
-  // }
-  render() {
-    const { loading, movie } = this.props;
-    const {classes} = this.props;
+function Movie({movie,loading}) {
+  const classes = useStyles();
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [genres, setGenres] = useState([]);
+    // const genreforURL = useGenre(selectedGenres);
+                    
+  console.log(movie.genres);                
 
-
+  
     let movieInfo = (
 
 
 
     <div>   
-      {/* <div className={classes.videoContainer}><Trailer /></div> */}
       <Card className={classes.imageContainer}>
         <CardMedia
         className={classes.cover}
@@ -129,14 +126,24 @@ export class Movie extends Component {
           <Typography className={classes.bold} variant='h1' paragraph gutterBottom>
            {movie.title}
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" >
+          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
              {movie.release_date}          
           </Typography>
-          <Typography className={classes.subs} variant="subtitle1" >
+          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
              {movie.original_language} | {time_convert(movie.runtime)}        
           </Typography >
-          <Chip className={classes.chipCover}  label={movie.vote_count}/>
-          <Chip className={classes.chipCover}  label={movie.vote_average}/> 
+          <div className={classes.heart}>
+          <FavoriteIcon className={classes.heart} fontSize="medium" color="secondary" />
+          <Typography className={classes.subs}> {movie.vote_average *10 +'%'} </Typography>
+          </div>
+                                       {/* <Genres
+                                        movieIds={movie.genres}
+                                        selectedGenres={selectedGenres}
+                                        setSelectedGenres={setSelectedGenres}
+                                        genres={genres}
+                                        setGenres={setGenres}
+                                       /> */}
+          
         </CardContent>
       </div> 
      </CardMedia>
@@ -164,7 +171,6 @@ export class Movie extends Component {
     return <div >{content}</div>
     
   }
-}
 
 const mapStateToProps = state => ({
   loading: state.movie.loading,
