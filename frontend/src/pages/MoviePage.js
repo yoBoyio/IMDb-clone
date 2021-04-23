@@ -1,10 +1,11 @@
 import React,{ Component } from 'react'
-import { fetchMovie, fetchCredits, setLoading,fetchTrailer } from '../redux/actions/movieActions';
+import { fetchMovie, fetchCredits, setLoading,fetchTrailer,fetchGenre } from '../redux/actions/movieActions';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import Movie from '../components/movies/Movie';
 import Credits from '../components/movies/Credits';
 import Trailer from '../components/movies/Trailer';
+import Genres from '../components/genres/genres';
 import Card from "@material-ui/core/Card";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
@@ -45,6 +46,7 @@ class MoviePage extends Component {
         this.props.fetchMovie(this.props.match.params.id);
         this.props.fetchCredits(this.props.match.params.id);
         this.props.fetchTrailer(this.props.match.params.id);
+        this.props.fetchGenre(this.props.match.params.id);
         this.props.setLoading();
       }
     render() { 
@@ -63,7 +65,14 @@ class MoviePage extends Component {
                             barColorPrimary: classes.barCover 
                             }} /> 
                            <div className={classes.videoContainer}>
-                           <Trailer /></div>  
+                           <Trailer />
+                           <Genres
+                                        movieIds={movie.genres}
+                                        // selectedGenres={selectedGenres}
+                                        // setSelectedGenres={setSelectedGenres}
+                                        // genres={genres}
+                                        // setGenres={setGenres}
+                                       /></div>  
                       </div>;
                         }
               }
@@ -72,8 +81,9 @@ const mapStateToProps = state => ({
     loading: state.movie.loading,
     movie: state.movie.movie,
     credits: state.movie.credits,
-    trailer:state.movie.trailer
+    trailer:state.movie.trailer,
+    genres:state.movie.genres
   });
  
 export default connect( mapStateToProps,
-    {fetchMovie,fetchCredits,setLoading,fetchTrailer})(withStyles(useStyles) (MoviePage));
+    {fetchMovie,fetchCredits,setLoading,fetchTrailer,fetchGenre})(withStyles(useStyles) (MoviePage));

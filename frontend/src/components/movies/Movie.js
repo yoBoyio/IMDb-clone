@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from "react";
 import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
+import useGenre from '../../util/useGenre';
+import Genres from '../genres/genres'
 
 //material UI
-import { Grid, withStyles } from '@material-ui/core/'
+import { makeStyles, withStyles } from '@material-ui/core/'
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Chip from '@material-ui/core/Chip';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -21,7 +22,7 @@ function time_convert(num)
 }
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-const useStyles = theme =>({
+const useStyles = makeStyles((theme) =>({
   imageContainer: {
     background: '#141414',
     color:'#fff',
@@ -87,13 +88,6 @@ const useStyles = theme =>({
     marginTop: "20px",
     marginLeft: "10px"
   },
-  chipCover: {
-    background: 'linear-gradient(45deg, #E80133 40%, #fe7037 90%)',
-    border: "none",
-    color: 'white',
-    margin: "10px 10px 0 0",
-    fontSize: "18px"
-  },
   barCover:{
     height: 10,
     borderRadius: 5,
@@ -105,25 +99,23 @@ const useStyles = theme =>({
     display:'flex',
     marginRight:4
   }
-});
+}));
 
 
-export class Movie extends Component {
-  // componentDidMount() {
-  //   this.props.fetchTrailer(this.props.match.params.id);
-  //   this.props.setLoading();
-  // }
-  render() {
-    const { loading, movie } = this.props;
-    const {classes} = this.props;
+function Movie({movie,loading}) {
+  const classes = useStyles();
+    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [genres, setGenres] = useState([]);
+    // const genreforURL = useGenre(selectedGenres);
+                    
+  console.log(movie.genres);                
 
-
+  
     let movieInfo = (
 
 
 
     <div>   
-      {/* <div className={classes.videoContainer}><Trailer /></div> */}
       <Card className={classes.imageContainer}>
         <CardMedia
         className={classes.cover}
@@ -144,8 +136,14 @@ export class Movie extends Component {
           <FavoriteIcon className={classes.heart} fontSize="medium" color="secondary" />
           <Typography className={classes.subs}> {movie.vote_average *10 +'%'} </Typography>
           </div>
-          {/* <Chip className={classes.chipCover}  label={movie.vote_count}/>
-          <Chip className={classes.chipCover}  label={movie.vote_average}/>  */}
+                                       {/* <Genres
+                                        movieIds={movie.genres}
+                                        selectedGenres={selectedGenres}
+                                        setSelectedGenres={setSelectedGenres}
+                                        genres={genres}
+                                        setGenres={setGenres}
+                                       /> */}
+          
         </CardContent>
       </div> 
      </CardMedia>
@@ -173,7 +171,6 @@ export class Movie extends Component {
     return <div >{content}</div>
     
   }
-}
 
 const mapStateToProps = state => ({
   loading: state.movie.loading,
