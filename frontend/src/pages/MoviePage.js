@@ -5,7 +5,6 @@ import Spinner from '../layout/Spinner';
 import Movie from '../components/movies/Movie';
 import Credits from '../components/movies/Credits';
 import Trailer from '../components/movies/Trailer';
-import Genres from '../components/genres/genres';
 import Card from "@material-ui/core/Card";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
@@ -65,14 +64,7 @@ class MoviePage extends Component {
                             barColorPrimary: classes.barCover 
                             }} /> 
                            <div className={classes.videoContainer}>
-                           <Trailer />
-                           <Genres
-                                        movieIds={movie.genres}
-                                        // selectedGenres={selectedGenres}
-                                        // setSelectedGenres={setSelectedGenres}
-                                        // genres={genres}
-                                        // setGenres={setGenres}
-                                       /></div>  
+                           <Trailer /></div>  
                       </div>;
                         }
               }

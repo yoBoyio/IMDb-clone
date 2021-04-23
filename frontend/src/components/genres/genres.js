@@ -2,7 +2,6 @@ import { Chip } from "@material-ui/core";
 import axios from "axios";
 import { useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Spinner from '../../layout/Spinner';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,16 +36,16 @@ const Genres = ({
 
     useEffect(() => {
 
-console.log(movieIds);
+
         return () => {
             setGenres({}); // unmounting
         };
         // eslint-disable-next-line
     }, []);
 
-    return ( false ? <Spinner /> : (
+    return (
         <div className={classes.genres_area} style={{ padding: "6px 0" }}>
-            {/* {selectedGenres.map((genre) => (
+            {selectedGenres.map((genre) => (
                 <Chip
                     style={{ margin: 2 }}
                     label={genre.name}
@@ -56,7 +55,7 @@ console.log(movieIds);
                     size="small"
 
                 />
-            ))} */}
+            ))}
             {movieIds.map((genre) => (
                 <Chip
                     className={classes.root}
@@ -69,7 +68,7 @@ console.log(movieIds);
                 />
             ))}
         </div>
-    ));
+    );
 };
 
 export default Genres;
