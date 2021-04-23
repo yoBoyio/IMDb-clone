@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from 'react';
 import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
@@ -6,7 +6,7 @@ import useGenre from '../../util/useGenre';
 import Genres from '../genres/genres'
 
 //material UI
-import { makeStyles, withStyles } from '@material-ui/core/'
+import { withStyles } from '@material-ui/core/'
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -22,7 +22,7 @@ function time_convert(num)
 }
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-const useStyles = makeStyles((theme) =>({
+const useStyles = theme =>({
   imageContainer: {
     background: '#141414',
     color:'#fff',
@@ -99,18 +99,31 @@ const useStyles = makeStyles((theme) =>({
     display:'flex',
     marginRight:4
   }
-}));
+});
 
 
-function Movie({movie,loading}) {
-  const classes = useStyles();
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [genres, setGenres] = useState([]);
-    // const genreforURL = useGenre(selectedGenres);
-                    
-  console.log(movie.genres);                
+export class Movie extends Component {
+  // componentDidMount() {
+  //   this.props.fetchTrailer(this.props.match.params.id);
+  //   this.props.setLoading();
+  // }
+                      //  constructor(props) {
+                      //    super(props);
+                      //    this.state = {
+                           
+                      //      selectedGenres: [],
+                      //      setSelectedGenres: [],
+                      //      genres: [],
+                      //      setGenres: [],
+                      //      movieIds:""
+                      //     }
+                      //  }
 
-  
+  render() {
+    const { loading, movie } = this.props;
+    const {classes} = this.props;
+    // const { selectedGenres, setSelectedGenres, genres, setGenres } = this.state;
+
     let movieInfo = (
 
 
@@ -136,14 +149,15 @@ function Movie({movie,loading}) {
           <FavoriteIcon className={classes.heart} fontSize="medium" color="secondary" />
           <Typography className={classes.subs}> {movie.vote_average *10 +'%'} </Typography>
           </div>
-                                       {/* <Genres
-                                        movieIds={movie.genres}
+                                    {/* <Genres
+                                        movieIds={movie.id}
                                         selectedGenres={selectedGenres}
                                         setSelectedGenres={setSelectedGenres}
                                         genres={genres}
                                         setGenres={setGenres}
-                                       /> */}
-          
+                                    /> */}
+          {/* <Chip className={classes.chipCover}  label={movie.vote_count}/>
+          <Chip className={classes.chipCover}  label={movie.vote_average}/>  */}
         </CardContent>
       </div> 
      </CardMedia>
@@ -171,6 +185,7 @@ function Movie({movie,loading}) {
     return <div >{content}</div>
     
   }
+}
 
 const mapStateToProps = state => ({
   loading: state.movie.loading,
