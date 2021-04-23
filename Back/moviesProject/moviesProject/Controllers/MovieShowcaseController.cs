@@ -61,11 +61,11 @@ namespace moviesProject.Controllers
         }
 
         [HttpGet("Search/genre")]
-        public IActionResult SearchMovieGenre(int genre, int page)
+        public async Task<IActionResult> SearchGerneMovieAsync(int genre, int page)
         {
 
-            List<Movie> movies = new List<Movie>();
-            movies = Movie.searchGenreMovies(genre, page);
+            List<MovieFirebase> movies = new List<MovieFirebase>();
+            movies = await MovieMethods.SearchGerneMovie(genre, page);
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }

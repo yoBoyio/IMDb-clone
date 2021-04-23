@@ -111,6 +111,7 @@ namespace moviesProject.Classes
             {
                 return false;
             }
+            await DbConn.CloseAsync();
             return true;
         }
     }
