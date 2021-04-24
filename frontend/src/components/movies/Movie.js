@@ -4,6 +4,11 @@ import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
 import useGenre from '../../util/useGenre';
 import Genres from '../genres/genres'
+import AuthModal from '../auth/isAuth'
+import WatchlistBtn from '../watchlist/AddToWatchlist'
+import CommentModal from '../likeDislike/CommentModal'
+import Like from '../likeDislike/Like';
+import DisLike from '../likeDislike/Dislike';
 
 //material UI
 import { withStyles } from '@material-ui/core/'
@@ -68,6 +73,7 @@ const useStyles = theme =>({
   },
   subs: {
     fontSize: "18px",
+    marginBottom: "20px"
   },
   description: {
     fontWeight:'Bold',
@@ -103,26 +109,11 @@ const useStyles = theme =>({
 
 
 export class Movie extends Component {
-  // componentDidMount() {
-  //   this.props.fetchTrailer(this.props.match.params.id);
-  //   this.props.setLoading();
-  // }
-                      //  constructor(props) {
-                      //    super(props);
-                      //    this.state = {
-                           
-                      //      selectedGenres: [],
-                      //      setSelectedGenres: [],
-                      //      genres: [],
-                      //      setGenres: [],
-                      //      movieIds:""
-                      //     }
-                      //  }
 
   render() {
-    const { loading, movie } = this.props;
+    const { loading, movie, auth, id } = this.props;
     const {classes} = this.props;
-    // const { selectedGenres, setSelectedGenres, genres, setGenres } = this.state;
+
 
     let movieInfo = (
 
@@ -156,8 +147,17 @@ export class Movie extends Component {
                                         genres={genres}
                                         setGenres={setGenres}
                                     /> */}
-          {/* <Chip className={classes.chipCover}  label={movie.vote_count}/>
-          <Chip className={classes.chipCover}  label={movie.vote_average}/>  */}
+
+                                     <div >
+                                         {auth && auth.isAuthenticated ? (
+                                             <CommentModal movieId={id}>
+                                                 <Like movieId={id} auth={true} />
+                                             </CommentModal >
+                                         ) : (
+                                             <AuthModal > <Like movieId={id} auth={false} />   </AuthModal>
+                                         )}
+                                         <WatchlistBtn movieId={id} />
+                                     </div>                            
         </CardContent>
       </div> 
      </CardMedia>
@@ -182,14 +182,15 @@ export class Movie extends Component {
     );
 
     let content = loading ? <Spinner /> : movieInfo;
-    return <div >{content}</div>
+    return <div> {content} </div>
     
   }
 }
 
 const mapStateToProps = state => ({
   loading: state.movie.loading,
-  movie: state.movie.movie
+  movie: state.movie.movie,
+  auth: state.auth
 });
 
 export default connect(

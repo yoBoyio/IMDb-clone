@@ -74,7 +74,8 @@ const mapStateToProps = state => ({
     movie: state.movie.movie,
     credits: state.movie.credits,
     trailer:state.movie.trailer,
-    genres:state.movie.genres
+    genres:state.movie.genres,
+    auth: state.auth
   });
  
 export default connect( mapStateToProps,
