@@ -4,9 +4,9 @@ import rootReducer from './redux/reducers';
 //redux store props
 
 
-const initialState={};
+const initialState = {};
 
-const middleware= [thunk];
+const middleware = [thunk];
 
 // const reducers = combineReducers({
 //     authReducers: authReducers,
@@ -18,9 +18,9 @@ const middleware= [thunk];
 const store = createStore(
     rootReducer,
     initialState,
-     compose(applyMiddleware(...middleware),
+    compose(applyMiddleware(...middleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
-    );
+);
 
 
 export default store;

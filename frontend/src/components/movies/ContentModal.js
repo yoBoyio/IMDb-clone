@@ -54,6 +54,7 @@ function ContentModal({ children, id, auth }) {
 
     const handleOpen = () => {
         setOpen(true);
+
     };
 
     const handleClose = () => {

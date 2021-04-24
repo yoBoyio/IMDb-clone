@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { api } from '../../util/config'
 import { returnErrors } from './errorActions';
 import {
   USER_LOADED,
@@ -10,17 +11,79 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   COMMENT_SUCCESS,
-  COMMENT_FAIL
+  COMMENT_FAIL,
+  DELETE_WATCHLIST,
+  ADD_WATCHLIST,
+  GET_WATCHLIST
 } from './types';
 
+
+//================WATCHLIST===================//
+
+//get watchlist
+export const getWatchlist = () => (
+  dispatch,
+  getState
+) => {
+  axios
+    .get('/api/users/watchlist/Get', tokenConfig())
+    .then(res =>
+      dispatch({
+        type: GET_WATCHLIST,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+//add to watch list
+export const addWatchlist = (token, movieId) => (
+  dispatch,
+  getState
+) => {
+  const body = JSON.stringify({ movieId: movieId });
+
+  axios
+    .post('/api/users/watchlist/insert', body, conf(token))
+    .then(res =>
+      dispatch({
+        type: ADD_WATCHLIST,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+//delete watclist
+export const deleteWatchlist = (token, movieId) => (
+  dispatch,
+  getState
+) => {
+  const body = JSON.stringify({ movieId: movieId });
+  axios
+    .delete('/api/users/watchlist/Remove', conf(token, movieId))
+    .then(res =>
+      dispatch({
+        type: DELETE_WATCHLIST,
+        payload: movieId
+      })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+};
+//================USER===================//
+
 // Check token and load user
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => (dispatch) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
   // Set user data and type
   axios
-    .get('/api/Users/info', tokenConfig(getState))
+    .get('/api/Users/info', tokenConfig())
     .then(res =>
       dispatch({
         type: USER_LOADED,
@@ -34,7 +97,6 @@ export const loadUser = () => (dispatch, getState) => {
       });
     });
 };
-
 // Register User
 export const register = ({ name, email, password }) => (
   dispatch
@@ -51,12 +113,15 @@ export const register = ({ name, email, password }) => (
 
   axios
     .post('api/Users/signup', body, config)
-    .then(res =>
+    .then(res => {
+      setAuthorizationHeader(res.data[0].token);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       })
-    )
+      dispatch(loadUser())
+      dispatch(getWatchlist())
+    })
     .catch(err => {
       dispatch(
         returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
@@ -71,24 +136,20 @@ export const register = ({ name, email, password }) => (
 export const login = ({ email, password }) => (
   dispatch
 ) => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
   // Request body
   const body = JSON.stringify({ email, password });
 
   axios
-    .post('api/Users/login', body, config)
-    .then(res =>
+    .post('api/Users/login', body, head)
+    .then(res => {
+      setAuthorizationHeader(res.data[0].token);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       })
-    )
+      dispatch(loadUser())
+      dispatch(getWatchlist())
+    })
     .catch(err => {
       dispatch(
         returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
@@ -98,34 +159,20 @@ export const login = ({ email, password }) => (
       });
     });
 };
+
+//====================RATING========================//
+
 //comment
 export const commentAction = (comment, movieId, token_value) => (
   dispatch
 ) => {
   // Headers
-  const tokenConf = (token_value) => {
-    // Get token from localstorage
-    const token = 'bearer ' + token_value;
 
-    // Headers
-    const config = {
-      headers: {
-        'Content-type': 'application/json'
-      }
-    };
-
-    // If token, add to headers
-    if (token) {
-      config.headers['Authorization'] = token;
-    }
-
-    return config;
-  };
   // Request body
   const body = JSON.stringify({ movieId: movieId, commentContent: comment, like: true });
 
   axios
-    .post('api/rating/insert', body, tokenConf(token_value))
+    .post('api/rating/insert', body, conf(token_value))
     .then(res =>
       dispatch({
         type: COMMENT_SUCCESS,
@@ -148,22 +195,62 @@ export const logout = () => {
   };
 };
 
+
+export const head = {
+
+  headers: {
+    'Content-type': 'application/json'
+  }
+
+}
+
+export const headAndData = (movieId) => {
+  return {
+    headers: {
+      'Content-type': 'application/json'
+    },
+    data: { movieId: movieId }
+  }
+}
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
   // Get token from localstorage
-  const token = 'bearer ' + getState().auth.token;
+  const token = 'bearer ' + localStorage.getItem('token');
 
   // Headers
-  const config = {
-    headers: {
-      'Content-type': 'application/json'
-    }
-  };
+  const config = head;
 
+  // If token, add to headers
+  if (token) {
+    config.headers['Authorization'] = token;
+  }
+  return config;
+};
+
+
+
+export const conf = (token_value, movieId) => {
+  // Get token from localstorage
+  const token = 'bearer ' + localStorage.getItem('token');
+
+  // Headers and data
+  let config = null;
+  // Headers
+  if (movieId) {
+    config = headAndData(movieId)
+  } else {
+    config = head;
+
+  }
   // If token, add to headers
   if (token) {
     config.headers['Authorization'] = token;
   }
 
   return config;
+};
+
+const setAuthorizationHeader = (token) => {
+  const authToken = `bearer ${token}`;
+  localStorage.setItem('token', authToken);
 };

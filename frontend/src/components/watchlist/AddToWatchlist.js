@@ -5,72 +5,54 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import '../styles/watchlist.css'
 import { connect } from 'react-redux';
 import AuthModal from '../auth/isAuth'
-import { addWatchlist, deleteWatchlist } from '../../redux/actions/movieActions'
+import { addWatchlist, deleteWatchlist } from '../../redux/actions/authActions'
 import Axios from 'axios';
 
-export function AddToList({ auth, movieId, watchlist, addWatchlist }) {
-    const [added, addToWatchlist] = useState(null)
+export function AddToList({ auth, movieId, watchlist, addWatchlist, deleteWatchlist, succes }) {
+    const [added, setAdded] = useState(false)
     const [watchlistAction, setWatchlistAction] = useState(null)
+    const [watchAction, setWactchAction] = useState(false);
 
-    const tokenConfig = () => {
-        // Get token from localstorage
-        const token = 'bearer ' + auth.token;
-        // Headers
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            params: { 'movieId': movieId }
-        };
-
-        // If token, add to headers
-        if (token) {
-            config.headers['Authorization'] = token;
-        }
-
-        return config;
-    };
     useEffect(() => {
         //check if movie is on watchlist
         if (watchlist) {
+
             watchlist.map(movie => {
-                if (movieId === movie.id) {
-                    addToWatchlist(true);
+                if (movieId === movie.id && !watchAction) {
+                    setAdded(true);
                 }
             })
         }
+        // //if watchlist req status=200 and 
+        // if(succes){
+        //     //if movie was in watchlist delete it
+        //     if(added){
+        //         setAdded(false);
+        //     }else{
+        //         setAdded(false);
+
+        //     }
+        // }
+
     })
 
     const onClick = () => {
-        const body = JSON.stringify({ movieId: movieId });
-        //axios request
-        if (added === null) {
-            addWatchlist(movieId);
-            addToWatchlist(true);
-            // Axios.post('/api/users/watchlist/Add', body, tokenConfig())
-            //     .then(response => {
-            //         if (response.status === 200) {
+        //authenticated user 
 
-            //             addToWatchlist(true)
-            //         } else {
-            //             alert('Failed to add movie on watchlist')
-            //         }
-            //     })
-        } else {
+        if (auth.isAuthenticated) {
+            //doesnt exists on watchlist
+            if (!added) {
+                addWatchlist(auth.token, movieId);
+                setAdded(true);
 
-            // Axios.post('/api/rating/delete', body, tokenConfig())
-            //     .then(response => {
-            //         if (response.status === 200) {
+            } else if (added) {
+                deleteWatchlist(auth.token, movieId);
+                setAdded(false);
+                setWactchAction(true);
 
-            //             setLikes(Likes - 1)
-            //             setLikeAction(null)
-
-            //         } else {
-            //             alert('Failed to decrease the like')
-            //         }
-            //     })
-
+            }
         }
+
 
     }
 
@@ -100,7 +82,8 @@ export function AddToList({ auth, movieId, watchlist, addWatchlist }) {
 }
 const mapStateToProps = state => ({
     auth: state.auth,
-    watchlist: state.movie.watchlist
+    watchlist: state.movie.watchlist,
+    success: state.movie.watchlistSucces,
 });
 
 export default connect(mapStateToProps, { addWatchlist, deleteWatchlist })(AddToList);
