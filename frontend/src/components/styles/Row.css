@@ -6,7 +6,7 @@
   .row_poster {
     object-fit: contain;
     width: 150px;
-    max-height: 100px;
+    max-height: 450px;
     transition: transform 450ms;
     margin-right: 10px;
     box-shadow: 3px 3px 5px rgba(0,0,0,0.3);

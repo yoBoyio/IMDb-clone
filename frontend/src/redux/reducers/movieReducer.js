@@ -17,6 +17,7 @@ const initialState = {
   movies: [],
   loading: false,
   searchLoading: false,
+  watchlistSucces: false,
   text: '',
   movie: [],
   credits: [],
@@ -47,12 +48,16 @@ export default function (state = initialState, action) {
     case DELETE_WATCHLIST:
       return {
         ...state,
-        watchlist: state.watchlist.filter(movie => movie.Id !== action.payload)
+        watchlist: state.watchlist.filter((movie) => movie.id !== action.payload),
+        loading: false,
+        watchlistSucces: true,
       };
     case ADD_WATCHLIST:
       return {
         ...state,
-        watchlist: [action.payload, ...state.watchlist]
+        watchlist: [action.payload, ...state.watchlist],
+        watchlistSucces: true,
+        loading: false
       };
     case MOVIES_LOADING:
       return {

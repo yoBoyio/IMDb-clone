@@ -16,7 +16,7 @@ import Menu from '@material-ui/core/Menu'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import Logout from '../auth/Logout';
-
+import Watchlist from '../../pages/WatchlistPage'
 
 
 const styles = {
@@ -91,6 +91,12 @@ class AppNavBar extends Component {
         <MenuItem onClick={this.handleMenuClose}> <Logout /></MenuItem>
       </Menu>
     );
+    const watchlist = (auth.isAuthenticated ? (
+      <Fragment>
+        <Button color="inherit" component={Link} to="/watchlist">Watchlist</Button>
+      </Fragment>)
+      :
+      (null))
     return (
       <div className={classes.grow}>
         <AppBar className={classes.appbar} position="static">
@@ -103,14 +109,16 @@ class AppNavBar extends Component {
 
               </Typography>
             </Fragment>
-
             <div className={classes.grow} />
+
             <SearchBox />
+
+            {watchlist}
             <div className={classes.sectionDesktop}>
 
               {auth && auth.isAuthenticated ? (
-                <Fragment>
 
+                <Fragment>
                   <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -122,6 +130,7 @@ class AppNavBar extends Component {
                     <AccountCircle />
                   </IconButton>
                 </Fragment>
+
               ) : (
                 <Fragment>
                   <Button color="inherit" component={Link} to="/login">Login</Button>

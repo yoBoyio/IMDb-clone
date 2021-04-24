@@ -22,7 +22,7 @@ export function Like({ auth, like_dislike, movieId }) {
     };
     const tokenConfig = () => {
         // Get token from localstorage
-        const token = 'bearer ' + auth.token;
+        const token = 'bearer ' + localStorage.getItem('token');
         // Headers
 
         // If token, add to headers
@@ -71,42 +71,50 @@ export function Like({ auth, like_dislike, movieId }) {
 
     const onLike = () => {
         const body = JSON.stringify({ movieId: movieId, commentContent: '', like: true });
+        //check if user is logged
+        if (auth.isAuthenticated) {
 
-        if (LikeAction === null) {
+            if (LikeAction === null) {
+                //try to insert action to db
+                Axios.post('/api/rating/insert', body, tokenConfig())
+                    .then(response => {
+                        if (response.status === 200) {
 
-            Axios.post('/api/rating/insert', body, tokenConfig())
-                .then(response => {
-                    if (response.status === 200) {
+                            setLikes(Likes + 1)
+                            setLikeAction('liked')
+                            //If dislike button is already clicked
+                            if (DislikeAction !== null) {
+                                setDislikeAction(null)
+                                setDislikes(Dislikes - 1)
+                            }
 
-                        setLikes(Likes + 1)
-                        setLikeAction('liked')
-                        //If dislike button is already clicked
-                        if (DislikeAction !== null) {
-                            setDislikeAction(null)
-                            setDislikes(Dislikes - 1)
+                        } else {
+                            alert('Failed to increase the like')
                         }
+                    })
 
 
-                    } else {
-                        alert('Failed to increase the like')
-                    }
-                })
+            } else {
+                //try to insert action to db
+                Axios.post('/api/rating/delete', body, tokenConfig())
+                    .then(response => {
+                        if (response.status === 200) {
 
+                            setLikes(Likes - 1)
+                            setLikeAction(null)
+                            //If like button is already clicked
 
-        } else {
+                            if (LikeAction !== null) {
+                                setLikeAction(null)
+                                setLikes(Likes - 1)
+                            }
 
-            Axios.post('/api/rating/delete', body, tokenConfig())
-                .then(response => {
-                    if (response.status === 200) {
+                        } else {
+                            alert('Failed to decrease the like')
+                        }
+                    })
 
-                        setLikes(Likes - 1)
-                        setLikeAction(null)
-
-                    } else {
-                        alert('Failed to decrease the like')
-                    }
-                })
-
+            }
         }
 
     }

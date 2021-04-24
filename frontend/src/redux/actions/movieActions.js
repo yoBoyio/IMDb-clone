@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { GET_WATCHLIST, GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_WATCHLIST, ADD_WATCHLIST, MOVIES_LOADING, FETCH_MOVIE, LOADING,FETCH_CREDITS,FETCH_TRAILER } from './types';
+import { GET_WATCHLIST, GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_WATCHLIST, ADD_WATCHLIST, MOVIES_LOADING, FETCH_MOVIE, LOADING, FETCH_CREDITS, FETCH_TRAILER } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
-
 
 export const getMovies = (url) => (dispatch) => {
   dispatch(setMoviesLoading());
@@ -42,59 +41,6 @@ export const searchMovies = (url) => (dispatch) => {
     );
 };
 
-export const getWatchlist = () => (
-  dispatch,
-  getState
-) => {
-  axios
-    .get('/api/users/watchlist/Get', tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: GET_WATCHLIST,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
-
-export const addWatchlist = (movieId) => (
-  dispatch,
-  getState
-) => {
-  const body = JSON.stringify({ movieId: movieId });
-
-  axios
-    .post('/api/users/watchlist/Insert', body, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: ADD_WATCHLIST,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
-
-export const deleteWatchlist = (id) => (
-  dispatch,
-  getState
-) => {
-  axios
-    .post(`/api/watchlist/Remove`, tokenConfig(getState))
-    .then(res =>
-      dispatch({
-        type: DELETE_WATCHLIST,
-        payload: id
-      })
-    )
-    .catch(err =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
-};
-
 export const fetchGenre = () => dispatch => {
 
   axios
@@ -113,12 +59,17 @@ export const setMoviesLoading = () => {
     type: MOVIES_LOADING
   };
 };
-
+export const setLoading = () => {
+  return {
+    type: LOADING
+  };
+};
 export const config = {
   headers: {
     'Content-Type': 'application/json'
   }
 };
+
 export const setSearchMoviesLoading = () => {
   return {
     type: SEARCH_MOVIES_LOADING
@@ -138,11 +89,6 @@ export const fetchMovie = id => dispatch => {
 };
 
 
-export const setLoading = () => {
-  return {
-    type: LOADING
-  };
-};
 
 export const fetchCredits = id => dispatch => {
   axios
