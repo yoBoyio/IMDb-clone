@@ -1,146 +1,159 @@
-import React, { Component } from 'react';
-import { fetchMovie, setLoading } from '../../redux/actions/movieActions';
-import { connect } from 'react-redux';
-import Spinner from '../../layout/Spinner';
-import useGenre from '../../util/useGenre';
-import Genres from '../genres/genres'
-import AuthModal from '../auth/isAuth'
-import WatchlistBtn from '../watchlist/AddToWatchlist'
-import CommentModal from '../likeDislike/CommentModal'
-import Like from '../likeDislike/Like';
-import DisLike from '../likeDislike/Dislike';
+import React, { Component } from "react";
+import { fetchMovie, setLoading } from "../../redux/actions/movieActions";
+import { connect } from "react-redux";
+import Spinner from "../../layout/Spinner";
+import useGenre from "../../util/useGenre";
+import Genres from "../genres/genres";
+import AuthModal from "../auth/isAuth";
+import WatchlistBtn from "../watchlist/AddToWatchlist";
+import CommentModal from "../likeDislike/CommentModal";
+import Like from "../likeDislike/Like";
+import DisLike from "../likeDislike/Dislike";
 
 //material UI
-import { withStyles } from '@material-ui/core/'
+import { withStyles } from "@material-ui/core/";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
-function time_convert(num)
- { 
-  var hours = Math.floor(num / 60);  
+function time_convert(num) {
+  var hours = Math.floor(num / 60);
   var minutes = num % 60;
-  return hours +"h " + minutes +"m";         
+  return hours + "h " + minutes + "m";
 }
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-const useStyles = theme =>({
+const useStyles = (theme) => ({
   imageContainer: {
-    background: '#141414',
-    color:'#fff',
-    display: 'flex',
-    marginLeft:100,
-    marginRight:100,
+    background: "#141414",
+    color: "#fff",
+    display: "flex",
+    marginLeft: 100,
+    marginRight: 100,
     // marginTop:-100,
-    border: "none", 
+    border: "none",
     boxShadow: "none",
-    alignItems: 'center',
-    justifyContent: 'left',
-    width: 800
+    alignItems: "center",
+    justifyContent: "left",
+    width: 800,
   },
   videoContainer: {
-    display: 'flex',
-    border: "none", 
+    display: "flex",
+    border: "none",
     boxShadow: "none",
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     justify: "center",
-    marginLeft:150,
-    width: 1200
+    marginLeft: 150,
+    width: 1200,
   },
   descriptionContainer: {
-    background: '#141414',
-    color:'#fff',
-    display: 'inline-block',
-    marginLeft:100,
-    marginRight:100,
-    // border: "none", 
-    // boxShadow: "none", 
-    alignItems: 'center',
-    justifyContent: 'center'
+    background: "#141414",
+    color: "#fff",
+    display: "inline-block",
+    marginLeft: 100,
+    marginRight: 100,
+    // border: "none",
+    // boxShadow: "none",
+    alignItems: "center",
+    justifyContent: "center",
   },
   bold: {
-    fontWeight:'Bold',
-    fontSize: "38px"
+    fontWeight: "Bold",
+    fontSize: "38px",
   },
   cover: {
     width: 250,
     height: 300,
-    borderRadius: '5%'
+    borderRadius: "5%",
   },
   subs: {
     fontSize: "18px",
-    marginBottom: "20px"
+    marginBottom: "20px",
   },
   description: {
-    fontWeight:'Bold',
+    fontWeight: "Bold",
     fontSize: "32px",
-    marginTop: "10px"
+    marginTop: "10px",
   },
   overview: {
     fontSize: "22px",
-    marginTop: "10px"
+    marginTop: "10px",
   },
   details: {
-    display: 'flex',
-    marginLeft:250,
-
+    display: "flex",
+    marginLeft: 250,
   },
   content: {
-    flex: '1 0 auto',
+    flex: "1 0 auto",
     marginTop: "20px",
-    marginLeft: "10px"
+    marginLeft: "10px",
   },
-  barCover:{
+  barCover: {
     height: 10,
     borderRadius: 5,
-    width:120,
-    background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)',
+    width: 120,
+    background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
     // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   },
-  heart:{
-    display:'flex',
-    marginRight:4
-  }
+  heart: {
+    display: "flex",
+    marginRight: 4,
+  },
 });
 
-
 export class Movie extends Component {
-
   render() {
     const { loading, movie, auth, id } = this.props;
-    const {classes} = this.props;
-
+    const { classes } = this.props;
 
     let movieInfo = (
-
-
-
-    <div>   
-      <Card className={classes.imageContainer}>
-        <CardMedia
-        className={classes.cover}
-        image={getImage(movie.poster_path)}
-        title="Cover" >
-          <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography className={classes.bold} variant='h1' paragraph gutterBottom>
-           {movie.title}
-          </Typography>
-          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
-             {movie.release_date}          
-          </Typography>
-          <Typography className={classes.subs} variant="subtitle1" gutterBottom>
-             {movie.original_language} | {time_convert(movie.runtime)}        
-          </Typography >
-          <div className={classes.heart}>
-          <FavoriteIcon className={classes.heart} fontSize="medium" color="secondary" />
-          <Typography className={classes.subs}> {movie.vote_average *10 +'%'} </Typography>
-          </div>
-                                    {/* <Genres
+      <div>
+        <Card className={classes.imageContainer}>
+          <CardMedia
+            className={classes.cover}
+            image={getImage(movie.poster_path)}
+            title="Cover"
+          >
+            <div className={classes.details}>
+              <CardContent className={classes.content}>
+                <Typography
+                  className={classes.bold}
+                  variant="h1"
+                  paragraph
+                  gutterBottom
+                >
+                  {movie.title}
+                </Typography>
+                <Typography
+                  className={classes.subs}
+                  variant="subtitle1"
+                  gutterBottom
+                >
+                  {movie.release_date}
+                </Typography>
+                <Typography
+                  className={classes.subs}
+                  variant="subtitle1"
+                  gutterBottom
+                >
+                  {movie.original_language} | {time_convert(movie.runtime)}
+                </Typography>
+                <div className={classes.heart}>
+                  <FavoriteIcon
+                    className={classes.heart}
+                    fontSize="medium"
+                    color="secondary"
+                  />
+                  <Typography className={classes.subs}>
+                    {" "}
+                    {movie.vote_average * 10 + "%"}{" "}
+                  </Typography>
+                </div>
+                {/* <Genres
                                         movieIds={movie.id}
                                         selectedGenres={selectedGenres}
                                         setSelectedGenres={setSelectedGenres}
@@ -148,52 +161,61 @@ export class Movie extends Component {
                                         setGenres={setGenres}
                                     /> */}
 
-                                     <div >
-                                         {auth && auth.isAuthenticated ? (
-                                             <CommentModal movieId={id}>
-                                                 <Like movieId={id} auth={true} />
-                                             </CommentModal >
-                                         ) : (
-                                             <AuthModal > <Like movieId={id} auth={false} />   </AuthModal>
-                                         )}
-                                         <WatchlistBtn movieId={id} />
-                                     </div>                            
-        </CardContent>
-      </div> 
-     </CardMedia>
-    </Card>
-    
-    <Card className={classes.descriptionContainer}>
-      <div >
-        <CardContent className={classes.content}>
-          <Typography className={classes.description} gutterBottom>
-            Description
-          </Typography>
-          <LinearProgress className={classes.barCover} variant="determinate" classes={{
-                      barColorPrimary: classes.barCover 
-                      }} />
-          <Typography className={classes.overview} variant="subtitle1"  gutterBottom>
-             {movie.overview}
-          </Typography>
-        </CardContent>
-      </div> 
-    </Card>
-  </div>
+                <div>
+                  {auth && auth.isAuthenticated ? (
+                    <CommentModal movieId={movie.id}>
+                      <Like movieId={movie.id} auth={true} />
+                    </CommentModal>
+                  ) : (
+                    <AuthModal>
+                      {" "}
+                      <Like movieId={movie.id} auth={false} />{" "}
+                    </AuthModal>
+                  )}
+                  <WatchlistBtn movieId={movie.id} />
+                </div>
+              </CardContent>
+            </div>
+          </CardMedia>
+        </Card>
+
+        <Card className={classes.descriptionContainer}>
+          <div>
+            <CardContent className={classes.content}>
+              <Typography className={classes.description} gutterBottom>
+                Description
+              </Typography>
+              <LinearProgress
+                className={classes.barCover}
+                variant="determinate"
+                classes={{
+                  barColorPrimary: classes.barCover,
+                }}
+              />
+              <Typography
+                className={classes.overview}
+                variant="subtitle1"
+                gutterBottom
+              >
+                {movie.overview}
+              </Typography>
+            </CardContent>
+          </div>
+        </Card>
+      </div>
     );
 
     let content = loading ? <Spinner /> : movieInfo;
-    return <div> {content} </div>
-    
+    return <div> {content} </div>;
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.movie.loading,
   movie: state.movie.movie,
-  auth: state.auth
+  auth: state.auth,
 });
 
-export default connect(
-  mapStateToProps,
-  { fetchMovie, setLoading }
-)(withStyles(useStyles)(Movie));
+export default connect(mapStateToProps, { fetchMovie, setLoading })(
+  withStyles(useStyles)(Movie)
+);
