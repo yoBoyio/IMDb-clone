@@ -85,11 +85,10 @@ namespace moviesProject.Classes
             }
             catch (MySqlException e) 
             {
-                DbConn.CloseAsync();
-                
+                await DbConn.CloseAsync();
                 return null;
             }
-            DbConn.CloseAsync();
+            await DbConn.CloseAsync();
 
 
             return dictionary;
@@ -114,7 +113,7 @@ namespace moviesProject.Classes
                     rating = new Rating(rid, movieId, uEmail, commentContent, like);
                 }
             }
-            DbConn.CloseAsync();
+            await DbConn.CloseAsync();
             return rating;
         }
         public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int like)
@@ -125,14 +124,14 @@ namespace moviesProject.Classes
                 await DbConn.OpenAsync();
                 String query = "REPLACE INTO ratings VALUES (0," + movieId + ",'" + userEmail+"','"+commentContent+"',"+like+")";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    cmd.ExecuteReaderAsync();
+                    await cmd.ExecuteReaderAsync();
 
             }
             catch (Exception ex)
             {
                 flag = false;
             }
-            DbConn.CloseAsync();
+            await DbConn.CloseAsync();
             return flag;
         }
         public static async Task<bool> deleteRatingAsync(int movieId, string userEmail)
@@ -143,14 +142,14 @@ namespace moviesProject.Classes
                 await DbConn.OpenAsync();
                 String query = "DELETE  FROM RATINGS WHERE movieId = '" + movieId + "' AND userEmail = '"+userEmail+"'";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    cmd.ExecuteReaderAsync();
+                    await cmd.ExecuteReaderAsync();
 
             }
             catch (Exception ex)
             {
                 flag = false;
             }
-            DbConn.CloseAsync();
+            await DbConn.CloseAsync();
             return flag;
         }
         public static async Task<Dictionary<string, decimal>> getMovieAverageAsync(int MovieId)

@@ -58,7 +58,6 @@ namespace moviesProject.Classes
             }
             catch (Exception ex)
             {
-                await DbConn.CloseAsync();
                 return false;
             }
 

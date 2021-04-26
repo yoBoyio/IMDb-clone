@@ -20,6 +20,15 @@ namespace moviesProject.Controllers
         {
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.GetPopular(page);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0) 
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -29,6 +38,15 @@ namespace moviesProject.Controllers
         {
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.GetUpcoming(page);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -38,6 +56,15 @@ namespace moviesProject.Controllers
         {
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.GetTopRated(page);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -48,6 +75,15 @@ namespace moviesProject.Controllers
 
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.SearchMovie(query);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -56,7 +92,18 @@ namespace moviesProject.Controllers
         [HttpGet("movie")]
         public async Task<IActionResult> getMovieAsync(int id)
         {
-            string json = JsonConvert.SerializeObject( await MovieMethods.GetMovie(id), Formatting.Indented);
+            MovieFirebase movie = await MovieMethods.GetMovie(id);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movie.id == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Movie not found");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
+            string json = JsonConvert.SerializeObject( movie , Formatting.Indented);
+
             return Ok(json);
         }
 
@@ -66,6 +113,15 @@ namespace moviesProject.Controllers
 
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.SearchGerneMovie(genre, page);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }
@@ -76,6 +132,15 @@ namespace moviesProject.Controllers
 
             List<MovieFirebase> movies = new List<MovieFirebase>();
             movies = await MovieMethods.SearchLangMovie(lang, page);
+
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            if (movies.Count == 0)
+            {
+                dictionary.Add("Message:", "Not Found");
+                dictionary.Add("Description:", "Didnt find movies");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
             return Ok(json);
         }

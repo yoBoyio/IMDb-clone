@@ -49,11 +49,11 @@ namespace moviesProject.Classes
             DbConn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.HasRows) flag = true;
-            DbConn.Close();
             }catch(MySqlException ex)
             {
-
+                flag = false;
             }
+            DbConn.Close();
             return flag;
         }
 
@@ -104,7 +104,6 @@ namespace moviesProject.Classes
             }
             catch (MySqlException e)
             {
-                await DbConn.CloseAsync();
                 flag = false;
             }
                 await DbConn.CloseAsync();
