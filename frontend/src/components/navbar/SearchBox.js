@@ -6,8 +6,9 @@ import MicIcon from "@material-ui/icons/Mic";
 import { IconButton } from "@material-ui/core";
 import { connect } from "react-redux";
 import { searchMovies } from "../../redux/actions/movieActions";
-import { useHistory, withRouter } from "react-router-dom";
+import { Link, useHistory, useLocation, withRouter } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import SearchPage from "../../pages/SearchPage";
 
 //-----------------SPEECH RECOGNITION SETUP---------------------
 const SpeechRecognition =
@@ -59,10 +60,12 @@ class SearchBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: props.movies,
+      // movies: props.movies,
       listening: false,
       query: "",
       submit: false,
+      checksubmit: false,
+      results: props.movies,
     };
     this.toggleListen = this.toggleListen.bind(this);
     this.handleListen = this.handleListen.bind(this);
@@ -90,19 +93,27 @@ class SearchBox extends Component {
     }
   }
 
-  Search() {
-    this.setState({ submit: true });
-    this.props.searchMovies("?query=" + this.state.query);
-    console.log(this.state.movies.searchMovies);
+  Search(event) {
+    if (event.key === "Enter") {
+      this.props.searchMovies(`?query=${this.state.query}`);
+    }
   }
 
   handleChange(event) {
     this.setState({ query: event.target.value });
   }
+
+  resetSubmit() {
+    this.setState({ submit: false });
+    console.log("reset");
+    console.log(this.state.submit);
+  }
+
   render() {
     const { classes } = this.props;
-    const { submit } = this.state;
-    const test = submit ? <Redirect to="/search" /> : null;
+    const { submit, query, results } = this.state;
+
+    const test = this.resetSubmit;
     return (
       <div className={classes.search}>
         <div className={classes.searchIcon}>
@@ -117,23 +128,20 @@ class SearchBox extends Component {
           inputProps={{ "aria-label": "search" }}
           onChange={(e) => this.handleChange(e)}
           value={this.state.query}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") this.Search();
-          }}
+          onKeyDown={(event) => this.Search(event)}
         />
-
         <IconButton onClick={this.toggleListen}>
           <MicIcon />
         </IconButton>
-        {test}
+        {results.length > 0 && <Redirect to={`/search/?query=${query}`} />}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  movies: state.movie,
+  movies: state.movie.searchMovies,
 });
 export default withStyles(styles)(
-  connect(mapStateToProps, { searchMovies })(SearchBox)
+  withRouter(connect(mapStateToProps, { searchMovies })(SearchBox))
 );

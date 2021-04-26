@@ -1,7 +1,20 @@
-import axios from 'axios';
-import { GET_WATCHLIST, GENRES_MAP, SEARCH_MOVIES_LOADING, SEARCH_MOVIES, GET_MOVIES, DELETE_WATCHLIST, ADD_WATCHLIST, MOVIES_LOADING, FETCH_MOVIE, LOADING, FETCH_CREDITS, FETCH_TRAILER } from './types';
-import { tokenConfig } from './authActions';
-import { returnErrors } from './errorActions';
+import axios from "axios";
+import {
+  GET_WATCHLIST,
+  GENRES_MAP,
+  SEARCH_MOVIES_LOADING,
+  SEARCH_MOVIES,
+  GET_MOVIES,
+  DELETE_WATCHLIST,
+  ADD_WATCHLIST,
+  MOVIES_LOADING,
+  FETCH_MOVIE,
+  LOADING,
+  FETCH_CREDITS,
+  FETCH_TRAILER,
+} from "./types";
+import { tokenConfig } from "./authActions";
+import { returnErrors } from "./errorActions";
 
 export const getMovies = (url) => (dispatch) => {
   dispatch(setMoviesLoading());
@@ -9,18 +22,17 @@ export const getMovies = (url) => (dispatch) => {
   axios
     .get(`api/movieshowcase/${url}/page=1`, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     })
-    .then(res =>
-
+    .then((res) => {
+      console.log(res);
       dispatch({
         type: GET_MOVIES,
-        payload: res.data
-
-      })
-    )
-    .catch(err =>
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
@@ -29,89 +41,92 @@ export const searchMovies = (url) => (dispatch) => {
   dispatch(setSearchMoviesLoading());
 
   axios
-    .get(`api/movieshowcase/Search/${url}`, config)
-    .then(res =>
+    .get(`https://localhost:44324/api/movieshowcase/Search/${url}`, config)
+    .then((res) =>
       dispatch({
         type: SEARCH_MOVIES,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
 
-export const fetchGenre = () => dispatch => {
-
+export const fetchMovie = (id) => (dispatch) => {
   axios
-    .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
-    .then(response =>
+    .get(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`
+    )
+    .then((response) =>
       dispatch({
-        type: GENRES_MAP,
-        payload: response.data
+        type: FETCH_MOVIE,
+        payload: response.data,
       })
     )
-    .catch(err => console.log(err));
-}
+    .catch((err) => console.log(err));
+};
+
+export const fetchGenre = () => (dispatch) => {
+  axios
+    .get(
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`
+    )
+    .then((response) =>
+      dispatch({
+        type: GENRES_MAP,
+        payload: response.data,
+      })
+    )
+    .catch((err) => console.log(err));
+};
 
 export const setMoviesLoading = () => {
   return {
-    type: MOVIES_LOADING
+    type: MOVIES_LOADING,
   };
 };
 export const setLoading = () => {
   return {
-    type: LOADING
+    type: LOADING,
   };
 };
 export const config = {
   headers: {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  },
 };
 
 export const setSearchMoviesLoading = () => {
   return {
-    type: SEARCH_MOVIES_LOADING
+    type: SEARCH_MOVIES_LOADING,
   };
 };
 
-export const fetchMovie = id => dispatch => {
+export const fetchCredits = (id) => (dispatch) => {
   axios
-    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
-    .then(response =>
-      dispatch({
-        type: FETCH_MOVIE,
-        payload: response.data
-      })
+    .get(
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`
     )
-    .catch(err => console.log(err));
-};
-
-
-
-export const fetchCredits = id => dispatch => {
-  axios
-    .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
-    .then(response =>
+    .then((response) =>
       dispatch({
         type: FETCH_CREDITS,
-        payload: response.data.cast
+        payload: response.data.cast,
       })
     )
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
 
-export const fetchTrailer = id => dispatch => {
+export const fetchTrailer = (id) => (dispatch) => {
   axios
-    .get(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`)
-    .then(response =>
+    .get(
+      `https://api.themoviedb.org/3/movie/${id}/videos?api_key=2eff1592c2104c03f9098af2aee54824&&language=en-US`
+    )
+    .then((response) =>
       dispatch({
         type: FETCH_TRAILER,
-        payload: response.data.results
+        payload: response.data.results,
       })
     )
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 };
-
-
