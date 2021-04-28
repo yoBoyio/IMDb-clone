@@ -80,6 +80,8 @@ namespace moviesProject
             app.UseAuthentication();
             app.UseAuthorization();
 
+            DbMethods.InitializeDB();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers().RequireCors("mypolicy");

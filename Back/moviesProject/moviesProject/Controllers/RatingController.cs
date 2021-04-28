@@ -22,7 +22,6 @@ namespace moviesProject.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> GetMovieRatingsAsync([FromHeader] string Authorization, int movieId, int page)
         {
-            DbMethods.InitializeDB();
             string email = "";
             if (Authorization!=null)
             email = tokenObj.GetNameClaims(Authorization);
@@ -33,6 +32,7 @@ namespace moviesProject.Controllers
 
             string json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);
 
+            await DbMethods.dbcloseAsync();
             return Ok(json);
         }
         // gurnaeu mono ena rating tou logged in user gia ena sugkekrimeno movie
@@ -41,7 +41,6 @@ namespace moviesProject.Controllers
         {
             string email = tokenObj.GetNameClaims(Authorization);
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            DbMethods.InitializeDB();
             Rating rating = await Rating.getMovieSingleRatingAsync(movieId, email);
             if (rating.ratingId == 0)
             {
@@ -49,6 +48,8 @@ namespace moviesProject.Controllers
                 dictionary.Add("Description:", "Rating not found");
                 return NotFound(dictionary);
             }
+
+            await DbMethods.dbcloseAsync();
             return Ok(JsonConvert.SerializeObject(rating, Formatting.Indented));
         }
 
@@ -58,7 +59,6 @@ namespace moviesProject.Controllers
         [HttpGet("get/stats")]
         public async Task<IActionResult> GetMovieAverageAsync(int movieId)
         {
-            DbMethods.InitializeDB();
             Dictionary<string, decimal> retDict = await Rating.getMovieAverageAsync(movieId);
             if (retDict["percentage"] == -1)
             {
@@ -70,6 +70,7 @@ namespace moviesProject.Controllers
 
             string json = JsonConvert.SerializeObject(retDict, Formatting.Indented);
 
+            await DbMethods.dbcloseAsync();
             return Ok(json);
         }
 
@@ -86,13 +87,12 @@ namespace moviesProject.Controllers
             if (like)
                 likepass = 1;
 
-            DbMethods.InitializeDB();
-
             if (! (await Rating.insertRatingAsync(movieId, email, commentContent, likepass)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully inserted rating", Formatting.Indented);
 
+            await DbMethods.dbcloseAsync();
             return Ok(json);
         }
 
@@ -103,13 +103,12 @@ namespace moviesProject.Controllers
             int movieId = userCred.MovieId;
             string email = tokenObj.GetNameClaims(Authorization);
 
-            DbMethods.InitializeDB();
-
             if (!(await Rating.deleteRatingAsync(movieId, email)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully deleted rating", Formatting.Indented);
 
+            await DbMethods.dbcloseAsync();
             return Ok(json);
         }
 

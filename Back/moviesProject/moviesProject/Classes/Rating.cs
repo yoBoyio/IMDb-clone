@@ -60,7 +60,9 @@ namespace moviesProject.Classes
 
                         }
                     dictionary.Add("UserRating", userRating);
+                    await DbConn.CloseAsync();
                 }
+                await DbConn.OpenAsync();
                 query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail != '" + userEmail + "' LIMIT " + page*10+",10";
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                 using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
@@ -88,6 +90,7 @@ namespace moviesProject.Classes
                 await DbConn.CloseAsync();
                 return null;
             }
+
             await DbConn.CloseAsync();
 
 

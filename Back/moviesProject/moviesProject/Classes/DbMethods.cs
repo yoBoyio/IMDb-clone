@@ -19,6 +19,11 @@ namespace moviesProject.Classes
             return DbConn;
         }
 
+        public static async Task dbcloseAsync()
+        {
+            await DbConn.CloseAsync();
+        }
+
         public static void InitializeDB() 
         {
             try

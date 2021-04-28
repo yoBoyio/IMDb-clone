@@ -30,7 +30,6 @@ namespace moviesProject.Controllers
         [HttpGet("info")]
         public async Task<IActionResult> GetUserAsync([FromHeader] string Authorization)
         {
-            DbMethods.InitializeDB();
 
             string email = tokenObj.GetNameClaims(Authorization);
 
@@ -49,7 +48,6 @@ namespace moviesProject.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> PostUserAsync([FromBody] UserCred userCred)
         {
-            DbMethods.InitializeDB();
             var name= userCred.Name;
             var email = userCred.Email ;
             var password = userCred.Password;
@@ -77,7 +75,6 @@ namespace moviesProject.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserCred userCred)
         {
-            DbMethods.InitializeDB();
             var email = userCred.Email;
             var password = userCred.Password;
 
@@ -109,7 +106,6 @@ namespace moviesProject.Controllers
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
             string email = tokenObj.GetNameClaims(Authorization);
-            DbMethods.InitializeDB();
             if (email == "")
             {
                 dictionary.Add("Message:", "NotFound");
@@ -146,7 +142,6 @@ namespace moviesProject.Controllers
                 dictionary.Add("Description:", "Please enter all fields");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
-            DbMethods.InitializeDB();
 
             if (await WatchList.IsInList(email, movie) == true)
             {
@@ -190,7 +185,6 @@ namespace moviesProject.Controllers
             string email = tokenObj.GetNameClaims(Authorization);
             int movie = userCred.MovieId;
 
-            DbMethods.InitializeDB();
 
             if (await WatchList.IsInList(email, movie) == false)
             {
