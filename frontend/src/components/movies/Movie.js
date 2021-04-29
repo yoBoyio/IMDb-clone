@@ -133,7 +133,12 @@ export class Movie extends Component {
                   variant="subtitle1"
                   gutterBottom
                 >
-                  {movie.release_date}
+                  {movie.release_date &&
+                    movie.release_date
+                      .substring(5)
+                      .split("-")
+                      .concat(movie.release_date.substring(0, 4))
+                      .join("/")}
                 </Typography>
                 <Typography
                   className={classes.subs}

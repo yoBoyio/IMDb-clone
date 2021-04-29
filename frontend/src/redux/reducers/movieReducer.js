@@ -10,15 +10,16 @@ import {
   GENRES_MAP,
   DELETE_WATCHLIST,
   ADD_WATCHLIST,
-  GET_WATCHLIST
-} from '../actions/types';
+  GET_WATCHLIST,
+  SEARCH_NOTFOUND,
+} from "../actions/types";
 
 const initialState = {
   movies: [],
   loading: false,
   searchLoading: false,
   watchlistSucces: false,
-  text: '',
+  text: "",
   movie: [],
   credits: [],
   trailer: [],
@@ -27,8 +28,6 @@ const initialState = {
   watchlist: [],
 };
 
-
-
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_MOVIES:
@@ -36,19 +35,21 @@ export default function (state = initialState, action) {
         ...state,
         // movies: action.payload,
         movies: action.payload,
-        loading: false
+        loading: false,
       };
     case GET_WATCHLIST:
       return {
         ...state,
         // movies: action.payload,
         watchlist: action.payload,
-        loading: false
+        loading: false,
       };
     case DELETE_WATCHLIST:
       return {
         ...state,
-        watchlist: state.watchlist.filter((movie) => movie.id !== action.payload),
+        watchlist: state.watchlist.filter(
+          (movie) => movie.id !== action.payload
+        ),
         loading: false,
         watchlistSucces: true,
       };
@@ -57,54 +58,59 @@ export default function (state = initialState, action) {
         ...state,
         watchlist: [action.payload, ...state.watchlist],
         watchlistSucces: true,
-        loading: false
+        loading: false,
       };
     case MOVIES_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
+      };
+    case SEARCH_NOTFOUND:
+      return {
+        ...state,
+        searchLoading: false,
+        searchMovies: [],
       };
     case SEARCH_MOVIES_LOADING:
       return {
         ...state,
-        searchLoading: true
+        searchLoading: true,
       };
     case SEARCH_MOVIES:
       return {
         ...state,
         searchMovies: action.payload,
-        searchLoading: false
+        searchLoading: false,
       };
     case GENRES_MAP:
       return {
         ...state,
         genres: action.payload,
       };
-      case FETCH_MOVIE:
+    case FETCH_MOVIE:
       return {
         ...state,
         movie: action.payload,
-        loading: false
+        loading: false,
       };
     case LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
-      case FETCH_CREDITS:
-        return {
-          ...state,
-          credits: action.payload,
-          loading: false
-        };
-        case FETCH_TRAILER:
-        return {
-          ...state,
-          trailer: action.payload,
-          loading: false
-        };
+    case FETCH_CREDITS:
+      return {
+        ...state,
+        credits: action.payload,
+        loading: false,
+      };
+    case FETCH_TRAILER:
+      return {
+        ...state,
+        trailer: action.payload,
+        loading: false,
+      };
     default:
       return state;
   }
-
 }
