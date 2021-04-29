@@ -2,29 +2,22 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import "../styles/Row.css";
-import Youtube from "react-youtube";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import MovieCard from "./MovieCard";
 
 function Row({ title, url, isLargeRow }) {
-  const [trailerUrl, setTrailerUrl] = useState("");
   const [movies, setMovies] = useState([]);
-  // Options for react-youtube
-  const opts = {
-    height: "390",
-    width: "100%",
-    playerVars: {
-      autoplay: 1,
-    },
-  };
+  //AXIOS REQUEST
+  const fetchData = () => {
+    axios.get(`api/movieshowcase/${url}`)
+      .then(response => {
+        setMovies(response.data);
+
+      })
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await axios.get(`api/movieshowcase/${url}`);
-      setMovies(request.data);
-      return request;
-    }
     fetchData();
   }, [url]);
 

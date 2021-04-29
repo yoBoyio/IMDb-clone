@@ -127,6 +127,8 @@
     font-size: 3rem;
     text-align: center;
   }
-  .no-movies{
-    margin-top:150px;
-  }
+
+ .title{
+   position:absolute;
+   padding-left: 20px;
+ }

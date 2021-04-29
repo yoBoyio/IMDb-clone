@@ -129,9 +129,9 @@ function LoginModal(props) {
           >
             Sign In
           </StyledButton>
-          {props.loading && (
+          {props.loading &&
             <CircularProgress size={30} className={classes.progress} />
-          )}
+          }
           <Grid container>
             <Grid item xs>
               <StyledLink href="#" variant="body2">
@@ -156,7 +156,7 @@ function LoginModal(props) {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  loading: state.isLoading
+  loading: state.auth.isLoading
 });
 
 

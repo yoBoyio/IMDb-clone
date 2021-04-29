@@ -1,24 +1,27 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import SearchBox from "./SearchBox";
-import SearchIcon from "@material-ui/icons/Search";
 
 //MUI stuff
+import SearchIcon from "@material-ui/icons/Search";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { fade } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 //icons
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
+//Actions
 import Logout from "../auth/Logout";
+//Components and pages
+import SearchBox from "./SearchBox";
 import Watchlist from "../../pages/WatchlistPage";
+import NavMovies from './NavMovie'
+import DropdownMenu from './Dropdown'
 
 const styles = {
   grow: {
@@ -56,6 +59,31 @@ const styles = {
       color: "#fff",
     },
   },
+  root: {
+    boxShadow: 'none',
+    textTransform: 'none',
+    fontSize: 16,
+    padding: '6px 12px',
+    lineHeight: 1.5,
+
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:hover': {
+      color: 'white',
+      boxShadow: 'none',
+    },
+
+  }
 };
 
 class AppNavBar extends Component {
@@ -64,7 +92,6 @@ class AppNavBar extends Component {
 
     this.state = {
       anchorEl: null,
-      setAnchorEl: null,
     };
   }
   handleProfileMenuOpen = (event) => {
@@ -73,9 +100,12 @@ class AppNavBar extends Component {
   handleMenuClose = () => {
     this.setState({ anchorEl: null });
   };
+
   render() {
     const { classes, auth } = this.props;
     const isMenuOpen = this.state.anchorEl;
+
+
     const renderMenu = (
       <Menu
         anchorEl={this.state.anchorEl}
@@ -87,20 +117,20 @@ class AppNavBar extends Component {
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>
-          {" "}
-          <Logout />
-        </MenuItem>
+        <MenuItem onClick={this.handleMenuClose}> <Logout /> </MenuItem>
       </Menu>
     );
+
     const watchlist = auth.isAuthenticated ? (
       <Fragment>
-        <Button color="inherit" component={Link} to="/watchlist">
+        <Button className={classes.root} disableRipple color="inherit" component={Link} to="/watchlist">
           Watchlist
         </Button>
       </Fragment>
     ) : null;
+
     return (
+
       <div className={classes.grow}>
         <AppBar className={classes.appbar} position="static">
           <Toolbar className="nav-container">
@@ -111,10 +141,15 @@ class AppNavBar extends Component {
                 </Link>
               </Typography>
             </Fragment>
+
             <div className={classes.grow} />
+            {/*=======Movies list=========*/}
+            <DropdownMenu />
+            {/*=======Watchlist=========*/}
             {watchlist}
+            {/*=======SEARCH=========*/}
             <Fragment>
-              <IconButton component={Link} to="/search">
+              <IconButton className={classes.root} component={Link} to="/search">
                 <SearchIcon />
               </IconButton>
             </Fragment>
@@ -135,11 +170,11 @@ class AppNavBar extends Component {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Button color="inherit" component={Link} to="/login">
+                  <Button className={classes.root} color="inherit" component={Link} to="/login">
                     Login
                   </Button>
 
-                  <Button color="inherit" component={Link} to="/signup">
+                  <Button className={classes.root} color="inherit" component={Link} to="/signup">
                     Signup
                   </Button>
                 </Fragment>
