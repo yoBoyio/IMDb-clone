@@ -18,15 +18,10 @@ import { returnErrors } from "./errorActions";
 
 export const getMovies = (url) => (dispatch) => {
   dispatch(setMoviesLoading());
-
+  console.log(url)
   axios
-    .get(`api/movieshowcase/${url}/page=1`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    .get(`https://localhost:44324/api/movieshowcase${url}`, config)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: GET_MOVIES,
         payload: res.data,

@@ -61,7 +61,7 @@ function ContentModal({ children, id, auth }) {
     );
 
     setContent(data);
-    // console.log(data);
+
   };
 
   useEffect(() => {
@@ -115,6 +115,7 @@ function ContentModal({ children, id, auth }) {
                   alt={content.name || content.title}
                   className="ContentModal__landscape"
                 />
+                {/* ===============Genres============= */}
                 <div className="ContentModal__about">
                   <Genres
                     movieIds={content.genres}
@@ -139,15 +140,13 @@ function ContentModal({ children, id, auth }) {
                   <span className="ContentModal__description">
                     {content.overview}
                   </span>
-
+                  {/*==============LIKES & WATCHLIST ====================*/}
                   <div className="actions">
                     {auth && auth.isAuthenticated ? (
-                      <CommentModal movieId={id}>
-                        <Like movieId={id} auth={true} />
-                      </CommentModal>
+                      <Like movieId={id} auth={true} />
+
                     ) : (
                       <AuthModal>
-                        {" "}
                         <Like movieId={id} auth={false} />{" "}
                       </AuthModal>
                     )}
@@ -165,7 +164,7 @@ function ContentModal({ children, id, auth }) {
                           strokeDashoffset:
                             strokeDash -
                             strokeDash *
-                              (animateMeter ? content.vote_average / 10 : 0),
+                            (animateMeter ? content.vote_average / 10 : 0),
                         }}
                       />
                     </svg>

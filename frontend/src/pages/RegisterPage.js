@@ -176,7 +176,7 @@ function LoginModal(props) {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  loading: state.isLoading
+  loading: state.auth.isLoading
 });
 
 

@@ -1,16 +1,17 @@
-import React, { Component, useCallback, useState } from 'react';
+import React, { Component, useCallback, useState, useEffect } from 'react';
 import "../styles/Row.css";
 
 import Fade from "@material-ui/core/Fade";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
-import ContentModal from '../movies/ContentModal';
 import {
   img_500,
   unavailable,
   unavailableLandscape,
 } from '../../util/config';
+import ContentModal from '../movies/ContentModal';
+import SkeletonCard from './SkeletonMovie'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -34,22 +35,30 @@ const MovieCard = ({ isLargeRow, movie, children }) => {
   const classes = useStyles();
   const [hovered, setHovered] = useState(false);
   const [content, setContent] = useState();
+  const [loading, setLoading] = useState(false);
+
+  // load animation 1sec
+  useEffect(() => {
+    setLoading(true);
+    const timing = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timing)
+  }, [])
+
+  //if loading display skeleton else img
+  const display = loading ? <SkeletonCard isLargeRow={isLargeRow} /> :
+    <img
+      className={`row_poster ${isLargeRow && "row_posterLarge"}`}
+      src={`${img_500}/${movie.poster_path}`}
+      alt={movie.title}
+      key={movie.id} />
 
   return (
     <ContentModal id={movie.id}>
-
       <div
         className='row_posters'>
-
-        <img
-          className={`row_poster ${isLargeRow && "row_posterLarge"}`}
-          src={`${img_500}/${movie.poster_path}`}
-
-          alt={movie.title}
-          key={movie.id}
-
-        />
-
+        {display}
       </div>
     </ContentModal>
   )

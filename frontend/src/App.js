@@ -19,6 +19,7 @@ import Movie from "./components/movies/Movie";
 import MoviePage from "./pages/MoviePage";
 import NotFound from "./pages/NotFound";
 import Watchlist from './pages/WatchlistPage'
+import MoviesType from './pages/MoviesType'
 
 const token = localStorage.getItem('token')
 if (token) {
@@ -47,6 +48,9 @@ const App = () => {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/search" component={SearchPage} />
             <Route exact path="/movie/:id" component={MoviePage} />
+            <Route exact path="/TopRated" component={MoviesType} />
+            <Route exact path="/Upcoming" component={MoviesType} />
+            <Route exact path="/Latest" component={MoviesType} />
             <Route exact path="/watchlist" component={Watchlist} />
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
