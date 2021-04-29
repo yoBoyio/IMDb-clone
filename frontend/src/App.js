@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
@@ -18,16 +18,16 @@ import AuthRoute from "./util/AuthRoute";
 import Movie from "./components/movies/Movie";
 import MoviePage from "./pages/MoviePage";
 import NotFound from "./pages/NotFound";
-import Watchlist from './pages/WatchlistPage'
-import MoviesType from './pages/MoviesType'
+import Watchlist from "./pages/WatchlistPage";
+import MoviesType from "./pages/MoviesType";
+import Genrespage from "./pages/GenresPage";
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem("token");
 if (token) {
-
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
     //store.dispatch(logoutUser());
-    window.location.href = '/login';
+    window.location.href = "/login";
   } else {
     store.dispatch(loadUser());
     store.dispatch(getWatchlist());
@@ -52,6 +52,7 @@ const App = () => {
             <Route exact path="/Upcoming" component={MoviesType} />
             <Route exact path="/Latest" component={MoviesType} />
             <Route exact path="/watchlist" component={Watchlist} />
+            <Route exact path="/genres" component={Genrespage} />
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
             <Route path="*">

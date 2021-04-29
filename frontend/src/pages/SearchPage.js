@@ -20,6 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavItem } from "reactstrap";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -73,6 +74,7 @@ function SearchPage(props) {
   const [submit, setSubmit] = useState(false);
   const [submittedtext, setSubmittedtext] = useState(null);
   const movies = props.movies;
+  const loading = props.loading;
 
   const handleListen = () => {
     if (!recognition.listening) {
@@ -112,7 +114,18 @@ function SearchPage(props) {
 
     // eslint-disable-next-line
   }, []);
+  let mapping =
+    movies.length > 0
+      ? movies.map((movie) => (
+          <MovieCard movie={movie} key={movie.id}></MovieCard>
+        ))
+      : null;
 
+  let displayInfo = !loading ? (
+    mapping
+  ) : (
+    <CircularProgress size="100px" thickness="5.6" />
+  );
   return (
     <div>
       <ThemeProvider theme={darkTheme}>
@@ -148,14 +161,8 @@ function SearchPage(props) {
         </div>
       </ThemeProvider>
 
-      <div className={classes.main}>
-        {movies.length > 0
-          ? movies.map((movie) => (
-              <MovieCard movie={movie} key={movie.id}></MovieCard>
-            ))
-          : null}
-      </div>
-      {searchText && movies.length == 0 && submittedtext ? (
+      <div className={classes.main}>{displayInfo}</div>
+      {searchText && movies.length == 0 && submittedtext && !loading ? (
         <div className={classes.centered}>
           <SentimentDissatisfiedSharpIcon style={{ fontSize: 100 }} />
           No Movie with the name — <strong>{submittedtext}</strong> was found.
@@ -171,5 +178,6 @@ function SearchPage(props) {
 
 const mapStateToProps = (state) => ({
   movies: state.movie.searchMovies,
+  loading: state.movie.searchLoading,
 });
 export default connect(mapStateToProps, { searchMovies })(SearchPage);

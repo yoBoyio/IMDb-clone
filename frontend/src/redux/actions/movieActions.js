@@ -12,6 +12,7 @@ import {
   LOADING,
   FETCH_CREDITS,
   FETCH_TRAILER,
+  SEARCH_NOTFOUND,
 } from "./types";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
@@ -34,7 +35,6 @@ export const getMovies = (url) => (dispatch) => {
 
 export const searchMovies = (url) => (dispatch) => {
   dispatch(setSearchMoviesLoading());
-
   axios
     .get(`https://localhost:44324/api/movieshowcase/Search/${url}`, config)
     .then((res) =>
@@ -43,9 +43,12 @@ export const searchMovies = (url) => (dispatch) => {
         payload: res.data,
       })
     )
-    .catch((err) =>
-      dispatch(returnErrors(err.response.data, err.response.status))
-    );
+    .catch((err) => {
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: SEARCH_NOTFOUND,
+      });
+    });
 };
 
 export const fetchMovie = (id) => (dispatch) => {

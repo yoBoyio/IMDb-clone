@@ -64,7 +64,11 @@
 .ContentModal__description::-webkit-scrollbar {
   display: none;
 }
-
+.actions {
+  display: inline-block;
+  position: absolute;
+  bottom: 340px;
+}
 @media (min-width: 835px) {
   .ContentModal__landscape {
     display: none;
@@ -91,42 +95,38 @@
   }
 }
 
-.btn{
+.btn {
   position: relative;
   padding-top: 10px;
-  top:0px;
+  top: 0px;
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 40%;
 }
-.watchlist{
-  position:absolute;
-  margin:0px 20px 0px 160px;
-
-  
+.watchlist {
+  position: absolute;
+  margin: 0px 20px 0px 160px;
 }
 
-.dislike{
-  margin:0px 20px 0px 80px;
+.dislike {
+  margin: 0px 20px 0px 80px;
 }
 
-.actions{
-  display:inline-block;
+.actions {
+  display: inline-block;
   position: absolute;
   bottom: 340px;
-  
 }
 /* vote  */
 .score {
   flex-basis: 14%;
   align-self: center;
   position: relative;
-  width:10px;
+  width: 10px;
   height: 10px;
   margin-left: auto;
   margin-right: 120px;
-  
 }
 .score span {
   text-align: center;
