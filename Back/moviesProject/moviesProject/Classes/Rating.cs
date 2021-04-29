@@ -37,16 +37,16 @@ namespace moviesProject.Classes
             Rating rating = new Rating(); ;
             try
             {
+                
                 await DbConn.OpenAsync();
-
                 if (userEmail != "" && page==0)
                 {
                     query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
                     using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                         using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                         {
-                        
-                            await reader.ReadAsync();
+
+                            reader.Read();
                             if (reader.HasRows)
                             {
                                 int rid = (int)reader["ratingId"];
@@ -71,7 +71,7 @@ namespace moviesProject.Classes
 
                     if (reader.HasRows)
                     {
-                        while (await reader.ReadAsync();)
+                        while (reader.Read())
                         {
                             int rid = (int)reader["ratingId"];
                             int movieId = (int)reader["movieId"];
@@ -105,7 +105,7 @@ namespace moviesProject.Classes
             using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
             {
                 
-                    await reader.ReadAsync();
+                    reader.Read();
                 if (reader.HasRows)
                 {
                     int rid = (int)reader["ratingId"];
@@ -167,7 +167,7 @@ namespace moviesProject.Classes
                 using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
                 using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                 {
-                    await reader.ReadAsync();
+                    reader.Read();
                     like = (decimal)reader["Truecount"];
                     dislike = (decimal)reader["Falsecount"];
                 }
