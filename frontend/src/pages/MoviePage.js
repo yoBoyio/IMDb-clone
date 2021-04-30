@@ -1,5 +1,5 @@
 import React,{ Component } from 'react'
-import { fetchMovie, fetchCredits, setLoading,fetchTrailer,fetchGenre } from '../redux/actions/movieActions';
+import { fetchMovie, fetchCredits, setLoading,fetchTrailer } from '../redux/actions/movieActions';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import Movie from '../components/movies/Movie';
@@ -45,7 +45,6 @@ class MoviePage extends Component {
         this.props.fetchMovie(this.props.match.params.id);
         this.props.fetchCredits(this.props.match.params.id);
         this.props.fetchTrailer(this.props.match.params.id);
-        this.props.fetchGenre(this.props.match.params.id);
         this.props.setLoading();
       }
     render() { 
@@ -79,4 +78,4 @@ const mapStateToProps = state => ({
   });
  
 export default connect( mapStateToProps,
-    {fetchMovie,fetchCredits,setLoading,fetchTrailer,fetchGenre})(withStyles(useStyles) (MoviePage));
+    {fetchMovie,fetchCredits,setLoading,fetchTrailer})(withStyles(useStyles) (MoviePage));
