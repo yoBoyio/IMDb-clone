@@ -40,7 +40,7 @@ const Genres = ({
 
   return (
     <div className={classes.genres_area} style={{ padding: "6px 0" }}>
-      {selectedGenres.map((genre) => (
+      {selectedGenres && selectedGenres.map((genre) => (
         <Chip
           style={{ margin: 2 }}
           label={genre.name}
@@ -50,7 +50,7 @@ const Genres = ({
           size="small"
         />
       ))}
-      {movieIds.map((genre) => (
+      {movieIds && movieIds.map((genre) => (
         <Chip
           className={classes.root}
           style={{ margin: 2 }}
