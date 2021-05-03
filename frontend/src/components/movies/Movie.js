@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 import { fetchMovie, setLoading } from "../../redux/actions/movieActions";
 import { connect } from "react-redux";
 import Spinner from "../../layout/Spinner";
@@ -11,7 +11,7 @@ import Like from "../likeDislike/Like";
 import DisLike from "../likeDislike/Dislike";
 
 //material UI
-import { withStyles,makeStyles } from "@material-ui/core/";
+import { withStyles } from "@material-ui/core/";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -26,7 +26,7 @@ function time_convert(num) {
 }
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
   imageContainer: {
     background: "#141414",
     color: "#fff",
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
   },
   subs: {
     fontSize: "18px",
-    marginBottom: "5px",
+    marginBottom: "20px",
   },
   description: {
     fontWeight: "Bold",
@@ -102,19 +102,13 @@ const useStyles = makeStyles((theme) => ({
   heart: {
     display: "flex",
     marginRight: 4,
-    marginBottom: 5
   },
-  rating: {
-    marginTop: -30
-  },
-}));
+});
 
-function Movie({loading, movie, auth}) {
-    // const { loading, movie, auth, selectedGenres,setSelectedGenres,setGenres,genres,movieIds } = this.props;
-    const  classes = useStyles();
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [genres, setGenres] = useState([]);
-    console.log(movie.genres);
+export class Movie extends Component {
+  render() {
+    const { loading, movie, auth, id } = this.props;
+    const { classes } = this.props;
 
     let movieInfo = (
       <div>
@@ -164,14 +158,15 @@ function Movie({loading, movie, auth}) {
                     {movie.vote_average * 10 + "%"}{" "}
                   </Typography>
                 </div>
-               {movie.genres && <Genres
-                    movieIds={movie.genres}
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
-                    genres={genres}
-                    setGenres={setGenres}
-                />}
-                <div className={classes.rating}>
+                {/* <Genres
+                                        movieIds={movie.id}
+                                        selectedGenres={selectedGenres}
+                                        setSelectedGenres={setSelectedGenres}
+                                        genres={genres}
+                                        setGenres={setGenres}
+                                    /> */}
+
+                <div>
                   {auth && auth.isAuthenticated ? (
                     <CommentModal movieId={movie.id}>
                       <Like movieId={movie.id} auth={true} />
@@ -218,7 +213,7 @@ function Movie({loading, movie, auth}) {
     let content = loading ? <Spinner /> : movieInfo;
     return <div> {content} </div>;
   }
-
+}
 
 const mapStateToProps = (state) => ({
   loading: state.movie.loading,

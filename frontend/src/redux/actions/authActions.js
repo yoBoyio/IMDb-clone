@@ -172,7 +172,7 @@ export const commentAction = (comment, movieId, token_value) => (
   const body = JSON.stringify({ movieId: movieId, commentContent: comment, like: true });
 
   axios
-    .post('api/rating/insert', body, conf())
+    .post('api/rating/insert', body, conf(token_value))
     .then(res =>
       dispatch({
         type: COMMENT_SUCCESS,
@@ -229,7 +229,7 @@ export const tokenConfig = (getState) => {
 
 
 
-export const conf = ( movieId) => {
+export const conf = (token_value, movieId) => {
   // Get token from localstorage
   const token = 'bearer ' + localStorage.getItem('token');
 
