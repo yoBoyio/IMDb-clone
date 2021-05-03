@@ -57,52 +57,57 @@ namespace moviesProject.Classes
             return flag;
         }
 
-        public static user getUser(String Email)
+        public static async Task<user> getUser(String Email)
         {
             user user = null;
             try
             {
+                await DbConn.OpenAsync();
                 String query = "SELECT * FROM users WHERE userEmail='" + Email + "'";
-
-                MySqlCommand cmd = new MySqlCommand(query, DbConn);
-                DbConn.Open();
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
+                using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
                 {
-                    int rid = (int)reader["userId"];
-                    String ruName = reader["userName"].ToString();
-                    String ruEmail = reader["userEmail"].ToString();
-                    bool ruAdmin = (bool)reader["isAdmin"];
-                    user = new user(rid, ruName, ruEmail, ruAdmin);
+                    
+
+                    while (reader.Read())
+                    {
+                        if (reader["userEmail"].ToString() != "")
+                        {
+                            int rid = (int)reader["userId"];
+                            String ruName = reader["userName"].ToString();
+                            String ruEmail = reader["userEmail"].ToString();
+                            bool ruAdmin = (bool)reader["isAdmin"];
+                            user = new user(rid, ruName, ruEmail, ruAdmin);
+                        }
+                    }
+                    
                 }
             }
             catch (MySqlException e) 
             {
                 user = null;
             }
-            DbConn.Close();
+            await DbConn.CloseAsync();
             return user;
         }
 
-        public static bool insertUser(string uName, string uEmail, string uPass)
+        public static async Task<bool> insertUserAsync(string uName, string uEmail, string uPass)
         {
             bool flag = true;
             try
             {
 
+                await DbConn.OpenAsync();
                 String query = "INSERT INTO `users` (`userEmail`, `userName` , `userPassword`) VALUES('" + uEmail + "', '" + uName + "', '" + uPass + "')";
-                MySqlCommand cmd = new MySqlCommand(query, DbConn);
-                DbConn.Open();
-                cmd.ExecuteNonQuery();
-                
+                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
+                    await cmd.ExecuteReaderAsync();
             }
             catch (MySqlException e)
             {
                 flag = false;
             }
-            DbConn.Close();
-            return flag;
+                await DbConn.CloseAsync();
+                return flag;
             }
         
     }

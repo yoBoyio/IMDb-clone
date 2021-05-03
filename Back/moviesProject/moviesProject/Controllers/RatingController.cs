@@ -25,7 +25,7 @@ namespace moviesProject.Controllers
             string email = "";
             if (Authorization!=null)
             email = tokenObj.GetNameClaims(Authorization);
-            Dictionary<string, List<Rating>> dictionary = Rating.getMovieRatings(movieId,page,email);
+            Dictionary<string, List<Rating>> dictionary = await Rating.getMovieRatingsAsync(movieId,page,email);
 
             if (dictionary["Ratings"].Count == 0)
                 return NotFound(JsonConvert.SerializeObject("Not found", Formatting.Indented));
@@ -41,7 +41,7 @@ namespace moviesProject.Controllers
         {
             string email = tokenObj.GetNameClaims(Authorization);
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            Rating rating = Rating.getMovieSingleRating(movieId, email);
+            Rating rating = await Rating.getMovieSingleRatingAsync(movieId, email);
             if (rating.ratingId == 0)
             {
                 dictionary.Add("Message:", "NotFound");
@@ -59,7 +59,7 @@ namespace moviesProject.Controllers
         [HttpGet("get/stats")]
         public async Task<IActionResult> GetMovieAverageAsync(int movieId)
         {
-            Dictionary<string, decimal> retDict = Rating.getMovieAverage(movieId);
+            Dictionary<string, decimal> retDict = await Rating.getMovieAverageAsync(movieId);
             if (retDict["percentage"] == -1)
             {
                 Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -87,7 +87,7 @@ namespace moviesProject.Controllers
             if (like)
                 likepass = 1;
 
-            if (! (Rating.insertRating(movieId, email, commentContent, likepass)))
+            if (! (await Rating.insertRatingAsync(movieId, email, commentContent, likepass)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully inserted rating", Formatting.Indented);
@@ -103,7 +103,7 @@ namespace moviesProject.Controllers
             int movieId = userCred.MovieId;
             string email = tokenObj.GetNameClaims(Authorization);
 
-            if (!(Rating.deleteRating(movieId, email)))
+            if (!(await Rating.deleteRatingAsync(movieId, email)))
                 return NotFound();
 
             string json = JsonConvert.SerializeObject("200: description: Successfully deleted rating", Formatting.Indented);
