@@ -28,7 +28,7 @@ namespace moviesProject.Classes
 
         private static MySqlConnection DbConn = DbMethods.dbget();
 
-        public static async Task<Dictionary<string, List<Rating>>> getMovieRatingsAsync(int MovieId,int page,string userEmail) 
+        public static Dictionary<string, List<Rating>> getMovieRatings(int MovieId, int page, string userEmail)
         {
             List<Rating> Rlist = new List<Rating>();
             List<Rating> userRating = new List<Rating>();
@@ -37,146 +37,139 @@ namespace moviesProject.Classes
             Rating rating = new Rating(); ;
             try
             {
-                
-                await DbConn.OpenAsync();
-                if (userEmail != "" && page==0)
+
+                DbConn.Open();
+                if (userEmail != "" && page == 0)
                 {
                     query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
-                    using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                        using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
-                        {
+                    MySqlCommand cmdR = new MySqlCommand(query, DbConn);
+                    MySqlDataReader readerR = cmdR.ExecuteReader();
 
-                            reader.Read();
-                            if (reader.HasRows)
-                            {
-                                int rid = (int)reader["ratingId"];
-                                int movieId = (int)reader["movieId"];
-                                String uEmail = reader["userEmail"].ToString();
-                                String commentContent = reader["commentContent"].ToString();
-                                bool like = (bool)reader["like"];
-                                rating = new Rating(rid, movieId, uEmail, commentContent, like);
-                                userRating.Add(rating);
-                            }
-
-                        }
-                    dictionary.Add("UserRating", userRating);
-                    await DbConn.CloseAsync();
-                }
-                await DbConn.OpenAsync();
-                query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail != '" + userEmail + "' LIMIT " + page*10+",10";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
-                {
-
-
-                    if (reader.HasRows)
+                    readerR.Read();
+                    if (readerR.HasRows)
                     {
-                        while (reader.Read())
-                        {
-                            int rid = (int)reader["ratingId"];
-                            int movieId = (int)reader["movieId"];
-                            String uEmail = reader["userEmail"].ToString();
-                            String commentContent = reader["commentContent"].ToString();
-                            bool like = (bool)reader["like"];
-                            rating = new Rating(rid, movieId, uEmail, commentContent, like);
-                            Rlist.Add(rating);
-                        }
+                        int rid = (int)readerR["ratingId"];
+                        int movieId = (int)readerR["movieId"];
+                        String uEmail = readerR["userEmail"].ToString();
+                        String commentContent = readerR["commentContent"].ToString();
+                        bool like = (bool)readerR["like"];
+                        rating = new Rating(rid, movieId, uEmail, commentContent, like);
+                        userRating.Add(rating);
+                    }
+
+
+                    dictionary.Add("UserRating", userRating);
+                    DbConn.Close();
+                }
+                DbConn.Open();
+
+                query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail != '" + userEmail + "' LIMIT " + page * 10 + ",10";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int rid = (int)reader["ratingId"];
+                        int movieId = (int)reader["movieId"];
+                        String uEmail = reader["userEmail"].ToString();
+                        String commentContent = reader["commentContent"].ToString();
+                        bool like = (bool)reader["like"];
+                        rating = new Rating(rid, movieId, uEmail, commentContent, like);
+                        Rlist.Add(rating);
                     }
                 }
                 dictionary.Add("Ratings", Rlist);
             }
-            catch (MySqlException e) 
+            catch (MySqlException e)
             {
-                await DbConn.CloseAsync();
+                DbConn.Close();
                 return null;
             }
 
-            await DbConn.CloseAsync();
-
-
+            DbConn.Close();
             return dictionary;
         }
-        public static async Task<Rating> getMovieSingleRatingAsync(int MovieId, string userEmail)
+        public static Rating getMovieSingleRating(int MovieId, string userEmail)
         {
-            await DbConn.OpenAsync();
-            Rating rating= new Rating();
+            DbConn.Open();
+            Rating rating = new Rating();
             String query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
-            using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-            using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
+            MySqlCommand cmd = new MySqlCommand(query, DbConn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            reader.Read();
+            if (reader.HasRows)
             {
-                
-                    reader.Read();
-                if (reader.HasRows)
-                {
-                    int rid = (int)reader["ratingId"];
-                    int movieId = (int)reader["movieId"];
-                    String uEmail = reader["userEmail"].ToString();
-                    String commentContent = reader["commentContent"].ToString();
-                    bool like = (bool)reader["like"];
-                    rating = new Rating(rid, movieId, uEmail, commentContent, like);
-                }
+                int rid = (int)reader["ratingId"];
+                int movieId = (int)reader["movieId"];
+                String uEmail = reader["userEmail"].ToString();
+                String commentContent = reader["commentContent"].ToString();
+                bool like = (bool)reader["like"];
+                rating = new Rating(rid, movieId, uEmail, commentContent, like);
             }
-            await DbConn.CloseAsync();
+
+            DbConn.Close();
             return rating;
         }
-        public static async Task<bool> insertRatingAsync(int movieId, string userEmail, string commentContent, int like)
+        public static bool insertRating(int movieId, string userEmail, string commentContent, int like)
         {
             bool flag = true;
             try
             {
-                await DbConn.OpenAsync();
-                String query = "REPLACE INTO ratings VALUES (0," + movieId + ",'" + userEmail+"','"+commentContent+"',"+like+")";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    await cmd.ExecuteReaderAsync();
+                DbConn.Open();
+                String query = "REPLACE INTO ratings VALUES (0," + movieId + ",'" + userEmail + "','" + commentContent + "'," + like + ")";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                cmd.ExecuteReader();
 
             }
             catch (Exception ex)
             {
                 flag = false;
             }
-            await DbConn.CloseAsync();
+            DbConn.Close();
             return flag;
         }
-        public static async Task<bool> deleteRatingAsync(int movieId, string userEmail)
+        public static bool deleteRating(int movieId, string userEmail)
         {
             bool flag = true;
             try
             {
-                await DbConn.OpenAsync();
-                String query = "DELETE  FROM RATINGS WHERE movieId = '" + movieId + "' AND userEmail = '"+userEmail+"'";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    await cmd.ExecuteReaderAsync();
+                DbConn.Open();
+                String query = "DELETE  FROM RATINGS WHERE movieId = '" + movieId + "' AND userEmail = '" + userEmail + "'";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                cmd.ExecuteReader();
 
             }
             catch (Exception ex)
             {
                 flag = false;
             }
-            await DbConn.CloseAsync();
+            DbConn.Close();
             return flag;
         }
-        public static async Task<Dictionary<string, decimal>> getMovieAverageAsync(int MovieId)
+        public static Dictionary<string, decimal> getMovieAverage(int MovieId)
         {
             decimal like = 0, dislike = 0, percentage = 0;
 
             Dictionary<string, decimal> dictionary = new Dictionary<string, decimal>();
             try
             {
-                await DbConn.OpenAsync();
+                DbConn.Open();
                 String query = "Select sum(case when `like` = 1 then 1 else 0 end) AS Truecount,sum(case when `like` = 0 then 1 else 0 end) AS Falsecount FROM ratings WHERE movieId=" + MovieId + "";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
-                {
-                    reader.Read();
-                    like = (decimal)reader["Truecount"];
-                    dislike = (decimal)reader["Falsecount"];
-                }
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                like = (decimal)reader["Truecount"];
+                dislike = (decimal)reader["Falsecount"];
+
             }
             catch (Exception e1)
             {
                 percentage = -1;
             }
-            await DbConn.CloseAsync();
+            DbConn.Close();
 
             if (like > 0 || dislike > 0)
                 percentage = (like / (like + dislike)) * 100;

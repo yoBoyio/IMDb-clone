@@ -17,100 +17,95 @@ namespace moviesProject.Classes
 
         public static async Task<List<MovieFirebase>> GetMoviesAsync(String uEmail)
         {
+            List<MovieFirebase> MovieList = new List<MovieFirebase>();
             try
             {
 
-                await DbConn.OpenAsync();
-                List<MovieFirebase> MovieList = new List<MovieFirebase>();
+                DbConn.Open();
                 String query = "SELECT movieId FROM watchlist WHERE userEmail='" + uEmail + "'";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
-                {
-                    while (reader.Read())
+
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                     {
                         MovieFirebase movie = new MovieFirebase();
                         int movieId = (int)reader["movieId"];
                         movie = await MovieMethods.GetMovie(movieId);
                         MovieList.Add(movie);
                     }
-
-                    DbConn.Close();
-                    return MovieList;
-                }
             }
             catch (MySqlException e) 
             {
-                await DbConn.CloseAsync();
+                DbConn.Close();
                 return null;
             }
 
+            DbConn.Close();
+            return MovieList;
         }
 
-        public static async Task<bool> insertInWLAsync(string uEmail, int MovieId)
+        public static bool insertInWL(string uEmail, int MovieId)
         {
             try
             {
-                await DbConn.OpenAsync();
+                DbConn.Open();
                 List<Movie> MovieList = new List<Movie>();
                 String query = "INSERT INTO `watchlist` (`userEmail`, `movieId` ) VALUES('" + uEmail + "', " + MovieId + ")";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))   
-                    cmd.ExecuteNonQuery();
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 return false;
             }
 
-            await DbConn.CloseAsync();
+            DbConn.Close();
             return true;
         }
 
-        public static async Task<bool> IsInList(String Email,int movieId)
+        public static bool IsInList(String Email, int movieId)
         {
             bool Flag = false;
             try
             {
-                await DbConn.OpenAsync();
-                
-                String query = "SELECT movieId FROM watchlist WHERE userEmail='" + Email + "' AND movieId='"+movieId+"'";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                using (MySqlDataReader reader = (MySqlDataReader)await cmd.ExecuteReaderAsync())
-                {
+                DbConn.Open();
 
-                    while (reader.Read())
+                String query = "SELECT movieId FROM watchlist WHERE userEmail='" + Email + "' AND movieId='" + movieId + "'";
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (reader["movieId"].ToString() != "")
                     {
-                        if (reader["movieId"].ToString() != "")
-                        {
-                            Flag = true;
-                        }
+                        Flag = true;
                     }
-                    
                 }
+
             }
             catch (MySqlException e)
             {
                 Flag = true;
             }
-            await DbConn.CloseAsync();
+            DbConn.Close();
             return Flag;
         }
 
-        public static async Task<bool> removeFromWLAsync(string uEmail,int MovieId) 
+        public static bool removeFromWL(string uEmail, int MovieId)
         {
             try
             {
-
-                await DbConn.OpenAsync();
-                List<Movie> MovieList = new List<Movie>();
+                DbConn.Open();
                 String query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND movieId=" + MovieId + "";
-                using (MySqlCommand cmd = new MySqlCommand(query, DbConn))
-                    await cmd.ExecuteReaderAsync();
+                MySqlCommand cmd = new MySqlCommand(query, DbConn);
+                cmd.ExecuteNonQuery();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return false;
             }
-            await DbConn.CloseAsync();
+            DbConn.Close();
             return true;
         }
     }
