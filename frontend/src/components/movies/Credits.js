@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchCredits, setLoading } from '../../redux/actions/movieActions';
 import Spinner from '../../layout/Spinner';
 import png from '../../images/castMissing.png';
+import Carousel from "react-elastic-carousel";
 
 //material UI
 import { withStyles } from '@material-ui/core/'
@@ -14,6 +15,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from '@material-ui/core/'
 import LinearProgress from "@material-ui/core/LinearProgress";
+import GridList from '@material-ui/core/GridList';
 
 const useStyles = theme =>({
 
@@ -31,7 +33,7 @@ const useStyles = theme =>({
     textAlign : "center",
     border: "none", 
     boxShadow: "none",
-    height:340,
+    height:380,
     width:200
   },
   castCharacter: {
@@ -70,15 +72,10 @@ const useStyles = theme =>({
     marginBottom: "20px",
     background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)'
   },
-  videoContainer: {
-    display: 'flex',
-    border: "none", 
-    boxShadow: "none",
-    alignItems: 'center',
-    justifyContent: 'center',
-    justify: "center",
-    marginLeft:160,
-    width: 1200
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
   },
 });
 
@@ -93,8 +90,18 @@ export class Credits extends Component {
     render() {
         const { loading, credits } = this.props;
         //material UI
-        const {classes} = this.props;   
-        let castList = credits.slice(0,6).map(castMember => (
+        const {classes} = this.props;  
+        const breakPoints = [
+          { width: 1, itemsToShow: 1 },
+          { width: 550, itemsToShow: 3 },
+          { width: 768, itemsToShow: 5 },
+          { width: 1200, itemsToShow: 8 },
+          { width: 1400, itemsToShow: 10 },
+        ]; 
+        
+        let castList =
+        <Carousel breakPoints={breakPoints}>
+        {credits.map(castMember => (
           <Grid
                  container
                  justify="center"
@@ -138,15 +145,18 @@ export class Credits extends Component {
      </Card>
    </Grid>
   </Grid>
-  ));
+  ))}
+  </Carousel>;
   let contents = loading ? <Spinner /> : castList;
   return  <div>
   <Typography className={classes.cast}>Cast</Typography>
   <LinearProgress className={classes.barCover} variant="determinate" classes={{
         barColorPrimary: classes.barCover // class name, e.g. `classes-nesting-root-x`
       }} />
-  <div className={classes.container} > {contents}</div>
-  
+  <div className={classes.container}>
+  {/* <GridList className={classes.gridList} cellHeight="380" > {contents}</GridList> */}
+  {contents}
+  </div>
   </div> ; }; } 
    
          
