@@ -19,7 +19,7 @@ namespace moviesProject.Classes
         }
         public string Authenticate(string uname, string upass)
         {
-            if (!user.authUser(uname,upass))
+            if (!UserMethods.authUser(uname,upass))
             {
                 return null;
             }

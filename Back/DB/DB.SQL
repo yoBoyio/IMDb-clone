@@ -35,8 +35,10 @@ INSERT INTO `users` (`userEmail`, `userName` , `userPassword`, `isAdmin` ) VALUE
 
 drop table watchlist;
 CREATE TABLE `watchlist` (
+    `WatchlistId` INT NOT NULL unique auto_increment,
     `userEmail` VARCHAR(255) NOT NULL,
-    `movieId` INT NOT NULL
+    `movieId` INT NOT NULL,
+    PRIMARY KEY (WatchlistId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 

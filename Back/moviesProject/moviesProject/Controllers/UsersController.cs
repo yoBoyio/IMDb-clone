@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using moviesProject.Classes;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
+using moviesProject.Database;
 
 namespace moviesProject.Controllers
 {
@@ -33,7 +34,7 @@ namespace moviesProject.Controllers
 
             string email = tokenObj.GetNameClaims(Authorization);
 
-            user user = await user.getUser(email);
+            User user = await UserMethods.getUser(email);
 
             if (user==null)
                 return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
@@ -53,16 +54,16 @@ namespace moviesProject.Controllers
             var password = userCred.Password;
           
             // validate fields
-            if ( name =="" || email=="" || password == "")
+            if ( name ==null || email==null || password == null)
                 return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
             
 
             // check  if user exists
-            if (await user.getUser(email)!=null)
+            if (await UserMethods.getUser(email)!=null)
                 return NotFound(JsonConvert.SerializeObject("User already exists", Formatting.Indented));
 
             //check if user saved
-            bool savedUser= await user.insertUserAsync(name, email, password);
+            bool savedUser= await UserMethods.insertUserAsync(name, email, password);
             if(!savedUser)
                 return NotFound(JsonConvert.SerializeObject("Something went wrong saving the user", Formatting.Indented));
 
@@ -89,7 +90,7 @@ namespace moviesProject.Controllers
             if (token == null)
                 return Unauthorized(JsonConvert.SerializeObject("Invalid credentials", Formatting.Indented));
 
-            user user = await user.getUser(email);
+            User user = await UserMethods.getUser(email);
             tokenObj sendToken = new tokenObj(token);
             List<object> objects = new List<object>();
             objects.Add(sendToken);
@@ -113,7 +114,7 @@ namespace moviesProject.Controllers
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
-            if (await user.getUser(email) == null)
+            if (await UserMethods.getUser(email) == null)
             {
                 dictionary.Add("Message:", "NotFound");
                 dictionary.Add("Description:", "User not found");
@@ -121,7 +122,15 @@ namespace moviesProject.Controllers
             }
 
 
-            List<MovieFirebase> wl = await WatchList.GetMoviesAsync(email);
+            List<MovieFirebase> wl = await WatchListMethods.GetMoviesAsync(email);
+
+            if (wl.Count == 0)
+            {
+                dictionary.Add("Message:", "NotFound");
+                dictionary.Add("Description:", "WatchList is empty");
+                return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
+            }
+
             string json = JsonConvert.SerializeObject(wl, Formatting.Indented);
 
             return Ok(json);
@@ -143,7 +152,7 @@ namespace moviesProject.Controllers
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
-            if (await WatchList.IsInList(email, movie) == true)
+            if (await WatchListMethods.IsInList(email, movie) == true)
             {
                 dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "Please enter all fields");
@@ -152,7 +161,7 @@ namespace moviesProject.Controllers
 
             
 
-            if (user.getUser(email) == null)
+            if (UserMethods.getUser(email) == null)
             {
                 dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "User not found");
@@ -168,7 +177,7 @@ namespace moviesProject.Controllers
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
-            if (!(await WatchList.insertInWLAsync(email, movie)))
+            if (!(await WatchListMethods.insertInWLAsync(email, movie)))
             {
                 dictionary.Add("Message:", "NotFound");
                 dictionary.Add("Description:", "Something went wrong");
@@ -186,14 +195,14 @@ namespace moviesProject.Controllers
             int movie = userCred.MovieId;
 
 
-            if (await WatchList.IsInList(email, movie) == false)
+            if (await WatchListMethods.IsInList(email, movie) == false)
             {
                 dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "Not Found In List");
                 return NotFound(JsonConvert.SerializeObject(dictionary, Formatting.Indented));
             }
 
-            if (!(await WatchList.removeFromWLAsync(email, movie)))
+            if (!(await WatchListMethods.removeFromWLAsync(email, movie)))
             {
                 dictionary.Add("Message:", "Not Found");
                 dictionary.Add("Description:", "Something went wrong");
