@@ -4,11 +4,7 @@ import jwtDecode from "jwt-decode";
 
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
-import { loadUser } from "./redux/actions/authActions";
 import { getWatchlist } from "./redux/actions/authActions";
-import AppNavbar from "./components/navbar/AppNavbar";
-import store from "./store";
-import HomePage from "./pages/HomePage";
 import StickyFooter from "./components/StickyFooter";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
@@ -22,6 +18,15 @@ import Watchlist from "./pages/WatchlistPage";
 import MoviesType from "./pages/MoviesType";
 import Genrespage from "./pages/GenresPage";
 import MakeComment from "./components/likeDislike/MakeComment"
+import { loadUser } from './redux/actions/authActions'
+import AppNavbar from './components/navbar/AppNavbar'
+import store from './store';
+import HomePage from './pages/HomePage';
+
+import PopularPeoplePage from './pages/PopularPeoplePage';
+import PersonDetailsPage from './pages/PersonDetailsPage'
+
+
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -41,7 +46,7 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
+    <Provider store={store}>  
       <Router>
         <AppNavbar />
         <div className="app">
@@ -54,8 +59,15 @@ const App = () => {
             <Route exact path="/Latest" component={MoviesType} />
             <Route exact path="/watchlist" component={Watchlist} />
             <Route exact path="/genres" component={Genrespage} />
-            <AuthRoute exact path="/login" component={LoginPage} />
-            <AuthRoute exact path="/signup" component={RegisterPage} />
+            <Route exact path="/movie/:id" component={Movie} />
+            <Route exact path="/person/" component={PopularPeoplePage} />
+            <Route exact path="/person/:personId" component={PersonDetailsPage} />
+            
+            <AuthRoute exact path="/login" component={LoginPage}
+
+            />
+            <AuthRoute exact path="/signup" component={RegisterPage}
+            />
             <Route path="*">
               <NotFound />
             </Route>

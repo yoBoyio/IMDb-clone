@@ -8,3 +8,5 @@ packages
 Migrations
 *.db
 .vs
+node_modules
+

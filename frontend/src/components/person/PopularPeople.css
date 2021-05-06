@@ -1,0 +1,33 @@
+.mediaPP {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  padding: 8px;
+  margin: 8px 0;
+  background-color: #282c34;
+  border-radius: 5px;
+  position: relative;
+  font-family: "Montserrat", sans-serif;
+}
+
+.mediaPP:hover {
+  background-color: white;
+  color: black;
+}
+
+@media (max-width: 550px) {
+  .mediaPP {
+    width: 46%;
+  }
+}
+
+.posterPP {
+  border-radius: 10px;
+}
+
+.namePP {
+  width: 100%;
+  text-align: center;
+  font-size: 17px;
+  padding: 8px 0;
+}
