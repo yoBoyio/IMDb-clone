@@ -28,7 +28,7 @@ namespace moviesProject.Controllers
             email = tokenObj.GetNameClaims(Authorization);
             Dictionary<string, List<Rating>> dictionary = await RatingMethods.getMovieRatingsAsync(movieId,page,email);
 
-            if (dictionary["Ratings"].Count == 0)
+            if (dictionary["Ratings"].Count == 0 || dictionary == null)
                 return NotFound(JsonConvert.SerializeObject("Not found", Formatting.Indented));
 
             string json = JsonConvert.SerializeObject(dictionary, Formatting.Indented);

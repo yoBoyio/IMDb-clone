@@ -19,12 +19,9 @@ namespace moviesProject.Classes
             Dictionary<string, List<Rating>> dictionary = new Dictionary<string, List<Rating>>();
             Rating rating = new Rating();
 
-            if (page == 0)
-                page = 1; 
-
             try
             {
-                if (userEmail != "" && page==1)
+                if (userEmail != "" && page==0)
                 {
                     //query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
                     rating = await context.Ratings.SingleOrDefaultAsync(x => x.UserEmail == userEmail && x.MovieId == MovieId );

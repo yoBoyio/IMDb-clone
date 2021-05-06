@@ -151,7 +151,7 @@ namespace moviesProject.Controllers
 
             List<MovieFirebase> wl = await WatchListMethods.GetMoviesAsync(email);
 
-            if (wl.Count == 0)
+            if (wl.Count == 0 || wl == null)
             {
                 dictionary.Add("Message:", "NotFound");
                 dictionary.Add("Description:", "WatchList is empty");
