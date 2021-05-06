@@ -21,7 +21,6 @@ import NotFound from "./pages/NotFound";
 import Watchlist from "./pages/WatchlistPage";
 import MoviesType from "./pages/MoviesType";
 import Genrespage from "./pages/GenresPage";
-import MakeComment from "./components/likeDislike/MakeComment"
 
 const token = localStorage.getItem("token");
 if (token) {

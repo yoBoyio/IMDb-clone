@@ -14,9 +14,7 @@ import {
   COMMENT_FAIL,
   DELETE_WATCHLIST,
   ADD_WATCHLIST,
-  GET_WATCHLIST,
-  FETCH_COMMENTS,
-  COMMENT_LOADING
+  GET_WATCHLIST
 } from './types';
 
 
@@ -255,24 +253,4 @@ export const conf = ( movieId) => {
 const setAuthorizationHeader = (token) => {
   const authToken = `bearer ${token}`;
   localStorage.setItem('token', authToken);
-};
-
-export const FetchComments = (id) => (dispatch) => {
-  axios
-    .get(
-      `https://localhost:44324/api/rating/get?movieId=${id}`
-    )
-    .then((response) =>
-      dispatch({
-        type: FETCH_COMMENTS,
-        payload: response.data,
-      })
-    )
-    .catch((err) => console.log(err));
-};
-
-export const CommentLoading = () => {
-  return {
-    type: COMMENT_LOADING,
-  };
 };

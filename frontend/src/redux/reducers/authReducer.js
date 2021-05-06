@@ -8,9 +8,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   COMMENT_SUCCESS,
-  COMMENT_FAIL,
-  FETCH_COMMENTS,
-  COMMENT_LOADING
+  COMMENT_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -18,9 +16,7 @@ const initialState = {
   isAuthenticated: null,
   isLoading: false,
   user: null,
-  commentSuccess: null,
-  showComments: [],
-  loading: false
+  commentSuccess: null
 };
 
 export default function (state = initialState, action) {
@@ -71,17 +67,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isLoading: false
-      };
-    case FETCH_COMMENTS:
-      return {
-        ...state,
-        showComments: action.payload,
-        loading: false,
-      };
-    case COMMENT_LOADING:
-      return {
-        ...state,
-        loading: true,
       };
     default:
       return state;
