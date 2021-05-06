@@ -43,6 +43,33 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
 
+        [HttpPost("ChangePass")]
+        public async Task<IActionResult> GetUserAsync([FromHeader] string Authorization, [FromBody] UserCred userCred)
+        {
+            string email = tokenObj.GetNameClaims(Authorization);
+            string password = userCred.Password;
+            string newPassword = userCred.newPassword;
+
+
+            if (email == "" || password == "" || newPassword == "")
+            {
+                return NotFound(JsonConvert.SerializeObject("Please enter all fields", Formatting.Indented));
+            }
+
+            User user = await UserMethods.getUser(email);
+
+            if (user == null)
+                return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
+
+            if (!UserMethods.authUser(email,password))
+                return NotFound(JsonConvert.SerializeObject("Wrong Password", Formatting.Indented));
+
+            if (! (await UserMethods.ChangePass(email,password,newPassword)))
+                return NotFound(JsonConvert.SerializeObject("Something went wrong", Formatting.Indented));
+
+            string json = JsonConvert.SerializeObject("Password changed!", Formatting.Indented);
+            return Ok(json);
+        }
 
         // (url)/api/Users/signup {POST} Json Body: {"Email":" ", "Name":" ", "Password":" "} | Inserts User-----------------------
         [AllowAnonymous]

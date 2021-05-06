@@ -12,8 +12,6 @@ namespace moviesProject.Classes
     public class UserMethods
     {
 
-        private static MySqlConnection DbConn = DbMethods.dbget();
-
         public static bool authUser(String Email, String Pass)
         {
             moviesProjectContext context = new moviesProjectContext();
@@ -50,7 +48,7 @@ namespace moviesProject.Classes
             {
                 user = null;
             }
-
+            user.UserPassword = null;
             return user;
         }
 
@@ -71,6 +69,30 @@ namespace moviesProject.Classes
                         UserPassword = uPass, 
                         IsAdmin = false               
                     });
+                await context.SaveChangesAsync();
+
+            }
+            catch (Exception e)
+            {
+                flag = false;
+            }
+            
+            return flag;
+        }
+        public static async Task<bool> ChangePass(string uEmail, string uPass, string newPass)
+        {
+            moviesProjectContext context = new moviesProjectContext();
+
+            bool flag =false;
+            
+            try
+            {
+                if (await context.Users.AnyAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass))
+                {
+                    var item = await context.Users.SingleAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass);
+                    item.UserPassword = newPass;
+                    flag = true;
+                }
                 await context.SaveChangesAsync();
 
             }
