@@ -18,9 +18,9 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
-        display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        display:"block"
     },
     paper: {
         width: 500,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     barCover: {
         height: 10,
         borderRadius: 5,
-        width: 120,
+        width: 80,
         background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
         // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
       },
@@ -94,8 +94,9 @@ function MakeComment(props) {
 
     return (
         <>
+        <div className={classes.modal}>
                    <Typography className={classes.comment} gutterBottom>
-                       Comments
+                       Ratings
                      </Typography>
                      <LinearProgress
                        className={classes.barCover}
@@ -130,7 +131,7 @@ function MakeComment(props) {
                             </div>
                         </div>
                     </div>
-            
+                    </div>
         </>
     );
 }

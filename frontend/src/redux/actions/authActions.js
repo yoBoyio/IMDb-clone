@@ -260,7 +260,7 @@ const setAuthorizationHeader = (token) => {
 export const FetchComments = (id) => (dispatch) => {
   axios
     .get(
-      `https://localhost:44324/api/rating/get/stats?movie=${id}`
+      `https://localhost:44324/api/rating/get?movieId=${id}`
     )
     .then((response) =>
       dispatch({

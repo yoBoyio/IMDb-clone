@@ -44,7 +44,13 @@ const useStyles = theme =>({
   },
   makecomment: {
     marginLeft:120,
-    marginTop:50   
+    marginTop:50,
+    display: 'flex'
+  },
+  makecomments: {
+    marginLeft:20,
+    marginTop:50,
+    display: 'flex'
   }
 });
 class MoviePage extends Component {
@@ -76,8 +82,11 @@ class MoviePage extends Component {
                            {/* {auth && auth.isAuthenticated &&  */}
                            <MakeComment movieId={id} /> 
                            {/* }                             */} 
-                           </div>
+                           <div className={classes.makecomments}>
                            <ShowComments />
+                           </div>
+                           </div>
+                           
                       </div>;
                         }
               }
