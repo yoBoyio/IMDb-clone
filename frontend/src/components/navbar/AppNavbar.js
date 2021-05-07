@@ -20,8 +20,8 @@ import Logout from "../auth/Logout";
 //Components and pages
 import SearchBox from "./SearchBox";
 import Watchlist from "../../pages/WatchlistPage";
-import NavMovies from './NavMovie'
-import DropdownMenu from './Dropdown'
+import NavMovies from "./NavMovie";
+import DropdownMenu from "./Dropdown";
 
 const styles = {
   grow: {
@@ -60,30 +60,29 @@ const styles = {
     },
   },
   root: {
-    boxShadow: 'none',
-    textTransform: 'none',
+    boxShadow: "none",
+    textTransform: "none",
     fontSize: 16,
-    padding: '6px 12px',
+    padding: "6px 12px",
     lineHeight: 1.5,
 
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
-    '&:hover': {
-      color: 'white',
-      boxShadow: 'none',
+    ].join(","),
+    "&:hover": {
+      color: "white",
+      boxShadow: "none",
     },
-
-  }
+  },
 };
 
 class AppNavBar extends Component {
@@ -105,7 +104,6 @@ class AppNavBar extends Component {
     const { classes, auth } = this.props;
     const isMenuOpen = this.state.anchorEl;
 
-
     const renderMenu = (
       <Menu
         anchorEl={this.state.anchorEl}
@@ -117,20 +115,28 @@ class AppNavBar extends Component {
       >
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}> <Logout /> </MenuItem>
+        <MenuItem onClick={this.handleMenuClose}>
+          {" "}
+          <Logout />{" "}
+        </MenuItem>
       </Menu>
     );
 
     const watchlist = auth.isAuthenticated ? (
       <Fragment>
-        <Button className={classes.root} disableRipple color="inherit" component={Link} to="/watchlist">
+        <Button
+          className={classes.root}
+          disableRipple
+          color="inherit"
+          component={Link}
+          to="/watchlist"
+        >
           Watchlist
         </Button>
       </Fragment>
     ) : null;
 
     return (
-
       <div className={classes.grow}>
         <AppBar className={classes.appbar} position="static">
           <Toolbar className="nav-container">
@@ -145,11 +151,25 @@ class AppNavBar extends Component {
             <div className={classes.grow} />
             {/*=======Movies list=========*/}
             <DropdownMenu />
+            {/*=======Popular People=========*/}
+            <Button
+              className={classes.root}
+              disableRipple
+              color="inherit"
+              component={Link}
+              to="/person"
+            >
+              People
+            </Button>
             {/*=======Watchlist=========*/}
             {watchlist}
             {/*=======SEARCH=========*/}
             <Fragment>
-              <IconButton className={classes.root} component={Link} to="/search">
+              <IconButton
+                className={classes.root}
+                component={Link}
+                to="/search"
+              >
                 <SearchIcon />
               </IconButton>
             </Fragment>
@@ -170,11 +190,21 @@ class AppNavBar extends Component {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Button className={classes.root} color="inherit" component={Link} to="/login">
+                  <Button
+                    className={classes.root}
+                    color="inherit"
+                    component={Link}
+                    to="/login"
+                  >
                     Login
                   </Button>
 
-                  <Button className={classes.root} color="inherit" component={Link} to="/signup">
+                  <Button
+                    className={classes.root}
+                    color="inherit"
+                    component={Link}
+                    to="/signup"
+                  >
                     Signup
                   </Button>
                 </Fragment>

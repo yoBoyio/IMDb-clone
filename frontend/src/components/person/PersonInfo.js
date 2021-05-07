@@ -1,7 +1,6 @@
 import React, { Component, useState } from "react";
 import ModalImg from "./ModalImg";
-import FilmTable from "./FilmTable";
-import "./PersonInfo.css";
+import "../styles/PersonInfo.css";
 
 const ReadMore = ({ children }) => {
   const text = children;

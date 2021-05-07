@@ -1,7 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import PersonInfo from "../components/person/PersonInfo";
-import FilmTable from "../components/person/FilmTable";
-import "../components/person/PersonInfo.css";
+import "../components/styles/PersonInfo.css";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -49,7 +48,7 @@ const PersonDetailsPage = (props) => {
     const personId = props.match.params.personId;
 
     fetch(
-      `https://api.themoviedb.org/3/person/${personId}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/person/${personId}?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -57,7 +56,7 @@ const PersonDetailsPage = (props) => {
         setPerson(res);
 
         fetch(
-          `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}`
+          `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=2eff1592c2104c03f9098af2aee54824`
         )
           .then((res) => res.json())
           .then((res) => {
