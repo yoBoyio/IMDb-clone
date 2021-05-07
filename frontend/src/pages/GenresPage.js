@@ -1,13 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { fetchGenre } from "../redux/actions/movieActions";
-import { Link, useHistory, useLocation, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import Genres from "../components/genres/genres";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { ButtonGroup, Button, Chip } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
 import MovieCard from "../components/movies/MovieCard";
 import { StyledButton } from "../util/MyTextfield";
 
@@ -159,11 +157,6 @@ function GenresPage() {
       <div className={classes.displayMovies}>{displayInfo}</div>
       <div className={classes.button}>
         {totalresults > 20 && currentMovie == null ? (
-          // <Pagination
-          //   pages={numberPages}
-          //   nextPage={nextPage}
-          //   currentPage={currentPage}
-          // />
           <StyledButton
             style={{ width: "300px", fontSize: "0.4em", fontWeight: "200" }}
             onClick={nextPage}

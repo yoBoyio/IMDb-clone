@@ -64,11 +64,7 @@
 .ContentModal__description::-webkit-scrollbar {
   display: none;
 }
-.actions {
-  display: inline-block;
-  position: absolute;
-  bottom: 340px;
-}
+
 @media (min-width: 835px) {
   .ContentModal__landscape {
     display: none;
