@@ -24,6 +24,8 @@ import Genrespage from "./pages/GenresPage";
 import PopularPeoplePage from "./pages/PopularPeoplePage";
 import PersonDetailsPage from "./pages/PersonDetailsPage";
 import MakeComment from "./components/likeDislike/MakeComment";
+import MyaccountMenu from "./pages/MyaccountMenu";
+import MyAccountPage from "./pages/MyAccountPage";
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -62,6 +64,10 @@ const App = () => {
               path="/person/:personId"
               component={PersonDetailsPage}
             />
+            <Route exact path="/settings" component={MyaccountMenu} />
+            <Route exact path="/profile" component={MyAccountPage} />
+            <Route exact path="/changepassword" component={MyAccountPage} />
+
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
             <Route path="*">
