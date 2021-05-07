@@ -21,7 +21,9 @@ import NotFound from "./pages/NotFound";
 import Watchlist from "./pages/WatchlistPage";
 import MoviesType from "./pages/MoviesType";
 import Genrespage from "./pages/GenresPage";
-import MakeComment from "./components/likeDislike/MakeComment"
+import PopularPeoplePage from "./pages/PopularPeoplePage";
+import PersonDetailsPage from "./pages/PersonDetailsPage";
+import MakeComment from "./components/likeDislike/MakeComment";
 
 const token = localStorage.getItem("token");
 if (token) {
@@ -54,6 +56,12 @@ const App = () => {
             <Route exact path="/Latest" component={MoviesType} />
             <Route exact path="/watchlist" component={Watchlist} />
             <Route exact path="/genres" component={Genrespage} />
+            <Route exact path="/person" component={PopularPeoplePage} />
+            <Route
+              exact
+              path="/person/:personId"
+              component={PersonDetailsPage}
+            />
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
             <Route path="*">
