@@ -1,55 +1,53 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { connect } from 'react-redux';
-import { login } from '../redux/actions/authActions';
-import { clearErrors } from '../redux/actions/errorActions';
-import Alert from '@material-ui/lab/Alert';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { MyTextField, StyledButton, StyledLink } from '../util/MyTextfield';
+import React, { useState, useEffect, useCallback } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { connect } from "react-redux";
+import { login } from "../redux/actions/authActions";
+import { clearErrors } from "../redux/actions/errorActions";
+import Alert from "@material-ui/lab/Alert";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { MyTextField, StyledButton, StyledLink } from "../util/MyTextfield";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    color: 'white',
+    color: "white",
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
   progress: {
-    position: 'absolute'
-  }
+    position: "absolute",
+  },
 }));
 
 function LoginModal(props) {
   const classes = useStyles();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [msg, setMsg] = useState(null);
 
   const handleToggle = useCallback(() => {
     // Clear errors
     props.clearErrors();
-
   }, [props.clearErrors]);
 
   const handleChangeEmail = (e) => setEmail(e.target.value);
@@ -60,12 +58,11 @@ function LoginModal(props) {
     const user = { email, password };
     // Attempt to login
     props.login(user);
-
   };
 
   useEffect(() => {
     // Check for register error
-    if (props.error.id === 'LOGIN_FAIL') {
+    if (props.error.id === "LOGIN_FAIL") {
       setMsg(props.error.msg);
       //clear errors after 5 seconds
       setTimeout(() => {
@@ -74,13 +71,12 @@ function LoginModal(props) {
     } else {
       setMsg(null);
     }
-    // If authenticated, go to home 
+    // If authenticated, go to home
     if (props.isAuthenticated) {
       handleToggle();
-      props.history.push('/')
+      props.history.push("/");
     }
-  }, [props.error, handleToggle, props.isAuthenticated,]);
-
+  }, [props.error, handleToggle, props.isAuthenticated]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -129,9 +125,9 @@ function LoginModal(props) {
           >
             Sign In
           </StyledButton>
-          {props.loading &&
+          {props.loading && (
             <CircularProgress size={30} className={classes.progress} />
-          }
+          )}
           <Grid container>
             <Grid item xs>
               <StyledLink href="#" variant="body2">
@@ -147,17 +143,14 @@ function LoginModal(props) {
           </Grid>
         </form>
       </div>
-
     </Container>
   );
 }
 
-
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  loading: state.auth.isLoading
+  loading: state.auth.isLoading,
 });
-
 
 export default connect(mapStateToProps, { login, clearErrors })(LoginModal);

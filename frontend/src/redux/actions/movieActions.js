@@ -17,11 +17,11 @@ import {
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
-export const getMovies = (url) => (dispatch) => {
+export const getMovies = (url, page) => (dispatch) => {
   dispatch(setMoviesLoading());
-  console.log(url)
+  console.log(url);
   axios
-    .get(`https://localhost:44324/api/movieshowcase${url}`, config)
+    .get(`https://localhost:44324/api/movieshowcase${url}`, Configparams(page))
     .then((res) => {
       dispatch({
         type: GET_MOVIES,
@@ -93,6 +93,14 @@ export const config = {
   headers: {
     "Content-Type": "application/json",
   },
+};
+export const Configparams = (page) => {
+  return {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params: { page: page },
+  };
 };
 
 export const setSearchMoviesLoading = () => {

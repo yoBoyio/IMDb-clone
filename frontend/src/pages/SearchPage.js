@@ -168,10 +168,6 @@ function SearchPage(props) {
           No Movie with the name — <strong>{submittedtext}</strong> was found.
         </div>
       ) : null}
-
-      {/* {numOfPages > 1 && (
-        <CustomPagination setPage={setPage} numOfPages={numOfPages} />
-      )} */}
     </div>
   );
 }
