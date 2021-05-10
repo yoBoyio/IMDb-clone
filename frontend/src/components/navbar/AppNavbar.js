@@ -113,8 +113,13 @@ class AppNavBar extends Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem
+          onClick={this.handleMenuClose}
+          component={Link}
+          to="/myaccount"
+        >
+          My account
+        </MenuItem>
         <MenuItem onClick={this.handleMenuClose}>
           {" "}
           <Logout />{" "}

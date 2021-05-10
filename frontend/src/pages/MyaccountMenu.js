@@ -3,12 +3,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import MyAccountPage from "./MyAccountPage";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { logout } from "../redux/actions/authActions";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
-    position: "relative",
-    left: "250px",
-    marginLeft: "-250px",
+    // position: "relative",
+    // left: "250px",
+    // marginLeft: "-250px",
     width: "10%",
     top: "91px",
     borderWidth: "0px",
@@ -32,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     padding: "0px",
     display: "inline-block",
-    backgroundColor: "#ad42ff",
-    width: "100%",
+    background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
+    width: "200px",
   },
   menuTitle: {
     fontSize: "1rem",
@@ -93,62 +98,126 @@ const useStyles = makeStyles((theme) => ({
     flex: "90%",
     // backgroundColor: "#FFF",
   },
+  link: {
+    textDecoration: "none",
+    color: "#fff",
+    "&:hover": {
+      textDecoration: "none",
+      color: "#fff",
+    },
+  },
 }));
 
-function MyaccountMenu() {
+function MyaccountMenu(props) {
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
+  const goToHome = redirect ? <Redirect to="/" /> : null;
+
+  useEffect(() => {
+    // // if not authenticated
+    if (!props.isAuthenticated) {
+      setRedirect(true);
+    }
+    console.log(props);
+  }, [props.error, props.isAuthenticated]);
+
+  const handlePage = () => {
+    props.setPage(1);
+  };
+  const handlePage2 = () => {
+    props.setPage(2);
+  };
 
   return (
-    <div className={classes.mainDiv}>
-      <div style={{ height: "5px" }}></div>
-      <div className={classes.flexcointainer}>
-        <div className={classes.flexLeft}>
-          <div className={classes.accountUsername}>
-            <h2 className={classes.lettersDisplay}>AccountUsername</h2>
-          </div>
-          <div className={classes.sidebarnav}>
-            <p className={classes.menuTitle}></p>
-            <div className={classes.itemsinsidebar}>
-              <a href="/profile" style={{ color: "white" }}>
-                <div className={classes.flexrow}>
-                  <div className={classes.left}>
-                    <AccountBoxIcon
-                      style={{ fontSize: "large" }}
-                      className={classes.icons}
-                    />
-                    <div className={classes.flexCol}>
-                      <p className={classes.itemTitle}>Profile</p>
-                      <p className={classes.itemdescription}>
-                        Learn what's unique to you
-                      </p>
+    <>
+      {goToHome}
+      <div className={classes.mainDiv}>
+        <div style={{ height: "5px" }}></div>
+        <div className={classes.flexcointainer}>
+          <div className={classes.flexLeft}>
+            <div className={classes.accountUsername}>
+              {/* <h2 className={classes.lettersDisplay}>
+              {props.user ? props.user.UserName : null}
+            </h2> */}
+            </div>
+            <div className={classes.sidebarnav}>
+              <p className={classes.menuTitle}></p>
+              <div className={classes.itemsinsidebar}>
+                <Link
+                  className={classes.link}
+                  color="action"
+                  onClick={handlePage}
+                >
+                  <div className={classes.flexrow}>
+                    <div className={classes.left}>
+                      <AccountBoxIcon
+                        style={{ fontSize: "large" }}
+                        className={classes.icons}
+                      />
+                      <div className={classes.flexCol}>
+                        <p className={classes.itemTitle}>Profile</p>
+                        <p className={classes.itemdescription}>
+                          Learn what's unique to you
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
-              <br></br>
-              <a href="/changepassword" style={{ color: "white" }}>
-                <div className={classes.flexrow}>
-                  <div className={classes.left}>
-                    <VpnKeyIcon
-                      style={{ fontSize: "large" }}
-                      className={classes.icons}
-                    />
-                    <div className={classes.flexCol}>
-                      <p className={classes.itemTitle}>Password</p>
-                      <p className={classes.itemdescription}>
-                        Change your password
-                      </p>
+                </Link>
+                <br></br>
+                <Link
+                  className={classes.link}
+                  color="action"
+                  onClick={handlePage2}
+                >
+                  <div className={classes.flexrow}>
+                    <div className={classes.left}>
+                      <VpnKeyIcon
+                        style={{ fontSize: "large" }}
+                        className={classes.icons}
+                      />
+                      <div className={classes.flexCol}>
+                        <p className={classes.itemTitle}>Password</p>
+                        <p className={classes.itemdescription}>
+                          Change your password
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </a>
+                </Link>
+                <br></br>
+                <Link
+                  className={classes.link}
+                  color="action"
+                  onClick={props.logout}
+                >
+                  <div className={classes.flexrow}>
+                    <div className={classes.left}>
+                      <ExitToAppIcon
+                        style={{ fontSize: "large" }}
+                        className={classes.icons}
+                      />
+                      <div className={classes.flexCol}>
+                        <p className={classes.itemTitle}>Logout</p>
+                        <p className={classes.itemdescription}>
+                          Have a nice day
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
+          {/* <div className={classes.flexRight}></div> */}
         </div>
-        {/* <div className={classes.flexRight}></div> */}
       </div>
-    </div>
+    </>
   );
 }
 
-export default MyaccountMenu;
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logout }, null)(MyaccountMenu);

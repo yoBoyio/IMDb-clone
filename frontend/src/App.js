@@ -26,12 +26,13 @@ import PersonDetailsPage from "./pages/PersonDetailsPage";
 import MakeComment from "./components/likeDislike/MakeComment";
 import MyaccountMenu from "./pages/MyaccountMenu";
 import MyAccountPage from "./pages/MyAccountPage";
+import LanguagePage from "./pages/LanguagePage";
 
 const token = localStorage.getItem("token");
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
-    //store.dispatch(logoutUser());
+    // store.dispatch(logoutUser());
     window.location.href = "/login";
   } else {
     store.dispatch(loadUser());
@@ -58,15 +59,14 @@ const App = () => {
             <Route exact path="/Latest" component={MoviesType} />
             <Route exact path="/watchlist" component={Watchlist} />
             <Route exact path="/genres" component={Genrespage} />
+            <Route exact path="/languages" component={LanguagePage} />
             <Route exact path="/person" component={PopularPeoplePage} />
             <Route
               exact
               path="/person/:personId"
               component={PersonDetailsPage}
             />
-            <Route exact path="/settings" component={MyaccountMenu} />
-            <Route exact path="/profile" component={MyAccountPage} />
-            <Route exact path="/changepassword" component={MyAccountPage} />
+            <Route exact path="/myaccount" component={MyAccountPage} />
 
             <AuthRoute exact path="/login" component={LoginPage} />
             <AuthRoute exact path="/signup" component={RegisterPage} />
