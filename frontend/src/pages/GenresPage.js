@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { fetchGenre } from "../redux/actions/movieActions";
 import { Link, useHistory, useLocation, withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -101,10 +101,7 @@ function GenresPage() {
       )
       .then((response) => {
         setLoading(false);
-        console.log(response.data.results);
-
         setMovies([...movies, ...response.data.results]);
-        console.log(movies);
       });
   };
 

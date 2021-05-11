@@ -15,7 +15,6 @@ import {
   TextField,
   ThemeProvider,
 } from "@material-ui/core";
-// import "./Search.css";
 import SearchIcon from "@material-ui/icons/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
