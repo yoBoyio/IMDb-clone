@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import MovieCard from '../components/movies/MovieCard';
 import '../components/styles/HomePage.css';
 import Row from '../components/movies/Row'
-import Hero from '../components/movies/Hero';
 
 const MovieList = ({
   getMovies,
@@ -23,7 +22,6 @@ const MovieList = ({
   return (
 
     <div className="movie-container">
-      <Hero/>
       <Row
         title="Latest"
         url={'Latest'}
