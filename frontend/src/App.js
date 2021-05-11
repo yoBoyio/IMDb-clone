@@ -15,7 +15,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchPage from "./pages/SearchPage";
 import AuthRoute from "./util/AuthRoute";
-import Movie from "./components/movies/Movie";
 import MoviePage from "./pages/MoviePage";
 import NotFound from "./pages/NotFound";
 import Watchlist from "./pages/WatchlistPage";
@@ -23,8 +22,6 @@ import MoviesType from "./pages/MoviesType";
 import Genrespage from "./pages/GenresPage";
 import PopularPeoplePage from "./pages/PopularPeoplePage";
 import PersonDetailsPage from "./pages/PersonDetailsPage";
-import MakeComment from "./components/likeDislike/MakeComment";
-import MyaccountMenu from "./pages/MyaccountMenu";
 import MyAccountPage from "./pages/MyAccountPage";
 import LanguagePage from "./pages/LanguagePage";
 

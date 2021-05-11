@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from '@material-ui/core/'
 import LinearProgress from "@material-ui/core/LinearProgress";
 import GridList from '@material-ui/core/GridList';
+import { Link } from 'react-router-dom';
 
 const useStyles = theme =>({
 
@@ -110,6 +111,7 @@ export class Credits extends Component {
                  style={{ minHeight:"200vh"}, { maxHeight:"200vh"}}
            >
     <Grid item>
+      <Link to={`/person/${castMember.id}`}>
         <Card className={classes.item} key={castMember.name}>
               {castMember.profile_path ? (
           <CardActionArea >
@@ -143,6 +145,7 @@ export class Credits extends Component {
            </Card>
       )}
      </Card>
+     </Link>
    </Grid>
   </Grid>
   ))}
