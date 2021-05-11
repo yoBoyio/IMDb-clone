@@ -122,6 +122,16 @@
   height: 0px!important;
   width: 0px!important;
 }
+.rec.rec-arrow:hover {
+  border-radius: 50%;
+}
+.rec.rec-dot {
+  background: #ff4343;
+  border: 2px #333 solid;
+  border-radius: 0;
+  visibility:hidden;
+
+}
 .sc-gKsewC{
   visibility:hidden;
 }

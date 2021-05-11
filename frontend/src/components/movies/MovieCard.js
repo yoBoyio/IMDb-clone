@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MovieCard = ({ isLargeRow, movie, children }) => {
+const MovieCard = ({ isLargeRow, movie }) => {
   const classes = useStyles();
   const [hovered, setHovered] = useState(false);
   const [content, setContent] = useState();

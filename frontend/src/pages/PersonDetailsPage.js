@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import ContentModal from "../components/movies/ContentModal";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -108,7 +109,9 @@ const PersonDetailsPage = (props) => {
                   <TableBody>
                     <TableRow>
                       <StyledTableCell component="th" scope="row">
+                    <ContentModal id={credits.id}>
                         {credits.title}
+                      </ContentModal>
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {credits.character}
