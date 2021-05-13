@@ -121,8 +121,6 @@ function GenresPage() {
     <CircularProgress size="100px" thickness="5.6" />
   );
 
-  const numberPages = Math.floor(totalresults / 20);
-
   const ReadGenres = (e, id) => {
     setPageText(e);
     window.history.replaceState(null, "new page title", `/genres/?genre=${e}`);

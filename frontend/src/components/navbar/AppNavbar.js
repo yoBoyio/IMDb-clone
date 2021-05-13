@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 //MUI stuff
 import SearchIcon from "@material-ui/icons/Search";
 import AppBar from "@material-ui/core/AppBar";
@@ -147,7 +147,12 @@ class AppNavBar extends Component {
             <Fragment>
               <Typography className={classes.title} variant="h4" noWrap>
                 <Link className={classes.link} color="action" to="/">
-                  IMDb
+                  <div style={{ display: "flex" }}>
+                    <PlayCircleOutlineIcon style={{ fontSize: 50 }} />
+                    <Typography style={{ fontSize: 35, paddingLeft: 4 }}>
+                      <b> IeeMDB </b>
+                    </Typography>
+                  </div>
                 </Link>
               </Typography>
             </Fragment>

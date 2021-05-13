@@ -9,15 +9,10 @@ import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   leftDiv: {
-    // flex: "auto",
-    // position: "relative",
-    // marginInline: "auto",
     maxWidth: "72rem",
     paddingInlineStart: "2rem",
     paddingInlineEnd: "2rem",
-    // paddingTop: "2rem",
-    // paddingBottom: "1rem",
-    // marginLeft: "-200px",
+    marginLeft: "200px",
     borderWidth: "0px",
     borderStyle: "solid",
     boxSizing: "border-box",

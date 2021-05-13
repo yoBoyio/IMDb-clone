@@ -84,7 +84,6 @@ const PersonDetailsPage = (props) => {
         personBio={Person.biography}
         personHomepage={Person.homepage}
       />
-
       {/* Filmography table */}
       <div className="wrapper">
         <div className="film">
