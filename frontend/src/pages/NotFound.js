@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import Spinner from "../layout/Spinner";
 
 const useStyles = makeStyles({
     root: {
@@ -47,19 +48,22 @@ const useStyles = makeStyles({
     },
 
 });
-export default function NotFound() {
+export default function NotFound(loading) {
     const classes = useStyles();
     return (
-        <div className={classes.root}>
-            <Typography className={classes.err} >4
-             <HelpOutlineIcon className={classes.error} />4</Typography>
-            <Typography className={classes.msg} >
-                Maybe this page moved? Got deleted? Is hiding out in quarantine? Never existed in the first place?
-             Let's go <Link className={classes.button}
-                    component="button"
-                    to="/">Back to the Homepage</Link> and try from there.</Typography>
-
-
-        </div>
+        loading ? <Spinner/> :
+                   <div className={classes.root}>
+                   <Typography className={classes.err} >4
+                   <HelpOutlineIcon className={classes.error} />4</Typography>
+                   <Typography className={classes.msg} >
+                      Maybe this page moved? Got deleted? 
+                      Is hiding out in quarantine? Never existed in the first place?
+                      Let's go 
+                          <Link className={classes.button}
+                          component="button"
+                          to="/">Back to the Homepage</Link> and try from there.
+                   </Typography>
+                   </div>
+                
     );
 }

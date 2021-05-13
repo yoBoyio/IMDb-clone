@@ -12,6 +12,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/'
 import ShowComments from '../components/likeDislike/ShowComments';
+import NotFound from './NotFound';
 
 const useStyles = theme =>({
 
@@ -51,6 +52,9 @@ const useStyles = theme =>({
     marginLeft:20,
     marginTop:50,
     display: 'flex'
+  },
+  rating: {
+    display:"flex"
   }
 });
 class MoviePage extends Component {
@@ -62,7 +66,7 @@ class MoviePage extends Component {
         this.props.setLoading();
       }
     render() { 
-        const { loading, movie , credits } = this.props;
+        const { loading, movie , credits,auth,isAuthenticated } = this.props;
         const { id } = this.props.match.params;
         const {classes} = this.props;  
         let movieInfo =  
@@ -70,23 +74,27 @@ class MoviePage extends Component {
                    <Movie />      
         </div>
                let content = loading ? <Spinner /> : movieInfo;
-               return <div>{content}
-                           <Credits id={id}/>
-                           <Typography className={classes.trailer}>Trailer</Typography>
-                           <LinearProgress className={classes.barCover} variant="determinate" classes={{
-                            barColorPrimary: classes.barCover 
-                            }} /> 
-                           <div className={classes.videoContainer}>
-                           <Trailer /></div> 
+               return <div>
+                          {id == movie.id ? ( 
+                          <div>
+                           {content}
+                           <Credits id={id}/> 
+                           <Trailer />
+                           <div className={classes.rating}>
                            <div className={classes.makecomment}>
-                           {/* {auth && auth.isAuthenticated &&  */}
-                           <MakeComment movieId={id} /> 
-                           {/* }                             */} 
-                           <div className={classes.makecomments}>
                            <ShowComments />
                            </div>
+                           <div className={classes.makecomments}>
+                           {auth && auth.isAuthenticated && 
+                           <MakeComment movieId={id} /> 
+                           }
                            </div>
-                           
+                           </div>
+                           </div>
+                          ):(
+                            <NotFound />
+                          )
+                           }
                       </div>;
                         }
               }
@@ -98,6 +106,7 @@ const mapStateToProps = state => ({
     trailer:state.movie.trailer,
     genres:state.movie.genres,
     auth: state.auth,
+    isAuthenticated: state.auth,
     showComments: state.auth.showComments,
     CommentLoading: state.auth.CommentLoading
   });

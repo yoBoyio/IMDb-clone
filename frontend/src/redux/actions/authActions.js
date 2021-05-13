@@ -18,7 +18,9 @@ import {
   FETCH_COMMENTS,
   COMMENT_LOADING,
   CHANGE_PASS,
-} from "./types";
+  FETCH_COMMENTSTATS
+} from './types';
+
 
 //================WATCHLIST===================//
 
@@ -267,7 +269,20 @@ export const FetchComments = (id) => (dispatch) => {
     .then((response) =>
       dispatch({
         type: FETCH_COMMENTS,
-        payload: response.data,
+        payload: response.data.Ratings
+      })
+    )
+    .catch((err) => console.log(err));
+};
+export const FetchCommentStats = (id) => (dispatch) => {
+  axios
+    .get(
+      `https://localhost:44324/api/rating/get/stats?movieId=${id}` 
+    )
+    .then((response) =>
+      dispatch({
+        type: FETCH_COMMENTSTATS,
+        payload: response.data
       })
     )
     .catch((err) => console.log(err));

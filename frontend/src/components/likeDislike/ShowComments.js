@@ -20,22 +20,28 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
 import { pink } from "@material-ui/core/colors";
 import Button from '@material-ui/core/Button';
+import ReadMoreReact from 'read-more-react';
 
 
 const useStyles = theme =>({
   root: {
-    width: '100%',
-    maxWidth: '36ch',
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    alignItems: "center",
-    justifyContent: "center",
+    width: 700,
+    height:300,
     color: "#fff",
+    backgroundColor: "#141414",
+    border: "1px solid #282c34",
+    borderRadius: 3,
+    boxShadow: theme.shadows[5],
+    marginTop:50,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
   },
   inline: {
-    display: 'inline',
     color: "#fff",
-    fontSize: '20px'
+    fontSize: '18px',
+    marginTop:5,
+    marginLeft:5
   },
   paper: {
     width: 700,
@@ -52,10 +58,6 @@ const useStyles = theme =>({
     marginTop:10,
     fontSize: '26px',
    },
-   ratings:{
-    marginLeft: 30,
-    
-   },
    iconCover: {
     marginLeft: 10,
     // border: "1px solid",
@@ -63,17 +65,44 @@ const useStyles = theme =>({
     // backgroundColor: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
     // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   },
+  divider:{
+    border: "1px solid #282c34",
+    backgroundColor: "#282c34",
+  },
+  email:{
+    color:"#b3b3cb"
+  },
+  comment: {
+    fontWeight: "Bold",
+    fontSize: "32px",
+  },
+barCover: {
+    height: 10,
+    borderRadius: 5,
+    width: 80,
+    background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
+    // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
+  },
 });
 export class ShowComments extends Component {
-
+  // handleClick = () => {
+  //   console.log(this.props.pageNumber);
+  // }
   render() {
-    const { loading, showComments } = this.props;
+    const { loading, showComments,pageNumber } = this.props;
     const {classes} = this.props;
-    console.log(showComments);
-
     let commentInfo = (
-      showComments.map(comment => (
-      <Card className={classes.paper}>
+      <div>
+      <Typography className={classes.comment} gutterBottom>
+       Ratings
+     </Typography>
+     <LinearProgress
+       className={classes.barCover}
+       variant="determinate"
+       classes={{
+         barColorPrimary: classes.barCover,
+       }} />
+      <Card className={classes.root}>
       <Typography 
       variant="h4"
       className={classes.rating}>
@@ -87,46 +116,40 @@ export class ShowComments extends Component {
   
          
       </Typography>
+      {showComments.map(comment => (
+        
           <List className={classes.rating}>
                  <ListItem alignItems="flex-start">
                    <ListItemAvatar>
-                     if({comment.like === true}){
-                   <ThumbUpIcon       
-                    fontSize="large"
-                    className={classes.iconCover}
-                  />}
-                  else{
-                    <ThumbDownIcon       
-                    fontSize="large"
-                    className={classes.iconCover}
-                  />}
+              {comment.Like === true ? <ThumbUpIcon       
+                                         fontSize="large"
+                                         className={classes.iconCover}
+                                       />
+                                     : <ThumbDownIcon       
+                                       fontSize="large"
+                                       className={classes.iconCover}
+                                     />}
                    </ListItemAvatar>
-                   <ListItemText
-                     primary={comment.email}
+                   <ListItemText className={classes.email}
+                     primary={comment.UserEmail}
                      secondary={ 
                      <Typography
                         className={classes.inline}
-                        variant="p"
-                        paragraph
-                        gutterBottom
-                        
                       >
-                        {comment.commentContent}
+                        {comment.CommentContent}
+                         {/* Testing Comments - Real Comments Unavailable for now! */}
                       </Typography>}
                          />
                  </ListItem>
-                 <Divider variant="inset" component="li" />
+                 <Divider className={classes.divider} variant="middle" />
            </List>
+           ))}
+           {/* <button onClick={() => this.handleClick()}>
+           Click me
+           </button> */}
            </Card>
-     
-    ))
+           </div>
       );
-
-    // let commentInfo = (
-    //   <div>
-    //        <h1>{showComments.likes}</h1>
-    //   </div>
-    // );
 
     let content = loading ? <Spinner /> : commentInfo;
     return <div>{content}</div>

@@ -13,7 +13,8 @@ import {
   COMMENT_LOADING,
   CHANGE_PASS,
   PASSWORD_FAILED,
-} from "../actions/types";
+  FETCH_COMMENTSTATS
+} from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -24,6 +25,7 @@ const initialState = {
   showComments: [],
   loading: false,
   change_password: null,
+  commentStats:null
 };
 
 export default function (state = initialState, action) {
@@ -99,6 +101,11 @@ export default function (state = initialState, action) {
         loading: false,
         change_password: action.payload,
       };
+    case FETCH_COMMENTSTATS:
+      return {
+        ...state,
+        loading: true,
+      }
     default:
       return state;
   }

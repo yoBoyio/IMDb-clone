@@ -5,6 +5,7 @@ import Fade from "@material-ui/core/Fade";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
 import { makeStyles } from "@material-ui/core/styles";
+import png from '../../images/stayTuned.png'
 import {
   img_500,
   unavailable,
@@ -47,10 +48,12 @@ const MovieCard = ({ isLargeRow, movie }) => {
   }, [])
 
   //if loading display skeleton else img
+  let img=``;
+  const imgDisplay = (movie.poster_path == null ? img=unavailable : img=`${img_500}/${movie.poster_path}`)
   const display = loading ? <SkeletonCard isLargeRow={isLargeRow} /> :
     <img
       className={`row_poster ${isLargeRow && "row_posterLarge"}`}
-      src={`${img_500}/${movie.poster_path}`}
+      src={img}
       alt={movie.title}
       key={movie.id} />
 
