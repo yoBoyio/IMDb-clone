@@ -39,6 +39,7 @@ function ChangePassword({
   const [confirmnewpassword, setconfirmnewPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const [msg, setMsg] = useState(null);
+  const [wrongmsg, setWrongMsg] = useState("");
 
   const handleChangeNewPassword = (e) => setNewPassword(e.target.value);
   const handleChangeConfirmNewPassword = (e) =>
@@ -48,7 +49,7 @@ function ChangePassword({
     // handleToggle();
     e.preventDefault();
     if (confirmnewpassword !== newpassword) {
-      setMsg(
+      setWrongMsg(
         "The passwords you enter are not identical or your current password is wrong"
       );
       return;
@@ -76,11 +77,14 @@ function ChangePassword({
   return (
     <>
       <form className={classes.form2} onSubmit={handleOnSubmit} noValidate>
-        {msg ? (
-          <Alert severity="error"> {msg}</Alert>
+        {msg || newpassword !== confirmnewpassword ? (
+          <Alert severity="error"> {wrongmsg}</Alert>
         ) : // <Alert severity="success"> {changePassword} </Alert>
         null}
-        {change_password !== null && msg ? (
+        {change_password !== null &&
+        msg &&
+        newpassword == confirmnewpassword &&
+        newpassword !== password ? (
           <Alert severity="success"> {msg}</Alert>
         ) : // <Alert severity="success"> {changePassword} </Alert>
         null}

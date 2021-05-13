@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import withStyles from "@material-ui/core/styles/withStyles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import SentimentDissatisfiedSharpIcon from "@material-ui/icons/SentimentDissatisfiedSharp";
 
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import MovieCard from "../components/movies/MovieCard";
+import { StyledButton } from "../util/MyTextfield";
 
 const axios = require("axios");
 const useStyles = makeStyles((theme) => ({
@@ -39,85 +43,162 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     fontSize: "50px",
   },
+  centered: {
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "180%",
+  },
 }));
 
 function LanguagePage() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  function GenresPage() {
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [genres, setGenres] = useState([]);
-    const [content, setContent] = useState();
-    const [pageText, setPageText] = useState();
-    const [movies, setMovies] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [totalresults, setTotalResults] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalpages, settotalPages] = useState(1);
-    const [currentMovie, setCurrentMovie] = useState(null);
-    const [genreId, setGenreId] = useState(0);
+  const [languages, setLanguages] = useState();
+  const [iso, setIso] = useState();
+  const [englishname, setEnglishName] = useState();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentMovie, setCurrentMovie] = useState(null);
+  const [showmessage, setShowmessage] = useState(false);
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
+  const fetchLanguages = () => {
+    setLoading(true);
 
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-
-    //fetchData
-    const fetchData = async () => {
-      const { data } = await axios.get(
+    axios
+      .get(
         `https://api.themoviedb.org/3/configuration/languages?api_key=2eff1592c2104c03f9098af2aee54824`
-      );
+      )
+      .then((response) => {
+        setLanguages(response.data);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
 
-      setContent(data);
-    };
+  //onInputMethod
 
-    const fetchMovies = (e, id) => {
-      setLoading(true);
-      setGenreId(id);
-      setMovies([]);
-      axios
-        .get(
-          `https://api.themoviedb.org/3/movie/76341?api_key=2eff1592c2104c03f9098af2aee54824&language=${id}`
-        )
-        .then((response) => {
-          setLoading(false);
-          setMovies(response.data.results);
-          setTotalResults(response.data.total_results);
-          settotalPages(response.data.total_pages);
-          console.log(response.data.results);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-    };
+  const onInput = () => {
+    setCurrentMovie([]);
+    var search_language = document.getElementById("language").value;
+    var list = document.getElementById("list").childNodes;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].value === search_language) {
+        setIso(list[i].id);
+        searchbyIso(list[i].id);
+        setEnglishName(list[i].value);
+        break;
+      }
+    }
+  };
+  const searchbyIso = (iso) => {
+    setCurrentPage(1);
+    setPage(false);
+    setShowmessage(true);
+    setLoading(true);
+    axios
+      .get(`https://localhost:44324/api/MovieShowcase/Search/lang?lang=${iso}`)
+      .then((response) => {
+        setLoading(false);
+        setCurrentMovie(response.data);
 
-    return (
-      <div>
-        test
-        <Button
-          aria-controls="simple-menu2"
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          SelectLanguage
-        </Button>
-        <Menu
-          id="simple-menu2"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem>
-        </Menu>
+        if (response.data.length == 20) {
+          console.log("20 it is ");
+          setPage(true);
+        } else {
+          setPage(false);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+
+  //Next Page found
+  const nextPage = () => {
+    setLoading(true);
+    setCurrentPage(currentPage + 1);
+    const newmovies = currentMovie;
+    axios
+      .get(
+        `https://localhost:44324/api/MovieShowcase/Search/lang?lang=${iso}&page=${currentPage}`
+      )
+      .then((response) => {
+        setLoading(false);
+
+        if (response.data.length < 20) {
+          setPage(false);
+        }
+
+        setCurrentMovie([...currentMovie, ...response.data]);
+        console.log(currentMovie);
+      });
+  };
+
+  useEffect(() => {
+    fetchLanguages();
+  }, []);
+
+  //mapping
+  let mappingLanguages = languages
+    ? languages.map((language) => (
+        <option id={language.iso_639_1} value={language.englishName}>
+          {language.english_name}
+        </option>
+      ))
+    : null;
+
+  let mappingmovies =
+    currentMovie && currentMovie.length !== 0
+      ? currentMovie.map((movie) => (
+          <MovieCard movie={movie} key={movie.id}></MovieCard>
+        ))
+      : null;
+
+  let displayInfo = !loading ? (
+    mappingmovies
+  ) : (
+    <CircularProgress size="100px" thickness="5.6" />
+  );
+
+  return (
+    <div>
+      <div style={{ marginTop: 25 }}>
+        <input type="text" list="list" id="language" onInput={onInput} />
+        <datalist id="list">{mappingLanguages}</datalist>
       </div>
-    );
-  }
+
+      <div className={classes.displayMovies}>
+        {" "}
+        {currentMovie && currentMovie.length !== 0 ? (
+          displayInfo
+        ) : showmessage ? (
+          <div className={classes.centered}>
+            <SentimentDissatisfiedSharpIcon style={{ fontSize: 100 }} />
+            We didn't find any — <strong>{englishname}</strong> movies.
+          </div>
+        ) : null}
+      </div>
+
+      {console.log(englishname)}
+
+      <div className={classes.button}>
+        {page && currentMovie.length !== 0 ? (
+          <StyledButton
+            style={{ width: "300px", fontSize: "0.4em", fontWeight: "200" }}
+            onClick={nextPage}
+          >
+            Load More{" "}
+          </StyledButton>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
+  );
 }
+
 export default LanguagePage;
