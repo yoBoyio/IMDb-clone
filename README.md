@@ -1,12 +1,16 @@
-# IMDb-clone
+# IeeMDB
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/yoBoyio/IMDb-clone/graphs/commit-activity)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)
 ![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https://github.com/yoBoyio/IMDb-clone)
 
 
-### Contributors
+## Contributors
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=yoBoyio/IMDb-clone)
+
+### Demo Page 
+You can try it at XXXX
+
 
 
 ### Application Tech Stack
