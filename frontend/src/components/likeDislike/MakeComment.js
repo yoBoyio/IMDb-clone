@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         boxShadow: theme.shadows[5],
         marginLeft: 40,
-        marginTop:20
+        marginTop:120
     },
     comment: {
         fontWeight: "Bold",
@@ -95,15 +95,7 @@ function MakeComment(props) {
     return (
         <>
         <div className={classes.modal}>
-                   <Typography className={classes.comment} gutterBottom>
-                       Ratings
-                     </Typography>
-                     <LinearProgress
-                       className={classes.barCover}
-                       variant="determinate"
-                       classes={{
-                         barColorPrimary: classes.barCover,
-                       }} />
+                   
                         <div className={classes.paper}>
                         <div className="commentModal">
                             {msg ? <Alert severity="error"> {msg}</Alert> : null}

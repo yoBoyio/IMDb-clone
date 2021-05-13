@@ -78,8 +78,11 @@ const useStyles = theme =>({
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
+  overview: {
+    fontSize: "22px",
+    marginLeft: "25px"
+  },
 });
-
 
 const getImage = (path) => `https://image.tmdb.org/t/p/w300/${path}`;
 
@@ -100,7 +103,9 @@ export class Credits extends Component {
           { width: 1400, itemsToShow: 10 },
         ]; 
         
+
         let castList =
+      credits!= "" &&
         <Carousel breakPoints={breakPoints}>
         {credits.map(castMember => (
           <Grid
@@ -114,6 +119,7 @@ export class Credits extends Component {
       <Link to={`/person/${castMember.id}`}>
         <Card className={classes.item} key={castMember.name}>
               {castMember.profile_path ? (
+          
           <CardActionArea >
           <CardMedia justifyContent="center"
    
@@ -149,9 +155,10 @@ export class Credits extends Component {
    </Grid>
   </Grid>
   ))}
-  </Carousel>;
+  </Carousel>
   let contents = loading ? <Spinner /> : castList;
-  return  <div>
+  return  credits!= "" ? (
+  <div>
   <Typography className={classes.cast}>Cast</Typography>
   <LinearProgress className={classes.barCover} variant="determinate" classes={{
         barColorPrimary: classes.barCover // class name, e.g. `classes-nesting-root-x`
@@ -160,7 +167,18 @@ export class Credits extends Component {
   {/* <GridList className={classes.gridList} cellHeight="380" > {contents}</GridList> */}
   {contents}
   </div>
-  </div> ; }; } 
+  </div>
+   ):(
+    <div>
+    <Typography className={classes.cast}>Cast</Typography>
+    <LinearProgress className={classes.barCover} variant="determinate" classes={{
+          barColorPrimary: classes.barCover // class name, e.g. `classes-nesting-root-x`
+        }} />
+    <div className={classes.container}>
+    <Typography className={classes.overview}> Cast is currently unavailable</Typography>
+    </div>
+    </div>
+   ) ; }; } 
    
          
 
