@@ -13,7 +13,15 @@ import NotFound from './NotFound';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = theme =>({
-
+root:{
+  background: "#141414",
+    color: "#fff",
+    display: "inline-block",
+    // border: "none",
+    // boxShadow: "none",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   trailer: {
     fontWeight:'Bold',
     fontSize: "32px",
@@ -76,7 +84,7 @@ class MoviePage extends Component {
                let content = loading ?<div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
                return <div>
                           {id == movie.id ? ( 
-                          <div>
+                          <div className={classes.root}>
                            {content}
                            <Credits id={id}/> 
                            <Trailer />

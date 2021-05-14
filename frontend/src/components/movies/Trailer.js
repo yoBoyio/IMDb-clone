@@ -8,6 +8,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/'
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = theme =>({
@@ -61,14 +62,18 @@ export class Trailer extends Component {
       <LinearProgress className={classes.barCover} variant="determinate" classes={{
        barColorPrimary: classes.barCover 
        }} /> 
-      <div className = {classes.videoContainer}>
+       <div className={classes.root}>
+        <Grid container className={classes.paper} spacing={2}>
+         <div className = {classes.videoContainer}>
            <ReactPlayer
             url={"https://www.youtube.com/watch?v=" + video.key}
-            width="1200px"
+            width="1100px"
             height="500px"
             controls={true}
           ></ReactPlayer>
-      </div>
+       </div>
+      </Grid>
+     </div>
     </div>
     ))}
     </div>
