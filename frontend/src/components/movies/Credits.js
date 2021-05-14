@@ -4,18 +4,17 @@ import { fetchCredits, setLoading } from '../../redux/actions/movieActions';
 import Spinner from '../../layout/Spinner';
 import png from '../../images/castMissing.png';
 import Carousel from "react-elastic-carousel";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 //material UI
 import { withStyles } from '@material-ui/core/'
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from '@material-ui/core/'
 import LinearProgress from "@material-ui/core/LinearProgress";
-import GridList from '@material-ui/core/GridList';
 import { Link } from 'react-router-dom';
 
 const useStyles = theme =>({
@@ -156,7 +155,7 @@ export class Credits extends Component {
   </Grid>
   ))}
   </Carousel>
-  let contents = loading ? <Spinner /> : castList;
+  let contents = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : castList;
   return  credits!= "" ? (
   <div>
   <Typography className={classes.cast}>Cast</Typography>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     modal: {
         alignItems: "center",
         justifyContent: "center",
-        display:"block"
+        // display:"block"
     },
     paper: {
         width: 500,
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         boxShadow: theme.shadows[5],
         marginLeft: 40,
-        marginTop:120
+        marginTop:120,
+        maxWidth:600
     },
     comment: {
         fontWeight: "Bold",
