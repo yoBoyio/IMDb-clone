@@ -7,12 +7,10 @@ import Movie from '../components/movies/Movie';
 import Credits from '../components/movies/Credits';
 import Trailer from '../components/movies/Trailer';
 import MakeComment from '../components/likeDislike/MakeComment';
-import Card from "@material-ui/core/Card";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/'
 import ShowComments from '../components/likeDislike/ShowComments';
 import NotFound from './NotFound';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = theme =>({
 
@@ -59,11 +57,13 @@ const useStyles = theme =>({
 });
 class MoviePage extends Component {
     componentDidMount() {
+      // setTimeout(() => {
         this.props.fetchMovie(this.props.match.params.id);
         this.props.fetchCredits(this.props.match.params.id);
         this.props.fetchTrailer(this.props.match.params.id);
         this.props.FetchComments(this.props.match.params.id);
         this.props.setLoading();
+      // },1000)
       }
     render() { 
         const { loading, movie , credits,auth,isAuthenticated } = this.props;
@@ -73,7 +73,7 @@ class MoviePage extends Component {
         <div> 
                    <Movie />      
         </div>
-               let content = loading ? <Spinner /> : movieInfo;
+               let content = loading ?<div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
                return <div>
                           {id == movie.id ? ( 
                           <div>

@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import { fetchMovie, setLoading } from "../../redux/actions/movieActions";
 import { connect } from "react-redux";
 import Spinner from "../../layout/Spinner";
-import useGenre from "../../util/useGenre";
 import Genres from "../genres/genres";
 import AuthModal from "../auth/isAuth";
 import WatchlistBtn from "../watchlist/AddToWatchlist";
-import CommentModal from "../likeDislike/CommentModal";
 import Like from "../likeDislike/Like";
-import DisLike from "../likeDislike/Dislike";
-import png from '../../images/stayTuned.png'
 import {
   img_500,
   unavailable,
@@ -24,6 +20,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 function time_convert(num) {
   var hours = Math.floor(num / 60);
@@ -109,10 +106,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     marginRight: 4,
     marginBottom: 5
-  },
-  rating: {
-    marginTop: -30
-  },
+  }
 }));
 
 function Movie({loading, movie, auth}) {
@@ -292,7 +286,7 @@ function Movie({loading, movie, auth}) {
       </div>
     );
 
-    let content = loading ? <Spinner /> : movieInfo;
+    let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
     return <div> {content} </div>;
   }
 

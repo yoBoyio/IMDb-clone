@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/'
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const useStyles = theme =>({
@@ -72,7 +73,7 @@ export class Trailer extends Component {
     ))}
     </div>
 
-    let content = loading ? <Spinner /> : movieInfo;
+    let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div>: movieInfo;
     return <div>{content}</div>
               
   }

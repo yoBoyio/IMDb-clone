@@ -18,14 +18,12 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import ThumbsUpDownIcon from '@material-ui/icons/ThumbsUpDown';
-import { pink } from "@material-ui/core/colors";
-import Button from '@material-ui/core/Button';
-import ReadMoreReact from 'read-more-react';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 
 const useStyles = theme =>({
   root: {
-    width: 700,
+    width: 600,
     height:300,
     color: "#fff",
     backgroundColor: "#141414",
@@ -36,6 +34,7 @@ const useStyles = theme =>({
     position: 'relative',
     overflow: 'auto',
     maxHeight: 300,
+    maxWidth:800
   },
   inline: {
     color: "#fff",
@@ -44,7 +43,7 @@ const useStyles = theme =>({
     marginLeft:5
   },
   paper: {
-    width: 700,
+    width: 500,
     height: 300,
     backgroundColor: "#141414",
     border: "1px solid #282c34",
@@ -151,7 +150,7 @@ export class ShowComments extends Component {
            </div>
       );
 
-    let content = loading ? <Spinner /> : commentInfo;
+    let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : commentInfo;
     return <div>{content}</div>
               
   }
