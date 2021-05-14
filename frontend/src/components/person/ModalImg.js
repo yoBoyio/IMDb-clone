@@ -1,20 +1,20 @@
-import React from 'react';
-import { makeStyles, withTheme } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import React from "react";
+import { makeStyles, withTheme } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   paper: {
-    width:"315px",
-    height:"465px",
+    width: "315px",
+    height: "465px",
     backgroundColor: "#39445a",
-    border: '1px solids #282c34',
+    border: "1px solids #282c34",
     borderRadius: 10,
     color: "white",
     boxShadow: theme.shadows[5],
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ModalImg({children}) {
+export default function ModalImg({ children }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -36,7 +36,11 @@ export default function ModalImg({children}) {
 
   return (
     <div>
-      <button type="button" style={{backgroundColor: "#8b4db5"}} onClick={handleOpen}>
+      <button
+        type="button"
+        onClick={handleOpen}
+        style={{ padding: "6px", backgroundColor: "#8b4db5" }}
+      >
         {children}
       </button>
       <Modal
@@ -52,9 +56,7 @@ export default function ModalImg({children}) {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
-            {children}
-          </div>
+          <div className={classes.paper}>{children}</div>
         </Fade>
       </Modal>
     </div>

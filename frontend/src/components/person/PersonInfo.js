@@ -1,31 +1,61 @@
-import React, { Component, useState } from "react";
+import React, { useEffect, Component, useState } from "react";
 import ModalImg from "./ModalImg";
 import "../styles/PersonInfo.css";
+import { unavailable } from "./Config.js";
+import PersonDetailsPage from "../../pages/PersonDetailsPage";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import ContentModal from "../movies/ContentModal";
 
-const ReadMore = ({ children }) => {
-  const text = children;
-  const [isReadMore, setIsReadMore] = useState(true);
-  const toggleReadMore = () => {
-    setIsReadMore(!isReadMore);
-  };
+//Table Styles
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    background: "#8b4db5",
+    color: theme.palette.common.white,
+    fontSize: 16,
+    fontStyle: "bold",
+    padding: "12pt",
+  },
+  body: {
+    width: "250px",
+    background: "#282c34",
+    fontSize: 15,
+    color: "white",
+  },
+}))(TableCell);
 
-  return (
-    <p className="text">
-      {text}
-      <span onClick={toggleReadMore} className="read-or-hide">
-        {isReadMore ? "...read more" : " show less"}
-      </span>
-    </p>
-  );
-};
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+  },
+});
 
 const PersonInfo = (props) => {
+  const classes = useStyles();
+
   return (
     <div className="wrapper">
+      {console.log(props.credits)}
       <div className="profile_image">
         <ModalImg>
           {" "}
-          <img src={`${props.image}`} alt="enlarged pic" />{" "}
+          <img
+            src={`${props.image ? props.image : unavailable}`}
+            alt="pic"
+          />{" "}
         </ModalImg>
         <span className="infoPI">
           <div>
@@ -53,15 +83,48 @@ const PersonInfo = (props) => {
       <div className="bio">
         <h2 className="namePI">{props.personName} </h2>
         <p> </p>
-        <h4> Biography </h4>
-        <ReadMore>
-          {" "}
-          <p> {props.personBio}</p>{" "}
-        </ReadMore>
-        <p> </p>
-      </div>
+        <h4> Biography </h4> <p> {props.personBio}</p> <p> </p>
+        <div className="film">
+          <h4> Filmography </h4>
+          <TableContainer>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>
+                    <b>Movie</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Character </b>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <b>Release Date</b>
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              {props.credits &&
+                props.credits.map((credit, index) => (
+                  <TableBody>
+                    <TableRow>
+                      <StyledTableCell component="th" scope="row">
+                        <ContentModal id={credit.id}>
+                          {" "}
+                          {credit.title}{" "}
+                        </ContentModal>
+                      </StyledTableCell>
 
-      {/* <div > {props.personHomepage} </div> */}
+                      <StyledTableCell align="center">
+                        {credit.character}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {credit.release_date}
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableBody>
+                ))}
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
     </div>
   );
 };

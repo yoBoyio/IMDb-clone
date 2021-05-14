@@ -1,6 +1,6 @@
 import React from "react";
-import { unavailable } from "./Config";
-import "./PopularPeople.css";
+import { unavailable } from "./Config.js";
+import "../styles/PopularPeople.css";
 
 function PopularPeople(props) {
   return (
@@ -16,7 +16,6 @@ function PopularPeople(props) {
       <span className="namePP"> Popularity: {props.popularity} </span>
     </div>
   );
-  //     }
 }
 
 export default PopularPeople;
