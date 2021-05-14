@@ -1,5 +1,4 @@
 import React, { Component, useState, useEffect } from "react";
-import PersonInfo from "../components/person/PersonInfo";
 import PopularPeople from "../components/person/PopularPeople";
 import "../components/styles/PopularPeoplePage.css";
 
