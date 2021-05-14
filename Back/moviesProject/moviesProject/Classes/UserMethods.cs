@@ -48,7 +48,6 @@ namespace moviesProject.Classes
             {
                 user = null;
             }
-            user.UserPassword = null;
             return user;
         }
 

@@ -38,6 +38,7 @@ namespace moviesProject.Controllers
 
             if (user==null)
                 return NotFound(JsonConvert.SerializeObject("User does not exist", Formatting.Indented));
+            user.UserPassword = null;
 
             string json = JsonConvert.SerializeObject(user, Formatting.Indented);
             return Ok(json);
@@ -120,6 +121,7 @@ namespace moviesProject.Controllers
             User user = await UserMethods.getUser(email);
             tokenObj sendToken = new tokenObj(token);
             List<object> objects = new List<object>();
+            user.UserPassword = null;
             objects.Add(sendToken);
             objects.Add(user);
             return Ok(JsonConvert.SerializeObject(objects, Formatting.Indented));

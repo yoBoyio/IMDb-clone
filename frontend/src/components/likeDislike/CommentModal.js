@@ -8,7 +8,6 @@ import "../styles/ContentModal.css";
 import { Button } from "@material-ui/core";
 import { StyledButton } from '../../util/MyTextfield'
 import Like from '../likeDislike/Like';
-import DisLike from '../likeDislike/Dislike';
 import '../styles/likeDislike.css'
 import { connect } from 'react-redux';
 import { commentAction } from '../../redux/actions/authActions';
