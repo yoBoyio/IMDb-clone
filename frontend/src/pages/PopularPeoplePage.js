@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import PersonInfo from "../components/person/PersonInfo";
 import PopularPeople from "../components/person/PopularPeople";
-import "../components/person/PopularPeoplePage.css";
+import "../components/styles/PopularPeoplePage.css";
 
 const PopularPeoplePage = () => {
   const [Persons, setPersons] = useState([]);
@@ -10,10 +10,10 @@ const PopularPeoplePage = () => {
     fetch(
       `https://api.themoviedb.org/3/person/popular?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US`
     )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPersons(res.results);
+      .then((response) => response.json())
+      .then((response) => {
+        //console.log(response);
+        setPersons(response.results);
       });
   }, []);
 
