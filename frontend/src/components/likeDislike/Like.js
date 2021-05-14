@@ -58,7 +58,7 @@ export function Like({ auth, like_dislike, movieId }) {
                         if (response.data.like) {
                             setLikeAction('liked')
                         }
-                        if (!response.data.like) {
+                        else {
                             setDislikeAction('disliked')
                         }
                     } else {
@@ -85,7 +85,8 @@ export function Like({ auth, like_dislike, movieId }) {
                             //If dislike button is already clicked
                             if (DislikeAction !== null) {
                                 setDislikeAction(null)
-                                setDislikes(Dislikes - 1)
+                                if (Dislikes > 0)
+                                    setDislikes(Dislikes - 1)
                             }
 
                         } else {
@@ -96,7 +97,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
             } else {
                 //try to insert action to db
-                Axios.post('/api/rating/delete', body, tokenConfig())
+                Axios.delete('/api/rating/delete', body, tokenConfig())
                     .then(response => {
                         if (response.status === 200) {
 
@@ -106,7 +107,8 @@ export function Like({ auth, like_dislike, movieId }) {
 
                             if (LikeAction !== null) {
                                 setLikeAction(null)
-                                setLikes(Likes - 1)
+                                if (Likes > 0)
+                                    setLikes(Likes - 1)
                             }
 
                         } else {
@@ -120,11 +122,11 @@ export function Like({ auth, like_dislike, movieId }) {
     }
 
     const onDisLike = () => {
-        const body = JSON.stringify({ movieId: movieId, commentContent: '', like: false });
+        const body2 = JSON.stringify({ movieId: movieId, commentContent: '', like: false });
 
         if (DislikeAction !== null) {
 
-            Axios.post('/api/rating/delete', body, tokenConfig())
+            Axios.delete('/api/rating/delete', body2, tokenConfig())
                 .then(response => {
                     if (response.status === 200) {
 
@@ -138,7 +140,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
         } else {
 
-            Axios.post('/api/rating/insert', body, tokenConfig())
+            Axios.post('/api/rating/insert', body2, tokenConfig())
                 .then(response => {
                     if (response.status === 200) {
 
