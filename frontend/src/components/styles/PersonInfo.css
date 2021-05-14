@@ -1,37 +1,41 @@
 .wrapper {
   display: grid;
   grid-template-columns: auto auto;
-  grid-template-rows: 140px auto;
+  grid-template-rows: auto auto;
   max-width: 80%;
   margin: 0 auto;
 }
 
 .wrapper > div {
-  /* border: 2px solid;
-  border-radius: 0px; */
   padding: 15pt;
   padding-top: 45pt;
   font-family: "Montserrat", sans-serif;
   color: white;
-
-  /* background-color: #282c34; */
 }
 
 .profile_image {
-  grid-column: 1;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
   position: relative;
 }
 .infoPI {
   text-align: left;
-  grid-column: 1;
+  grid-column-start: 1;
+  grid-column-end: 2;
 }
 .namePI {
   text-align: left;
+  grid-column: 2;
 }
 
 .film {
-  grid-column: 2;
-  grid-row: 2;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  max-width: 100%;
 }
 
 .bio {
@@ -44,54 +48,3 @@
   display: inline;
   width: 100%;
 }
-
-.read-or-hide {
-  color: rgb(192, 192, 192);
-  cursor: pointer;
-}
-
-/* .read-more-link {
-  color: blueviolet;
-  text-decoration: underline;
-  letter-spacing: 1px;
-  cursor: pointer;
-} */
-
-/* .wrapper {
-  max-width: 100%;
-  margin: 0 auto;
-}
-
-.wrapper > div {
-  padding: 1em;
-}
-.wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 0px;
-  grid-auto-rows: minmax(100px, auto);
-}
-.namePI {
-  grid-column: 1 / 4;
-  grid-row: 1;
-  text-align: left;
-  padding: 15px;
-  padding-left: 13px;
-}
-.profile_image {
-  grid-column: 1/2;
-  grid-row: 2 / 6;
-}
-.blurb {
-  grid-column: 2/4;
-  grid-row: 3 / 6;
-}
-
-.gender {
-  grid-column: 3/4;
-  grid-row: 2;
-}
-.filmography {
-  grid-column: 1 / 4;
-  grid-row: 6;
-} */
