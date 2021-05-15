@@ -1,8 +1,7 @@
-import React, { useEffect, Component, useState } from "react";
+import React from "react";
 import ModalImg from "./ModalImg";
 import "../styles/PersonInfo.css";
 import { unavailable } from "./Config.js";
-import PersonDetailsPage from "../../pages/PersonDetailsPage";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -48,7 +47,6 @@ const PersonInfo = (props) => {
 
   return (
     <div className="wrapper">
-      {console.log(props.credits)}
       <div className="profile_image">
         <ModalImg>
           {" "}

@@ -1,13 +1,11 @@
 import React from "react";
 import { fetchGenre } from "../redux/actions/movieActions";
-import { Link, useHistory, useLocation, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import Genres from "../components/genres/genres";
-import withStyles from "@material-ui/core/styles/withStyles";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { ButtonGroup, Button, Chip } from "@material-ui/core";
+import { Chip } from "@material-ui/core";
 import MovieCard from "../components/movies/MovieCard";
 import { StyledButton } from "../util/MyTextfield";
 
@@ -48,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GenresPage() {
-  const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
   const [content, setContent] = useState();
   const [pageText, setPageText] = useState();
@@ -83,7 +80,6 @@ function GenresPage() {
         setMovies(response.data.results);
         setTotalResults(response.data.total_results);
         settotalPages(response.data.total_pages);
-        console.log(response.data.results);
       })
       .catch((error) => {
         setLoading(false);
@@ -111,8 +107,8 @@ function GenresPage() {
 
   let mapping = movies
     ? movies.map((movie) => (
-        <MovieCard movie={movie} key={movie.id}></MovieCard>
-      ))
+      <MovieCard movie={movie} key={movie.id}></MovieCard>
+    ))
     : null;
 
   let displayInfo = !loading ? (
@@ -154,11 +150,7 @@ function GenresPage() {
       <div className={classes.displayMovies}>{displayInfo}</div>
       <div className={classes.button}>
         {totalresults > 20 && currentMovie == null ? (
-          // <Pagination
-          //   pages={numberPages}
-          //   nextPage={nextPage}
-          //   currentPage={currentPage}
-          // />
+
           <StyledButton
             style={{ width: "300px", fontSize: "0.4em", fontWeight: "200" }}
             onClick={nextPage}
@@ -174,7 +166,6 @@ function GenresPage() {
 }
 
 const mapStateToProps = (state) => ({
-  //   genres: state.movie.fetchGenre,
 });
 
 export default withRouter(connect(mapStateToProps, { fetchGenre })(GenresPage));

@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 
 export const MyTextField = withStyles({
     root: {
-        // backgroundColor: '#fff',
-
         "& .MuiFormLabel-root": {
             color: 'white'
         },

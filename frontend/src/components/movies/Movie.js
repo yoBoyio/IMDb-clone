@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { fetchMovie, setLoading } from "../../redux/actions/movieActions";
 import { connect } from "react-redux";
-import Spinner from "../../layout/Spinner";
 import Genres from "../genres/genres";
 import AuthModal from "../auth/isAuth";
 import WatchlistBtn from "../watchlist/AddToWatchlist";
 import Like from "../likeDislike/Like";
 import {
-  img_500,
   unavailable,
-  unavailableLandscape,
 } from '../../util/config';
 
 //material UI
@@ -59,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-block",
     marginLeft: 100,
     marginRight: 100,
-    // border: "none",
-    // boxShadow: "none",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -100,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     width: 120,
     background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
-    // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   },
   heart: {
     display: "flex",
@@ -110,11 +104,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Movie({ loading, movie, auth }) {
-  // const { loading, movie, auth, selectedGenres,setSelectedGenres,setGenres,genres,movieIds } = this.props;
   const classes = useStyles();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [genres, setGenres] = useState([]);
-  console.log(movie.genres);
 
   let movieInfo = (
     <div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { fetchMovie, fetchCredits, setLoading, fetchTrailer } from '../redux/actions/movieActions';
 import { FetchComments, CommentLoading } from '../redux/actions/authActions'
 import { connect } from 'react-redux';
-import Spinner from '../layout/Spinner';
 import Movie from '../components/movies/Movie';
 import Credits from '../components/movies/Credits';
 import Trailer from '../components/movies/Trailer';
@@ -65,16 +64,16 @@ const useStyles = theme => ({
 });
 class MoviePage extends Component {
   componentDidMount() {
-    // setTimeout(() => {
+
     this.props.fetchMovie(this.props.match.params.id);
     this.props.fetchCredits(this.props.match.params.id);
     this.props.fetchTrailer(this.props.match.params.id);
     this.props.FetchComments(this.props.match.params.id);
     this.props.setLoading();
-    // },1000)
+
   }
   render() {
-    const { loading, movie, credits, auth, isAuthenticated } = this.props;
+    const { loading, movie, auth } = this.props;
     const { id } = this.props.match.params;
     const { classes } = this.props;
     let movieInfo =

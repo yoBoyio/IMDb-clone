@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import MovieCard from "../components/movies/MovieCard";
 import { connect } from "react-redux";
 import "../components/styles/watchlist.css";
@@ -27,7 +27,7 @@ export const Watchlist = ({ watchlist, isAuthenticated }) => {
         </div>
       ) : null}
 
-      {isAuthenticated && watchlist == 0 ? (
+      {isAuthenticated && watchlist === 0 ? (
         <h2 className="no-movies">
           <br></br>No movies in your list! Add some!
         </h2>

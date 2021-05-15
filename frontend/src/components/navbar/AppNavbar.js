@@ -18,8 +18,6 @@ import IconButton from "@material-ui/core/IconButton";
 //Actions
 import Logout from "../auth/Logout";
 //Components and pages
-import Watchlist from "../../pages/WatchlistPage";
-import NavMovies from "./NavMovie";
 import DropdownMenu from "./Dropdown";
 
 const styles = {

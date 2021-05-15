@@ -1,5 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
-import PersonInfo from "../components/person/PersonInfo";
+import React, { useState, useEffect } from "react";
 import PopularPeople from "../components/person/PopularPeople";
 import "../components/styles/PopularPeoplePage.css";
 
@@ -12,7 +11,6 @@ const PopularPeoplePage = () => {
     )
       .then((response) => response.json())
       .then((response) => {
-        //console.log(response);
         setPersons(response.results);
       });
   }, []);

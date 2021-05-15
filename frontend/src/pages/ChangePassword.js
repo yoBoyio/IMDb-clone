@@ -14,14 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
 
   form2: {
-    // position: "",
     width: "30%",
-    // height: "100%",
     margin: " auto",
-    // marginTop: theme.spacing(-10),
-    // marginLeft: "0px",
-    // // marginBottom: "5000px",
-    // marginRight: "800px",
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -79,16 +73,15 @@ function ChangePassword({
       <form className={classes.form2} onSubmit={handleOnSubmit} noValidate>
         {msg || newpassword !== confirmnewpassword ? (
           <Alert severity="error"> {wrongmsg}</Alert>
-        ) : // <Alert severity="success"> {changePassword} </Alert>
-        null}
+        ) :
+          null}
         {change_password !== null &&
-        msg &&
-        newpassword == confirmnewpassword &&
-        newpassword !== password ? (
+          msg &&
+          newpassword == confirmnewpassword &&
+          newpassword !== password ? (
           <Alert severity="success"> {msg}</Alert>
-        ) : // <Alert severity="success"> {changePassword} </Alert>
-        null}
-        {console.log(change_password)}
+        ) :
+          null}
         <MyTextField
           variant="outlined"
           margin="normal"

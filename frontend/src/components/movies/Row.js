@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Carousel from "react-elastic-carousel";
 import axios from "axios";
 import "../styles/Row.css";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import MovieCard from "./MovieCard";
 
 function Row({ title, url, isLargeRow }) {

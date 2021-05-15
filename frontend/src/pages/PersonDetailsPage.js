@@ -1,11 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PersonInfo from "../components/person/PersonInfo";
 import "../components/styles/PersonInfo.css";
 
 const PersonDetailsPage = (props) => {
   const [Person, setPerson] = useState([]);
   const [Credits, setCredits] = useState([]);
-  // const classes = useStyles();
 
   useEffect(() => {
     const personId = props.match.params.personId;
@@ -15,7 +14,6 @@ const PersonDetailsPage = (props) => {
     )
       .then((response) => response.json())
       .then((response) => {
-        //console.log(response);
         setPerson(response);
       });
 
@@ -24,7 +22,6 @@ const PersonDetailsPage = (props) => {
     )
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
 
         setCredits(response.cast);
       });
@@ -32,7 +29,6 @@ const PersonDetailsPage = (props) => {
 
   return (
     <div>
-      {console.log(Credits.title)}
       <PersonInfo
         image={
           Person.profile_path

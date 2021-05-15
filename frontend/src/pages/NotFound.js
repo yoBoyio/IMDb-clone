@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import Spinner from "../layout/Spinner";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles({
@@ -50,40 +49,40 @@ const useStyles = makeStyles({
     },
     circular: {
         display: "grid",
-        justifyContent:"center",
+        justifyContent: "center",
         alignItems: "center",
         marginLeft: "30px",
         marginRight: "30px",
         marginTop: "30px",
         padding: "100px",
         width: "100",
-        
+
     }
 
 });
 export default function NotFound(loading) {
     const classes = useStyles();
     const [data, setData] = useState(null);
-    const [wait,setWait] = useState(false);
+    const [wait, setWait] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
             setWait(true);
             setData(
-                   <div className={classes.root}>
-                   <Typography className={classes.err} >4
+                <div className={classes.root}>
+                    <Typography className={classes.err} >4
                    <HelpOutlineIcon className={classes.error} />4</Typography>
-                   <Typography className={classes.msg} >
-                      Maybe this page moved? Got deleted? 
-                      Is hiding out in quarantine? Never existed in the first place?
-                      Let's go 
+                    <Typography className={classes.msg} >
+                        Maybe this page moved? Got deleted?
+                        Is hiding out in quarantine? Never existed in the first place?
+                        Let's go
                           <Link className={classes.button}
-                          component="button"
-                          to="/">Back to the Homepage</Link> and try from there.
+                            component="button"
+                            to="/">Back to the Homepage</Link> and try from there.
                    </Typography>
-                   </div>)
+                </div>)
 
         }, 3000);
-      }, [])
-    return (  !wait ? <div className={classes.circular}> <CircularProgress size="100px" /></div> :<div>{data}</div> );
+    }, [])
+    return (!wait ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : <div>{data}</div>);
 }

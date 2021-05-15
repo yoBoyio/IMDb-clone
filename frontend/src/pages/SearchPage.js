@@ -1,24 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import MovieCard from "../components/movies/MovieCard";
 import { makeStyles } from "@material-ui/core/styles";
 import { searchMovies } from "../redux/actions/movieActions";
 import MicIcon from "@material-ui/icons/Mic";
 import { IconButton } from "@material-ui/core";
-import { InputBase } from "@material-ui/core";
 import SentimentDissatisfiedSharpIcon from "@material-ui/icons/SentimentDissatisfiedSharp";
 import {
   Button,
   createMuiTheme,
-  Tab,
-  Tabs,
   TextField,
   ThemeProvider,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { NavItem } from "reactstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,8 +63,6 @@ function SearchPage(props) {
   });
   const classes = useStyles();
   const [searchText, setSearchText] = useState("");
-  const [results, setResults] = useState(1);
-  const [listening, setListening] = useState(false);
   const [submit, setSubmit] = useState(false);
   const [submittedtext, setSubmittedtext] = useState(null);
   const movies = props.movies;
@@ -79,14 +72,12 @@ function SearchPage(props) {
     if (!recognition.listening) {
       recognition.start();
       recognition.onresult = (event) => {
-        let interimTranscript = "";
         var finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcript = event.results[i][0].transcript;
           if (event.results[i].isFinal) finalTranscript += transcript + " ";
-          else interimTranscript += transcript;
+
         }
-        console.log(finalTranscript);
         setSearchText(finalTranscript);
       };
     } else {
@@ -116,8 +107,8 @@ function SearchPage(props) {
   let mapping =
     movies.length > 0
       ? movies.map((movie) => (
-          <MovieCard movie={movie} key={movie.id}></MovieCard>
-        ))
+        <MovieCard movie={movie} key={movie.id}></MovieCard>
+      ))
       : null;
 
   let displayInfo = !loading ? (
@@ -161,7 +152,7 @@ function SearchPage(props) {
       </ThemeProvider>
 
       <div className={classes.main}>{displayInfo}</div>
-      {searchText && movies.length == 0 && submittedtext && !loading ? (
+      {searchText && movies.length === 0 && submittedtext && !loading ? (
         <div className={classes.centered}>
           <SentimentDissatisfiedSharpIcon style={{ fontSize: 100 }} />
           No Movie with the name — <strong>{submittedtext}</strong> was found.

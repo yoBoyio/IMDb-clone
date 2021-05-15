@@ -1,11 +1,8 @@
 import React, { Component, } from 'react';
 import "../styles/Row.css";
-
 import { Skeleton } from '@material-ui/lab';
-import { Box } from '@material-ui/core'
 
-
-const SkeletonCard = ({ isLargeRow }) => {
+const SkeletonCard = () => {
 
 
     return (

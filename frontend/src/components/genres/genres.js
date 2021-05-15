@@ -1,9 +1,8 @@
 import { Chip } from "@material-ui/core";
-import axios from "axios";
 import { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     color: "white",
     background: "#9d50bb",
@@ -35,7 +34,6 @@ const Genres = ({
     return () => {
       setGenres({}); // unmounting
     };
-    // eslint-disable-next-line
   }, []);
 
   return (

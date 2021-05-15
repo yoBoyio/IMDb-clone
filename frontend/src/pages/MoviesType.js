@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MovieCard from "../components/movies/MovieCard";
 import { connect } from "react-redux";
 import "../components/styles/watchlist.css";
 import { getMovies } from "../redux/actions/movieActions";
-import { StyledButton } from "../util/MyTextfield";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -57,16 +56,13 @@ function usePrevious(value) {
 export const MoviesType = ({ getMovies, movies, loading, location }) => {
   const classes = useStyles();
   const [currentPage, setCurrentPage] = useState(1);
-  const [newmovies, setNewmovies] = useState([]);
   const movieurl = location.pathname;
   const prevPathName = usePrevious(movieurl);
   const title = movieurl.slice(1, movieurl.length);
   //axios request with url param pathname
   useEffect(() => {
-    if (prevPathName != movieurl) {
-      //   setNewmovies(null);
+    if (prevPathName !== movieurl) {
       setCurrentPage(1);
-      //   console.log("URL CHANGED");
     }
     getMovies(movieurl, currentPage);
     window.history.replaceState(
@@ -74,10 +70,7 @@ export const MoviesType = ({ getMovies, movies, loading, location }) => {
       "new page title",
       `${movieurl}?page=${currentPage}`
     );
-    // if (currentPage > 1) {
-    //   setNewmovies([...newmovies, ...movies]);
-    // }
-    // setNewmovies(movies);
+
   }, [movieurl, currentPage]);
   //Load More
   const nextPage = () => {
