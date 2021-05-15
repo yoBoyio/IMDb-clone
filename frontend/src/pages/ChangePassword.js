@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { MyTextField, StyledButton, StyledLink } from "../util/MyTextfield";
+import { MyTextField, StyledButton } from "../util/MyTextfield";
 import { makeStyles } from "@material-ui/core/styles";
 import { changePassword } from "../redux/actions/authActions";
 import { clearErrors } from "../redux/actions/errorActions";

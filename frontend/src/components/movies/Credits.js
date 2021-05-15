@@ -99,7 +99,7 @@ export class Credits extends Component {
 
 
     let castList =
-      credits != "" &&
+      credits !== "" &&
       <Carousel breakPoints={breakPoints}>
         {credits.map(castMember => (
           <Grid
@@ -151,7 +151,7 @@ export class Credits extends Component {
         ))}
       </Carousel>
     let contents = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : castList;
-    return credits != "" ? (
+    return credits !== "" ? (
       <div>
         <Typography className={classes.cast}>Cast</Typography>
         <LinearProgress className={classes.barCover} variant="determinate" classes={{

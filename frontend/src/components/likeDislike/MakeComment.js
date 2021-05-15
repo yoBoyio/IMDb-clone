@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState } from "react";
 import Alert from '@material-ui/lab/Alert';
 import "../styles/ContentModal.css";
 import { StyledButton } from '../../util/MyTextfield'
@@ -8,22 +8,12 @@ import { connect } from 'react-redux';
 import { commentAction } from '../../redux/actions/authActions';
 import { clearErrors } from '../../redux/actions/errorActions';
 //material UI
-import { withStyles, makeStyles } from "@material-ui/core/";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import IconButton from '@material-ui/core/IconButton';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { makeStyles } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
         alignItems: "center",
         justifyContent: "center",
-        // display:"block"
     },
     paper: {
         width: 500,
@@ -47,30 +37,19 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5,
         width: 80,
         background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
-        // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
     },
-    // submit: {
-    //     margin: theme.spacing(3, 0, 2),
-    // },
+
 
 }));
 
 function MakeComment(props) {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
-    const [content, setContent] = useState();
     const [comment, setComment] = useState('');
     const [msg, setMsg] = useState(null);
-    const [alert1, setAlert] = useState('');
 
 
 
     const handleChangeComment = (e) => setComment(e.target.value);
-
-    const handleToggle = useCallback(() => {
-        // Clear errors
-        props.clearErrors();
-    }, [props.clearErrors]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();

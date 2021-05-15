@@ -6,8 +6,11 @@ import MovieCard from "./MovieCard";
 
 function Row({ title, url, isLargeRow }) {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   //AXIOS REQUEST
   const fetchData = () => {
+
     axios.get(`api/movieshowcase/${url}`)
       .then(response => {
         setMovies(response.data);

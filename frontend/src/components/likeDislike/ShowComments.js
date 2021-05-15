@@ -87,7 +87,7 @@ export class ShowComments extends Component {
   }
  
   render() {
-    const { loading, showComments,pageNumber } = this.props;
+    const { loading, showComments } = this.props;
     const {classes} = this.props;
     let commentInfo = (
       <div>
