@@ -42,7 +42,7 @@ namespace moviesProject.Classes
             try
             {
                 // query = "SELECT * FROM users WHERE userEmail='" + Email + "'";
-                user = await context.Users.SingleOrDefaultAsync(x => x.UserEmail == Email);
+                user = await context.Users.AsQueryable().SingleOrDefaultAsync(x => x.UserEmail == Email);
             }
             catch (Exception e) 
             {
@@ -86,9 +86,9 @@ namespace moviesProject.Classes
             
             try
             {
-                if (await context.Users.AnyAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass))
+                if (await context.Users.AsQueryable().AnyAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass))
                 {
-                    var item = await context.Users.SingleAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass);
+                    var item = await context.Users.AsQueryable().SingleAsync(x => x.UserEmail == uEmail && x.UserPassword == uPass);
                     item.UserPassword = newPass;
                     flag = true;
                 }

@@ -37,7 +37,7 @@ namespace moviesProject
             services.AddCors(options =>
             {
 
-               
+                
                 options.AddPolicy("mypolicy",
                     builder =>
                  builder.WithOrigins("http://localhost:3000")
