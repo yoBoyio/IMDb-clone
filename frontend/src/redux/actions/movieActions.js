@@ -19,7 +19,6 @@ import { returnErrors } from "./errorActions";
 
 export const getMovies = (url, page) => (dispatch) => {
   dispatch(setMoviesLoading());
-  console.log(url);
   axios
     .get(`https://localhost:44324/api/movieshowcase${url}`, Configparams(page))
     .then((res) => {

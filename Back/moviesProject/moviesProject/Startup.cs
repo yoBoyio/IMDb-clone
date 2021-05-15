@@ -19,6 +19,7 @@ namespace moviesProject
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,7 +30,6 @@ namespace moviesProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
 
             services.AddSwaggerGen();
 
@@ -37,12 +37,17 @@ namespace moviesProject
             services.AddCors(options =>
             {
 
-                options.AddDefaultPolicy(
-                    builder => builder.WithOrigins("http://localhost:3000"));
-                options.AddPolicy("mypolicy", builder =>
-                 builder.WithOrigins("http://localhost:3000"));
+               
+                options.AddPolicy("mypolicy",
+                    builder =>
+                 builder.WithOrigins("http://localhost:3000")
+                 .AllowAnyHeader()
+                 .AllowAnyMethod());
             }
+
             );
+            services.AddControllers();
+
 
 
             var key = "09128898-3de9-49b1-b9a8-40367e9f8175";
@@ -85,7 +90,7 @@ namespace moviesProject
             app.UseRouting();
 
             // Allow CORS
-            app.UseCors();
+            app.UseCors("mypolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

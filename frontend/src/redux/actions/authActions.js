@@ -18,7 +18,8 @@ import {
   FETCH_COMMENTS,
   COMMENT_LOADING,
   CHANGE_PASS,
-  FETCH_COMMENTSTATS
+  FETCH_COMMENTSTATS,
+  FAILED_COMMENTS,
 } from './types';
 
 
@@ -175,24 +176,26 @@ export const login = ({ email, password }) => (dispatch) => {
 //====================RATING========================//
 
 //comment
-export const commentAction = (comment, movieId, token_value) => (dispatch) => {
+export const commentAction = (comment, movieId, like) => (dispatch) => {
   // Headers
 
   // Request body
+  console.log(movieId)
+  const id = parseInt(movieId)
   const body = JSON.stringify({
-    movieId: movieId,
+    movieId: id,
     commentContent: comment,
-    like: true,
+    like: true
   });
 
   axios
-    .post("api/rating/insert", body, conf())
-    .then((res) =>
+    .post(`https://localhost:44324/api/rating/insert`, body, conf())
+    .then((res) => {
       dispatch({
         type: COMMENT_SUCCESS,
         payload: res.data,
       })
-    )
+    })
     .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "COMMENT_FAIL")
@@ -272,12 +275,17 @@ export const FetchComments = (id) => (dispatch) => {
         payload: response.data.Ratings
       })
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      dispatch({
+        type: FAILED_COMMENTS,
+
+      })
+    });
 };
 export const FetchCommentStats = (id) => (dispatch) => {
   axios
     .get(
-      `https://localhost:44324/api/rating/get/stats?movieId=${id}` 
+      `https://localhost:44324/api/rating/get/stats?movieId=${id}`
     )
     .then((response) =>
       dispatch({

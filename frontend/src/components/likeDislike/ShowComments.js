@@ -42,6 +42,11 @@ const useStyles = theme =>({
     marginTop:5,
     marginLeft:5
   },
+  commentNotFound:{
+    padding:'20px 20px',
+    fontSize: '18px',
+
+  },
   paper: {
     width: 500,
     height: 300,
@@ -59,10 +64,6 @@ const useStyles = theme =>({
    },
    iconCover: {
     marginLeft: 10,
-    // border: "1px solid",
-    // borderRadius: "40%",
-    // backgroundColor: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
-    // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   },
   divider:{
     border: "1px solid #282c34",
@@ -84,9 +85,11 @@ barCover: {
   },
 });
 export class ShowComments extends Component {
-  // handleClick = () => {
-  //   console.log(this.props.pageNumber);
-  // }
+
+  componentDidMount(){
+    this.props.FetchComments(this.props.movieId)
+  }
+ 
   render() {
     const { loading, showComments,pageNumber } = this.props;
     const {classes} = this.props;
@@ -115,7 +118,8 @@ export class ShowComments extends Component {
   
          
       </Typography>
-      {showComments.map(comment => (
+      
+      {showComments.length>0 ? (showComments.map(comment => (
         
           <List className={classes.rating}>
                  <ListItem alignItems="flex-start">
@@ -142,10 +146,12 @@ export class ShowComments extends Component {
                  </ListItem>
                  <Divider className={classes.divider} variant="middle" />
            </List>
-           ))}
-           {/* <button onClick={() => this.handleClick()}>
-           Click me
-           </button> */}
+           ))):
+            <div >
+              <br/>
+              <Typography className={classes.commentNotFound}>No comments found</Typography>
+            </div>}
+          
            </Card>
            </div>
       );

@@ -13,7 +13,7 @@ import {
 } from '../../util/config';
 
 //material UI
-import { withStyles,makeStyles } from "@material-ui/core/";
+import { withStyles, makeStyles } from "@material-ui/core/";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -109,24 +109,24 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Movie({loading, movie, auth}) {
-    // const { loading, movie, auth, selectedGenres,setSelectedGenres,setGenres,genres,movieIds } = this.props;
-    const  classes = useStyles();
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const [genres, setGenres] = useState([]);
-    console.log(movie.genres);
+function Movie({ loading, movie, auth }) {
+  // const { loading, movie, auth, selectedGenres,setSelectedGenres,setGenres,genres,movieIds } = this.props;
+  const classes = useStyles();
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [genres, setGenres] = useState([]);
+  console.log(movie.genres);
 
-    let movieInfo = (
-      <div>
-        <Card className={classes.imageContainer}>
-          {movie.poster_path ? (
-  
-           <CardMedia
+  let movieInfo = (
+    <div>
+      <Card className={classes.imageContainer}>
+        {movie.poster_path ? (
+
+          <CardMedia
             className={classes.cover}
             image={getImage(movie.poster_path)}
             title={movie.title}
           >
-        
+
             <div className={classes.details}>
               <CardContent className={classes.content}>
                 <Typography
@@ -167,16 +167,16 @@ function Movie({loading, movie, auth}) {
                     {movie.vote_average * 10 + "%"}{" "}
                   </Typography>
                 </div>
-               {movie.genres && <Genres
-                    movieIds={movie.genres}
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
-                    genres={genres}
-                    setGenres={setGenres}
+                {movie.genres && <Genres
+                  movieIds={movie.genres}
+                  selectedGenres={selectedGenres}
+                  setSelectedGenres={setSelectedGenres}
+                  genres={genres}
+                  setGenres={setGenres}
                 />}
                 <div className={classes.rating}>
                   {auth && auth.isAuthenticated ? (
-                      <Like movieId={movie.id} auth={true} />
+                    <Like movieId={movie.id} auth={true} />
                   ) : (
                     <AuthModal>
                       {" "}
@@ -188,13 +188,13 @@ function Movie({loading, movie, auth}) {
               </CardContent>
             </div>
           </CardMedia>
-          ):(
-            <CardMedia
+        ) : (
+          <CardMedia
             className={classes.cover}
-            image= {unavailable}
+            image={unavailable}
             title="Cover"
           >
-        
+
             <div className={classes.details}>
               <CardContent className={classes.content}>
                 <Typography
@@ -235,16 +235,16 @@ function Movie({loading, movie, auth}) {
                     {movie.vote_average * 10 + "%"}{" "}
                   </Typography>
                 </div>
-               {movie.genres && <Genres
-                    movieIds={movie.genres}
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
-                    genres={genres}
-                    setGenres={setGenres}
+                {movie.genres && <Genres
+                  movieIds={movie.genres}
+                  selectedGenres={selectedGenres}
+                  setSelectedGenres={setSelectedGenres}
+                  genres={genres}
+                  setGenres={setGenres}
                 />}
                 <div className={classes.rating}>
                   {auth && auth.isAuthenticated ? (
-                      <Like movieId={movie.id} auth={true} />
+                    <Like movieId={movie.id} auth={true} />
                   ) : (
                     <AuthModal>
                       {" "}
@@ -256,10 +256,10 @@ function Movie({loading, movie, auth}) {
               </CardContent>
             </div>
           </CardMedia>
-          )}
-        </Card>
-       
-       {movie.overview &&
+        )}
+      </Card>
+
+      {movie.overview &&
         <Card className={classes.descriptionContainer}>
           <div>
             <CardContent className={classes.content}>
@@ -283,12 +283,12 @@ function Movie({loading, movie, auth}) {
             </CardContent>
           </div>
         </Card>}
-      </div>
-    );
+    </div>
+  );
 
-    let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
-    return <div> {content} </div>;
-  }
+  let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
+  return <div> {content} </div>;
+}
 
 
 const mapStateToProps = (state) => ({
