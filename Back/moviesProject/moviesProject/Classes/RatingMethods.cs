@@ -24,7 +24,7 @@ namespace moviesProject.Classes
                 if (userEmail != "" && page==0)
                 {
                     //query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
-                    rating = await context.Ratings.SingleOrDefaultAsync(x => x.UserEmail == userEmail && x.MovieId == MovieId );
+                    rating = await context.Ratings.AsQueryable().SingleOrDefaultAsync(x => x.UserEmail == userEmail && x.MovieId == MovieId );
                     userRating.Add(rating);
 
                     dictionary.Add("UserRating", userRating);
@@ -47,7 +47,7 @@ namespace moviesProject.Classes
             moviesProjectContext context = new moviesProjectContext();
             Rating rating= new Rating();
             //String query = "SELECT * FROM ratings WHERE movieId='" + MovieId + "' AND userEmail='" + userEmail + "'";
-            rating = await context.Ratings.SingleOrDefaultAsync(x => x.UserEmail == userEmail && x.MovieId == MovieId );
+            rating = await context.Ratings.AsQueryable().SingleOrDefaultAsync(x => x.UserEmail == userEmail && x.MovieId == MovieId );
             
 
             return rating;
@@ -62,9 +62,9 @@ namespace moviesProject.Classes
                 //String query = "REPLACE INTO ratings VALUES (0," + movieId + ",'" + userEmail+"','"+commentContent+"',"+like+")";
                 
                 moviesProjectContext context = new moviesProjectContext();
-                if(await context.Ratings.AnyAsync(x => x.UserEmail == userEmail && x.MovieId == movieId))
+                if(await context.Ratings.AsQueryable().AnyAsync(x => x.UserEmail == userEmail && x.MovieId == movieId))
                 {
-                    var item =await context.Ratings.SingleAsync(x => x.UserEmail == userEmail && x.MovieId == movieId);
+                    var item =await context.Ratings.AsQueryable().SingleAsync(x => x.UserEmail == userEmail && x.MovieId == movieId);
                     item.Like = like;
                     item.CommentContent= commentContent; 
                 }
@@ -97,7 +97,7 @@ namespace moviesProject.Classes
                 
                 //String query = "DELETE  FROM RATINGS WHERE movieId = '" + movieId + "' AND userEmail = '"+userEmail+"'";
 
-                var itemToRemove =await context.Ratings.SingleOrDefaultAsync(x => x.MovieId == movieId && x.UserEmail == userEmail ); //returns a single item.
+                var itemToRemove =await context.Ratings.AsQueryable().SingleOrDefaultAsync(x => x.MovieId == movieId && x.UserEmail == userEmail ); //returns a single item.
 
                 if (itemToRemove != null) {
                     context.Ratings.Remove(itemToRemove);

@@ -75,7 +75,7 @@ namespace moviesProject.Classes
             {
             
                 //query = "SELECT movieId FROM watchlist WHERE userEmail='" + Email + "' AND movieId='"+movieId+"'";
-                if(await context.Watchlists.AnyAsync(x => x.UserEmail == Email && x.MovieId == movieId))
+                if(await context.Watchlists.AsQueryable().AnyAsync(x => x.UserEmail == Email && x.MovieId == movieId))
                 {
                     return true;
                 }
@@ -95,7 +95,7 @@ namespace moviesProject.Classes
             {
                 List<Movie> MovieList = new List<Movie>();
                 // query = "DELETE FROM `watchlist` WHERE userEmail='" + uEmail + "' AND movieId=" + MovieId + "";
-                var itemToRemove =await context.Watchlists.SingleOrDefaultAsync(x => x.MovieId == MovieId && x.UserEmail.ToUpper() == uEmail.ToUpper() ); //returns a single item.
+                var itemToRemove =await context.Watchlists.AsQueryable().SingleOrDefaultAsync(x => x.MovieId == MovieId && x.UserEmail.ToUpper() == uEmail.ToUpper() ); //returns a single item.
 
                 if (itemToRemove != null) {
                     context.Watchlists.Remove(itemToRemove);
