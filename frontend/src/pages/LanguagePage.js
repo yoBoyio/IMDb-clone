@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import withStyles from "@material-ui/core/styles/withStyles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import SentimentDissatisfiedSharpIcon from "@material-ui/icons/SentimentDissatisfiedSharp";
 
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import MovieCard from "../components/movies/MovieCard";
 import { StyledButton } from "../util/MyTextfield";
 
@@ -105,8 +101,7 @@ function LanguagePage() {
         setLoading(false);
         setCurrentMovie(response.data);
 
-        if (response.data.length == 20) {
-          console.log("20 it is ");
+        if (response.data.length === 20) {
           setPage(true);
         } else {
           setPage(false);
@@ -121,7 +116,6 @@ function LanguagePage() {
   const nextPage = () => {
     setLoading(true);
     setCurrentPage(currentPage + 1);
-    const newmovies = currentMovie;
     axios
       .get(
         `https://localhost:44324/api/MovieShowcase/Search/lang?lang=${iso}&page=${currentPage}`
@@ -134,7 +128,6 @@ function LanguagePage() {
         }
 
         setCurrentMovie([...currentMovie, ...response.data]);
-        console.log(currentMovie);
       });
   };
 
@@ -183,7 +176,6 @@ function LanguagePage() {
         ) : null}
       </div>
 
-      {console.log(englishname)}
 
       <div className={classes.button}>
         {page && currentMovie.length !== 0 ? (

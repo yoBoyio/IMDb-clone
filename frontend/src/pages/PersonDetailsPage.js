@@ -5,7 +5,6 @@ import "../components/styles/PersonInfo.css";
 const PersonDetailsPage = (props) => {
   const [Person, setPerson] = useState([]);
   const [Credits, setCredits] = useState([]);
-  // const classes = useStyles();
 
   useEffect(() => {
     const personId = props.match.params.personId;
@@ -15,7 +14,6 @@ const PersonDetailsPage = (props) => {
     )
       .then((response) => response.json())
       .then((response) => {
-        //console.log(response);
         setPerson(response);
       });
 
@@ -24,7 +22,6 @@ const PersonDetailsPage = (props) => {
     )
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
 
         setCredits(response.cast);
       });
@@ -32,7 +29,6 @@ const PersonDetailsPage = (props) => {
 
   return (
     <div>
-      {console.log(Credits.title)}
       <PersonInfo
         image={
           Person.profile_path
@@ -49,47 +45,6 @@ const PersonDetailsPage = (props) => {
         personHomepage={Person.homepage}
         credits={Credits}
       />
-      {/* Filmography table */}
-      <div className="wrapper">
-        <div className="film">
-          <h4> Filmography </h4>
-          <TableContainer>
-            <Table className={classes.table} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>
-                    <b>Movie</b>
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <b>Character </b>
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <b>Release Date</b>
-                  </StyledTableCell>
-                </TableRow>
-              </TableHead>
-              {Credits &&
-                Credits.map((credits, index) => (
-                  <TableBody>
-                    <TableRow>
-                      <StyledTableCell component="th" scope="row">
-                        <ContentModal id={credits.id}>
-                          {credits.title}
-                        </ContentModal>
-                      </StyledTableCell>
-                      <StyledTableCell align="center">
-                        {credits.character}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {credits.release_date}
-                      </StyledTableCell>
-                    </TableRow>
-                  </TableBody>
-                ))}
-            </Table>
-          </TableContainer>
-        </div>
-      </div>
     </div>
   );
 };

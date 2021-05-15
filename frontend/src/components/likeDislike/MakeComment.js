@@ -88,7 +88,6 @@ function MakeComment(props) {
 
     return (
         <>
-            {console.log(comment)}
             <div className={classes.modal}>
 
                 <div className={classes.paper}>

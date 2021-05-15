@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MovieCard from "../components/movies/MovieCard";
 import { connect } from "react-redux";
 import "../components/styles/watchlist.css";
@@ -56,13 +56,12 @@ function usePrevious(value) {
 export const MoviesType = ({ getMovies, movies, loading, location }) => {
   const classes = useStyles();
   const [currentPage, setCurrentPage] = useState(1);
-  const [newmovies, setNewmovies] = useState([]);
   const movieurl = location.pathname;
   const prevPathName = usePrevious(movieurl);
   const title = movieurl.slice(1, movieurl.length);
   //axios request with url param pathname
   useEffect(() => {
-    if (prevPathName != movieurl) {
+    if (prevPathName !== movieurl) {
       setCurrentPage(1);
     }
     getMovies(movieurl, currentPage);
@@ -71,6 +70,7 @@ export const MoviesType = ({ getMovies, movies, loading, location }) => {
       "new page title",
       `${movieurl}?page=${currentPage}`
     );
+
   }, [movieurl, currentPage]);
   //Load More
   const nextPage = () => {

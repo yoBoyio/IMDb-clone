@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
@@ -10,9 +10,7 @@ import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
-    // position: "relative",
-    // left: "250px",
-    // marginLeft: "-250px",
+
     width: "10%",
     top: "91px",
     borderWidth: "0px",
@@ -57,9 +55,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   icons: {
-    // viewBox: "0 0 20 20",
-    // widht: "1.5rem",
-    // height: "1.5rem",
+
     width: "40px",
     height: "40px",
     display: "inline-block",
@@ -95,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
   },
   flexRight: {
     flex: "90%",
-    // backgroundColor: "#FFF",
   },
   link: {
     textDecoration: "none",
@@ -117,7 +112,6 @@ function MyaccountMenu(props) {
     if (!props.isAuthenticated) {
       setRedirect(true);
     }
-    console.log(props);
   }, [props.error, props.isAuthenticated]);
 
   const handlePage = () => {
@@ -134,11 +128,6 @@ function MyaccountMenu(props) {
         <div style={{ height: "5px" }}></div>
         <div className={classes.flexcointainer}>
           <div className={classes.flexLeft}>
-            <div className={classes.accountUsername}>
-              {/* <h2 className={classes.lettersDisplay}>
-              {props.user ? props.user.UserName : null}
-            </h2> */}
-            </div>
             <div className={classes.sidebarnav}>
               <p className={classes.menuTitle}></p>
               <div className={classes.itemsinsidebar}>
@@ -207,7 +196,6 @@ function MyaccountMenu(props) {
               </div>
             </div>
           </div>
-          {/* <div className={classes.flexRight}></div> */}
         </div>
       </div>
     </>

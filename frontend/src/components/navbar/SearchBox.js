@@ -49,7 +49,6 @@ const styles = {
   },
   inputInput: {
     padding: "1px 1px 1px 0px",
-    // vertical padding + font size from searchIcon
     paddingLeft: "30px",
     transition: "width",
     width: "100%",
@@ -60,7 +59,6 @@ class SearchBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // movies: props.movies,
       listening: false,
       query: "",
       submit: false,
@@ -79,8 +77,6 @@ class SearchBox extends Component {
     if (!recognition.listening) {
       recognition.start();
       recognition.onresult = (event) => {
-        let interimTranscript = "";
-        var finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcript = event.results[i][0].transcript;
           if (event.results[i].isFinal) finalTranscript += transcript + " ";
@@ -105,8 +101,7 @@ class SearchBox extends Component {
 
   resetSubmit() {
     this.setState({ submit: false });
-    console.log("reset");
-    console.log(this.state.submit);
+
   }
 
   render() {

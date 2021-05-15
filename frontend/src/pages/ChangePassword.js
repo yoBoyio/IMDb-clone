@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { MyTextField, StyledButton } from "../util/MyTextfield";
+import { MyTextField, StyledButton, StyledLink } from "../util/MyTextfield";
 import { makeStyles } from "@material-ui/core/styles";
 import { changePassword } from "../redux/actions/authActions";
 import { clearErrors } from "../redux/actions/errorActions";
@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 
   form2: {
     width: "30%",
-
     margin: " auto",
   },
   submit: {
@@ -41,6 +40,7 @@ function ChangePassword({
     setconfirmnewPassword(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
   const handleOnSubmit = (e) => {
+    // handleToggle();
     e.preventDefault();
     if (confirmnewpassword !== newpassword) {
       setWrongMsg(
@@ -73,16 +73,15 @@ function ChangePassword({
       <form className={classes.form2} onSubmit={handleOnSubmit} noValidate>
         {msg || newpassword !== confirmnewpassword ? (
           <Alert severity="error"> {wrongmsg}</Alert>
-        ) : // <Alert severity="success"> {changePassword} </Alert>
-        null}
+        ) :
+          null}
         {change_password !== null &&
-        msg &&
-        newpassword == confirmnewpassword &&
-        newpassword !== password ? (
+          msg &&
+          newpassword == confirmnewpassword &&
+          newpassword !== password ? (
           <Alert severity="success"> {msg}</Alert>
-        ) : // <Alert severity="success"> {changePassword} </Alert>
-        null}
-        {console.log(change_password)}
+        ) :
+          null}
         <MyTextField
           variant="outlined"
           margin="normal"

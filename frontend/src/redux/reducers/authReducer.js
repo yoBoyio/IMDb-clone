@@ -15,7 +15,6 @@ import {
   PASSWORD_FAILED,
   FETCH_COMMENTSTATS,
   FAILED_COMMENTS,
-  ADD_COMMENTS
 } from '../actions/types';
 
 const initialState = {
