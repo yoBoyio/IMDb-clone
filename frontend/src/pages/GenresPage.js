@@ -89,7 +89,6 @@ function GenresPage() {
   //Test
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
-    const newmovies = movies;
     setLoading(true);
     axios
       .get(

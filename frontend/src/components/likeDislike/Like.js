@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import '../styles/likeDislike.css'
-import AuthModal from '../auth/isAuth'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import Axios from 'axios';
-import CommentModal from './CommentModal'
 
-export function Like({ auth, like_dislike, movieId }) {
+export function Like({ auth, movieId }) {
     const [Likes, setLikes] = useState(0)
     const [Dislikes, setDislikes] = useState(0)
     const [LikeAction, setLikeAction] = useState(null)
@@ -34,8 +32,6 @@ export function Like({ auth, like_dislike, movieId }) {
     };
 
     useEffect(() => {
-        const body = JSON.stringify({ movieId: movieId });
-
         //How many likes does this movie have 
 
         Axios.get('/api/rating/get/stats', config)

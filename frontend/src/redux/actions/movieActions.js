@@ -16,7 +16,7 @@ import { returnErrors } from "./errorActions";
 export const getMovies = (url, page) => (dispatch) => {
   dispatch(setMoviesLoading());
   axios
-    .get(`https://localhost:44324/api/movieshowcase${url}`, Configparams(page))
+    .get(`https://moviesprojectieemdb.azurewebsites.net/api/movieshowcase${url}`, Configparams(page))
     .then((res) => {
       dispatch({
         type: GET_MOVIES,
@@ -31,7 +31,7 @@ export const getMovies = (url, page) => (dispatch) => {
 export const searchMovies = (url) => (dispatch) => {
   dispatch(setSearchMoviesLoading());
   axios
-    .get(`https://localhost:44324/api/movieshowcase/Search/${url}`, config)
+    .get(`https://moviesprojectieemdb.azurewebsites.net/api/movieshowcase/Search/${url}`, config)
     .then((res) =>
       dispatch({
         type: SEARCH_MOVIES,
