@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PersonInfo from "../components/person/PersonInfo";
 import "../components/styles/PersonInfo.css";
 
@@ -49,6 +49,47 @@ const PersonDetailsPage = (props) => {
         personHomepage={Person.homepage}
         credits={Credits}
       />
+      {/* Filmography table */}
+      <div className="wrapper">
+        <div className="film">
+          <h4> Filmography </h4>
+          <TableContainer>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>
+                    <b>Movie</b>
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    <b>Character </b>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <b>Release Date</b>
+                  </StyledTableCell>
+                </TableRow>
+              </TableHead>
+              {Credits &&
+                Credits.map((credits, index) => (
+                  <TableBody>
+                    <TableRow>
+                      <StyledTableCell component="th" scope="row">
+                        <ContentModal id={credits.id}>
+                          {credits.title}
+                        </ContentModal>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {credits.character}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {credits.release_date}
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableBody>
+                ))}
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
     </div>
   );
 };

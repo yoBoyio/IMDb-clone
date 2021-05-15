@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { MyTextField, StyledButton, StyledLink } from "../util/MyTextfield";
+import { MyTextField, StyledButton } from "../util/MyTextfield";
 import { makeStyles } from "@material-ui/core/styles";
 import { changePassword } from "../redux/actions/authActions";
 import { clearErrors } from "../redux/actions/errorActions";
@@ -14,14 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
   form2: {
-    // position: "",
     width: "30%",
-    // height: "100%",
+
     margin: " auto",
-    // marginTop: theme.spacing(-10),
-    // marginLeft: "0px",
-    // // marginBottom: "5000px",
-    // marginRight: "800px",
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -46,7 +41,6 @@ function ChangePassword({
     setconfirmnewPassword(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
   const handleOnSubmit = (e) => {
-    // handleToggle();
     e.preventDefault();
     if (confirmnewpassword !== newpassword) {
       setWrongMsg(

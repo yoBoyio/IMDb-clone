@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import MyAccountPage from "./MyAccountPage";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
