@@ -3,7 +3,6 @@ import MovieCard from "../components/movies/MovieCard";
 import { connect } from "react-redux";
 import "../components/styles/watchlist.css";
 import { getMovies } from "../redux/actions/movieActions";
-import { StyledButton } from "../util/MyTextfield";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -64,9 +63,7 @@ export const MoviesType = ({ getMovies, movies, loading, location }) => {
   //axios request with url param pathname
   useEffect(() => {
     if (prevPathName != movieurl) {
-      //   setNewmovies(null);
       setCurrentPage(1);
-      //   console.log("URL CHANGED");
     }
     getMovies(movieurl, currentPage);
     window.history.replaceState(
@@ -74,10 +71,6 @@ export const MoviesType = ({ getMovies, movies, loading, location }) => {
       "new page title",
       `${movieurl}?page=${currentPage}`
     );
-    // if (currentPage > 1) {
-    //   setNewmovies([...newmovies, ...movies]);
-    // }
-    // setNewmovies(movies);
   }, [movieurl, currentPage]);
   //Load More
   const nextPage = () => {
