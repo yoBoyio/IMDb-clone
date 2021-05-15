@@ -13,7 +13,9 @@ import {
   COMMENT_LOADING,
   CHANGE_PASS,
   PASSWORD_FAILED,
-  FETCH_COMMENTSTATS
+  FETCH_COMMENTSTATS,
+  FAILED_COMMENTS,
+  ADD_COMMENTS
 } from '../actions/types';
 
 const initialState = {
@@ -25,7 +27,7 @@ const initialState = {
   showComments: [],
   loading: false,
   change_password: null,
-  commentStats:null
+  commentStats: null
 };
 
 export default function (state = initialState, action) {
@@ -90,6 +92,13 @@ export default function (state = initialState, action) {
         showComments: action.payload,
         loading: false,
       };
+    case FAILED_COMMENTS:
+      return {
+        ...state,
+        showComments: [],
+        loading: false,
+      };
+
     case COMMENT_LOADING:
       return {
         ...state,

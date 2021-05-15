@@ -55,7 +55,7 @@ export function Like({ auth, like_dislike, movieId }) {
             Axios.get('/api/rating/get/userRating', tokenConfig())
                 .then(response => {
                     if (response.status === 200) {
-                        if (response.data.like) {
+                        if (response.data.Like) {
                             setLikeAction('liked')
                         }
                         else {
@@ -70,7 +70,14 @@ export function Like({ auth, like_dislike, movieId }) {
     }, [])
 
     const onLike = () => {
-        const body = JSON.stringify({ movieId: movieId, commentContent: '', like: true });
+        const body = JSON.stringify({
+            movieId: movieId,
+            commentContent: '',
+            like: true
+        });
+        const id = JSON.stringify({
+            movieId: movieId,
+        });
         //check if user is logged
         if (auth.isAuthenticated) {
 
@@ -97,7 +104,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
             } else {
                 //try to insert action to db
-                Axios.delete('/api/rating/delete', body, tokenConfig())
+                Axios.post('/api/rating/delete', id, tokenConfig())
                     .then(response => {
                         if (response.status === 200) {
 
@@ -126,7 +133,7 @@ export function Like({ auth, like_dislike, movieId }) {
 
         if (DislikeAction !== null) {
 
-            Axios.delete('/api/rating/delete', body2, tokenConfig())
+            Axios.post('/api/rating/delete', body2, tokenConfig())
                 .then(response => {
                     if (response.status === 200) {
 

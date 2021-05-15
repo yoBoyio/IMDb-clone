@@ -94,7 +94,7 @@ namespace moviesProject.Controllers
             return Ok(json);
         }
         // diagrafei
-        [HttpDelete("delete")]
+        [HttpPost("delete")]
         public async Task<IActionResult> deleteRatingsAsync([FromBody] UserCred userCred, [FromHeader] string Authorization)
         {
             int movieId = userCred.MovieId;
