@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GenresPage() {
+  const [genres, setGenres] = useState([]);
   const [content, setContent] = useState();
   const [pageText, setPageText] = useState();
   const [movies, setMovies] = useState([]);
@@ -79,7 +80,6 @@ function GenresPage() {
         setMovies(response.data.results);
         setTotalResults(response.data.total_results);
         settotalPages(response.data.total_pages);
-        console.log(response.data.results);
       })
       .catch((error) => {
         setLoading(false);
@@ -89,7 +89,7 @@ function GenresPage() {
   //Test
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
-
+    const newmovies = movies;
     setLoading(true);
     axios
       .get(
@@ -107,8 +107,8 @@ function GenresPage() {
 
   let mapping = movies
     ? movies.map((movie) => (
-        <MovieCard movie={movie} key={movie.id}></MovieCard>
-      ))
+      <MovieCard movie={movie} key={movie.id}></MovieCard>
+    ))
     : null;
 
   let displayInfo = !loading ? (
@@ -150,6 +150,7 @@ function GenresPage() {
       <div className={classes.displayMovies}>{displayInfo}</div>
       <div className={classes.button}>
         {totalresults > 20 && currentMovie == null ? (
+
           <StyledButton
             style={{ width: "300px", fontSize: "0.4em", fontWeight: "200" }}
             onClick={nextPage}
@@ -165,7 +166,6 @@ function GenresPage() {
 }
 
 const mapStateToProps = (state) => ({
-  //   genres: state.movie.fetchGenre,
 });
 
 export default withRouter(connect(mapStateToProps, { fetchGenre })(GenresPage));

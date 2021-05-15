@@ -1,5 +1,4 @@
 import axios from "axios";
-import { api } from "../../util/config";
 import { returnErrors } from "./errorActions";
 import {
   USER_LOADED,
@@ -57,7 +56,6 @@ export const addWatchlist = (token, movieId) => (dispatch, getState) => {
 };
 //delete watclist
 export const deleteWatchlist = (movieId) => (dispatch, getState) => {
-  const body = JSON.stringify({ movieId: movieId });
   axios
     .delete("/api/users/watchlist/Remove", conf(movieId))
     .then((res) =>

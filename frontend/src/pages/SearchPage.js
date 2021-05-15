@@ -9,8 +9,6 @@ import SentimentDissatisfiedSharpIcon from "@material-ui/icons/SentimentDissatis
 import {
   Button,
   createMuiTheme,
-  Tab,
-  Tabs,
   TextField,
   ThemeProvider,
 } from "@material-ui/core";
@@ -74,14 +72,12 @@ function SearchPage(props) {
     if (!recognition.listening) {
       recognition.start();
       recognition.onresult = (event) => {
-        let interimTranscript = "";
         var finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcript = event.results[i][0].transcript;
           if (event.results[i].isFinal) finalTranscript += transcript + " ";
-          else interimTranscript += transcript;
+
         }
-        console.log(finalTranscript);
         setSearchText(finalTranscript);
       };
     } else {
@@ -111,8 +107,8 @@ function SearchPage(props) {
   let mapping =
     movies.length > 0
       ? movies.map((movie) => (
-          <MovieCard movie={movie} key={movie.id}></MovieCard>
-        ))
+        <MovieCard movie={movie} key={movie.id}></MovieCard>
+      ))
       : null;
 
   let displayInfo = !loading ? (
@@ -156,7 +152,7 @@ function SearchPage(props) {
       </ThemeProvider>
 
       <div className={classes.main}>{displayInfo}</div>
-      {searchText && movies.length == 0 && submittedtext && !loading ? (
+      {searchText && movies.length === 0 && submittedtext && !loading ? (
         <div className={classes.centered}>
           <SentimentDissatisfiedSharpIcon style={{ fontSize: 100 }} />
           No Movie with the name — <strong>{submittedtext}</strong> was found.

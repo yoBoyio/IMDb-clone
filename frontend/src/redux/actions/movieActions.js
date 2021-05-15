@@ -1,12 +1,9 @@
 import axios from "axios";
 import {
-  GET_WATCHLIST,
   GENRES_MAP,
   SEARCH_MOVIES_LOADING,
   SEARCH_MOVIES,
   GET_MOVIES,
-  DELETE_WATCHLIST,
-  ADD_WATCHLIST,
   MOVIES_LOADING,
   FETCH_MOVIE,
   LOADING,
@@ -14,7 +11,6 @@ import {
   FETCH_TRAILER,
   SEARCH_NOTFOUND,
 } from "./types";
-import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
 
 export const getMovies = (url, page) => (dispatch) => {

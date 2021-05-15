@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Spinner from '../../layout/Spinner';
 import { FetchComments, CommentLoading } from '../../redux/actions/authActions';
 
 //material UI
-import { withStyles,makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -81,7 +78,6 @@ barCover: {
     borderRadius: 5,
     width: 80,
     background: "linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)",
-    // boxShadow: '0 3px 5px 2px rgba(255	, 175, 189, .2)'
   },
 });
 export class ShowComments extends Component {
@@ -140,7 +136,6 @@ export class ShowComments extends Component {
                         className={classes.inline}
                       >
                         {comment.CommentContent}
-                         {/* Testing Comments - Real Comments Unavailable for now! */}
                       </Typography>}
                          />
                  </ListItem>

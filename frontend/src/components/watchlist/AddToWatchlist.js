@@ -6,7 +6,6 @@ import "../styles/watchlist.css";
 import { connect } from "react-redux";
 import AuthModal from "../auth/isAuth";
 import { addWatchlist, deleteWatchlist } from "../../redux/actions/authActions";
-import Axios from "axios";
 
 export function AddToList({
   auth,
@@ -14,10 +13,8 @@ export function AddToList({
   watchlist,
   addWatchlist,
   deleteWatchlist,
-  succes,
 }) {
   const [added, setAdded] = useState(false);
-  const [watchlistAction, setWatchlistAction] = useState(null);
   const [watchAction, setWactchAction] = useState(false);
 
   useEffect(() => {
@@ -29,16 +26,7 @@ export function AddToList({
         }
       });
     }
-    // //if watchlist req status=200 and
-    // if(succes){
-    //     //if movie was in watchlist delete it
-    //     if(added){
-    //         setAdded(false);
-    //     }else{
-    //         setAdded(false);
 
-    //     }
-    // }
   });
 
   const onClick = () => {

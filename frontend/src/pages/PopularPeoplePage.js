@@ -11,7 +11,6 @@ const PopularPeoplePage = () => {
     )
       .then((response) => response.json())
       .then((response) => {
-        //console.log(response);
         setPersons(response.results);
       });
   }, []);

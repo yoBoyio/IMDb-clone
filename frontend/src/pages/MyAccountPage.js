@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import MyaccountMenu from "./MyaccountMenu";
 import ChangePassword from "./ChangePassword";
-
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,11 +15,8 @@ const useStyles = makeStyles((theme) => ({
     boxSizing: "border-box",
     textAlign: "center",
     justifyContent: "center",
-    // height: "30px",
     width: "400px",
-    // left: "0px",
     display: "flex",
-    // marginTop: "-150px",
   },
   heading: {
     display: "flex",
@@ -29,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1.25rem",
   },
   body: {
-    // display: "grid",
     marginLeft: "0px",
     paddingLeft: "0px",
     width: "100%",
@@ -43,11 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form2: {
     width: "30%",
-    // height: "10%",
-    // marginTop: theme.spacing(3),
-    // marginLeft: "0px",
-    // // marginBottom: "5000px",
-    // marginRight: "800px",
+
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -70,16 +61,15 @@ const useStyles = makeStyles((theme) => ({
 
 function MyAccountPage({ user }) {
   const [page, setPage] = useState(1);
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const classes = useStyles();
   return (
     <>
       <h2 className={classes.lettersDisplay}>{user ? user.UserName : null}</h2>
       <div className={classes.majorKey}>
-        {console.log(page)}
         <MyaccountMenu page={page} setPage={setPage} />
-        {page == 1 ? (
+        {page === 1 ? (
           <div className={classes.leftDiv}>
             <div className={classes.heading}></div>
 
@@ -96,7 +86,7 @@ function MyAccountPage({ user }) {
               </div>
             </div>
           </div>
-        ) : page == 2 ? (
+        ) : page === 2 ? (
           <div className={classes.body}>
             <ChangePassword />
           </div>
