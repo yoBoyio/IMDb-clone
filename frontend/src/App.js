@@ -37,10 +37,10 @@ if (token) {
   }
 }
 const App = () => {
-  useEffect(() => {
-    store.dispatch(loadUser());
-    store.dispatch(getWatchlist());
-  }, []);
+  // useEffect(() => {
+  //   store.dispatch(loadUser());
+  //   store.dispatch(getWatchlist());
+  // }, []);
 
   return (
     <Provider store={store}>

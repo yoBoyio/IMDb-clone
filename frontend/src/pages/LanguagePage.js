@@ -96,7 +96,7 @@ function LanguagePage() {
     setShowmessage(true);
     setLoading(true);
     axios
-      .get(`https://moviesprojectieemdb.azurewebsites.net//api/MovieShowcase/Search/lang?lang=${iso}`)
+      .get(`https://localhost:44324/api/MovieShowcase/Search/lang?lang=${iso}`)
       .then((response) => {
         setLoading(false);
         setCurrentMovie(response.data);
@@ -118,7 +118,7 @@ function LanguagePage() {
     setCurrentPage(currentPage + 1);
     axios
       .get(
-        `https://moviesprojectieemdb.azurewebsites.net/api/MovieShowcase/Search/lang?lang=${iso}&page=${currentPage}`
+        `https://localhost:44324/api/MovieShowcase/Search/lang?lang=${iso}&page=${currentPage}`
       )
       .then((response) => {
         setLoading(false);
