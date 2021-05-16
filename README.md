@@ -9,7 +9,7 @@
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=yoBoyio/IMDb-clone)
 
 ### Demo Page 
-You can try it at XXXX
+You can try it at https://ieeemdb.netlify.app/
 
 
 
