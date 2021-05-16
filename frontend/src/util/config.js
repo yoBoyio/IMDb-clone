@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 export const img_300 = "https://image.tmdb.org/t/p/w300";
 export const img_500 = "https://image.tmdb.org/t/p/w500";
@@ -10,4 +11,4 @@ export const unavailableLandscape =
 
 export const noPicture =
     "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg";
-
+export const api = axios.create({ baseURL: 'https://moviesprojectieemdb.azurewebsites.net/' });

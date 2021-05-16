@@ -16,8 +16,6 @@ const useStyles = theme => ({
     background: "#141414",
     color: "#fff",
     display: "inline-block",
-    // border: "none",
-    // boxShadow: "none",
     alignItems: "center",
     justifyContent: "center",
   },

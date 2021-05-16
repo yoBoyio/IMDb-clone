@@ -20,6 +20,7 @@ import {
   FETCH_COMMENTSTATS,
   FAILED_COMMENTS,
 } from './types';
+import { api } from '../../util/config'
 
 
 //================WATCHLIST===================//
@@ -187,7 +188,7 @@ export const commentAction = (comment, movieId, like) => (dispatch) => {
   });
 
   axios
-    .post(`https://moviesprojectieemdb.azurewebsites.net//api/rating/insert`, body, conf())
+    .post(`https://localhost:44324/api/rating/insert`, body, conf())
     .then((res) => {
       dispatch({
         type: COMMENT_SUCCESS,
@@ -266,7 +267,7 @@ const setAuthorizationHeader = (token) => {
 
 export const FetchComments = (id) => (dispatch) => {
   axios
-    .get(`https://moviesprojectieemdb.azurewebsites.net/api/rating/get?movieId=${id}`)
+    .get(`https://localhost:44324/api/rating/get?movieId=${id}`)
     .then((response) =>
       dispatch({
         type: FETCH_COMMENTS,
@@ -283,7 +284,7 @@ export const FetchComments = (id) => (dispatch) => {
 export const FetchCommentStats = (id) => (dispatch) => {
   axios
     .get(
-      `https://moviesprojectieemdb.azurewebsites.net//api/rating/get/stats?movieId=${id}`
+      `https://localhost:44324/api/rating/get/stats?movieId=${id}`
     )
     .then((response) =>
       dispatch({

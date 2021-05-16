@@ -58,5 +58,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://moviesprojectieemdb.azurewebsites.net/"
+  "proxy": "https://localhost:44324/"
 }

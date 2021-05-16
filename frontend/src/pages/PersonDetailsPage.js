@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PersonInfo from "../components/person/PersonInfo";
 import "../components/styles/PersonInfo.css";
@@ -9,21 +10,18 @@ const PersonDetailsPage = (props) => {
   useEffect(() => {
     const personId = props.match.params.personId;
 
-    fetch(
+    axios.get(
       `https://api.themoviedb.org/3/person/${personId}?api_key=2eff1592c2104c03f9098af2aee54824&language=en-US`
     )
-      .then((response) => response.json())
       .then((response) => {
-        setPerson(response);
+        setPerson(response.data);
       });
 
-    fetch(
+    axios.get(
       `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=2eff1592c2104c03f9098af2aee54824`
     )
-      .then((response) => response.json())
       .then((response) => {
-
-        setCredits(response.cast);
+        setCredits(response.data.cast);
       });
   }, []);
 

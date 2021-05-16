@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/Row.css";
-
-
 import {
   img_500,
   unavailable,
@@ -13,12 +11,12 @@ const MovieCard = ({ isLargeRow, movie }) => {
 
   const [loading, setLoading] = useState(false);
 
-  // load animation 1sec
+  // load animation 3secs
   useEffect(() => {
     setLoading(true);
     const timing = setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 3000);
     return () => clearTimeout(timing)
   }, [])
 
