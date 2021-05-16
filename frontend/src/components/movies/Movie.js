@@ -114,7 +114,6 @@ function Movie({loading, movie, auth}) {
     const  classes = useStyles();
     const [selectedGenres, setSelectedGenres] = useState([]);
     const [genres, setGenres] = useState([]);
-    console.log(movie.genres);
 
     let movieInfo = (
       <div>
@@ -126,137 +125,136 @@ function Movie({loading, movie, auth}) {
             image={getImage(movie.poster_path)}
             title={movie.title}
           >
-        
-            <div className={classes.details}>
-              <CardContent className={classes.content}>
-                <Typography
-                  className={classes.bold}
-                  variant="h1"
-                  paragraph
-                  gutterBottom
-                >
-                  {movie.title}
-                </Typography>
-                <Typography
-                  className={classes.subs}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {movie.release_date &&
-                    movie.release_date
-                      .substring(5)
-                      .split("-")
-                      .concat(movie.release_date.substring(0, 4))
-                      .join("/")}
-                </Typography>
-                <Typography
-                  className={classes.subs}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {movie.original_language} | {time_convert(movie.runtime)}
-                </Typography>
-                <div className={classes.heart}>
-                  <FavoriteIcon
-                    className={classes.heart}
-                    fontSize="medium"
-                    color="secondary"
-                  />
-                  <Typography className={classes.subs}>
-                    {" "}
-                    {movie.vote_average * 10 + "%"}{" "}
-                  </Typography>
-                </div>
-               {movie.genres && <Genres
-                    movieIds={movie.genres}
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
-                    genres={genres}
-                    setGenres={setGenres}
-                />}
-                <div className={classes.rating}>
-                  {auth && auth.isAuthenticated ? (
-                      <Like movieId={movie.id} auth={true} />
-                  ) : (
-                    <AuthModal>
-                      {" "}
-                      <Like movieId={movie.id} auth={false} />{" "}
-                    </AuthModal>
-                  )}
-                  <WatchlistBtn movieId={movie.id} />
-                </div>
-              </CardContent>
-            </div>
-          </CardMedia>
-          ):(
-            <CardMedia
-            className={classes.cover}
-            image= {unavailable}
-            title="Cover"
-          >
-        
-            <div className={classes.details}>
-              <CardContent className={classes.content}>
-                <Typography
-                  className={classes.bold}
-                  variant="h1"
-                  paragraph
-                  gutterBottom
-                >
-                  {movie.title}
-                </Typography>
-                <Typography
-                  className={classes.subs}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {movie.release_date &&
-                    movie.release_date
-                      .substring(5)
-                      .split("-")
-                      .concat(movie.release_date.substring(0, 4))
-                      .join("/")}
-                </Typography>
-                <Typography
-                  className={classes.subs}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  {movie.original_language} | {time_convert(movie.runtime)}
-                </Typography>
-                <div className={classes.heart}>
-                  <FavoriteIcon
-                    className={classes.heart}
-                    fontSize="medium"
-                    color="secondary"
-                  />
-                  <Typography className={classes.subs}>
-                    {" "}
-                    {movie.vote_average * 10 + "%"}{" "}
-                  </Typography>
-                </div>
-               {movie.genres && <Genres
-                    movieIds={movie.genres}
-                    selectedGenres={selectedGenres}
-                    setSelectedGenres={setSelectedGenres}
-                    genres={genres}
-                    setGenres={setGenres}
-                />}
-                <div className={classes.rating}>
-                  {auth && auth.isAuthenticated ? (
-                      <Like movieId={movie.id} auth={true} />
-                  ) : (
-                    <AuthModal>
-                      {" "}
-                      <Like movieId={movie.id} auth={false} />{" "}
-                    </AuthModal>
-                  )}
-                  <WatchlistBtn movieId={movie.id} />
-                </div>
-              </CardContent>
-            </div>
-          </CardMedia>
-          )}
+                            <div className={classes.details}>
+                              <CardContent className={classes.content}>
+                                <Typography
+                                  className={classes.bold}
+                                  variant="h1"
+                                  paragraph
+                                  gutterBottom
+                                >
+                                  {movie.title}
+                                </Typography>
+                                <Typography
+                                  className={classes.subs}
+                                  variant="subtitle1"
+                                  gutterBottom
+                                >
+                                  {movie.release_date &&
+                                    movie.release_date
+                                      .substring(5)
+                                      .split("-")
+                                      .concat(movie.release_date.substring(0, 4))
+                                      .join("/")}
+                                </Typography>
+                                <Typography
+                                  className={classes.subs}
+                                  variant="subtitle1"
+                                  gutterBottom
+                                >
+                                  {movie.original_language} | {time_convert(movie.runtime)}
+                                </Typography>
+                                <div className={classes.heart}>
+                                  <FavoriteIcon
+                                    className={classes.heart}
+                                    fontSize="medium"
+                                    color="secondary"
+                                  />
+                                  <Typography className={classes.subs}>
+                                    {" "}
+                                    {movie.vote_average * 10 + "%"}{" "}
+                                  </Typography>
+                                </div>
+                               {movie.genres && <Genres
+                                    movieIds={movie.genres}
+                                    selectedGenres={selectedGenres}
+                                    setSelectedGenres={setSelectedGenres}
+                                    genres={genres}
+                                    setGenres={setGenres}
+                                />}
+                                <div className={classes.rating}>
+                                  {auth && auth.isAuthenticated ? (
+                                      <Like movieId={movie.id} auth={true} />
+                                  ) : (
+                                    <AuthModal>
+                                      {" "}
+                                      <Like movieId={movie.id} auth={false} />{" "}
+                                    </AuthModal>
+                                  )}
+                                  <WatchlistBtn movieId={movie.id} />
+                                </div>
+                              </CardContent>
+                            </div>
+                          </CardMedia>
+                    ):(
+                                      <CardMedia
+                                      className={classes.cover}
+                                      image= {unavailable}
+                                      title="Cover"
+                                    >
+                                  
+                                      <div className={classes.details}>
+                                        <CardContent className={classes.content}>
+                                          <Typography
+                                            className={classes.bold}
+                                            variant="h1"
+                                            paragraph
+                                            gutterBottom
+                                          >
+                                            {movie.title}
+                                          </Typography>
+                                          <Typography
+                                            className={classes.subs}
+                                            variant="subtitle1"
+                                            gutterBottom
+                                          >
+                                            {movie.release_date &&
+                                              movie.release_date
+                                                .substring(5)
+                                                .split("-")
+                                                .concat(movie.release_date.substring(0, 4))
+                                                .join("/")}
+                                          </Typography>
+                                          <Typography
+                                            className={classes.subs}
+                                            variant="subtitle1"
+                                            gutterBottom
+                                          >
+                                            {movie.original_language} | {time_convert(movie.runtime)}
+                                          </Typography>
+                                          <div className={classes.heart}>
+                                            <FavoriteIcon
+                                              className={classes.heart}
+                                              fontSize="medium"
+                                              color="secondary"
+                                            />
+                                            <Typography className={classes.subs}>
+                                              {" "}
+                                              {movie.vote_average * 10 + "%"}{" "}
+                                            </Typography>
+                                          </div>
+                                         {movie.genres && <Genres
+                                              movieIds={movie.genres}
+                                              selectedGenres={selectedGenres}
+                                              setSelectedGenres={setSelectedGenres}
+                                              genres={genres}
+                                              setGenres={setGenres}
+                                          />}
+                                          <div className={classes.rating}>
+                                            {auth && auth.isAuthenticated ? (
+                                                <Like movieId={movie.id} auth={true} />
+                                            ) : (
+                                              <AuthModal>
+                                                {" "}
+                                                <Like movieId={movie.id} auth={false} />{" "}
+                                              </AuthModal>
+                                            )}
+                                            <WatchlistBtn movieId={movie.id} />
+                                          </div>
+                                        </CardContent>
+                                      </div>
+                                    </CardMedia>
+                                    )}
         </Card>
        
        {movie.overview &&

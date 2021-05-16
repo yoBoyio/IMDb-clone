@@ -35,9 +35,6 @@ const useStyles = theme =>({
     alignItems: 'center',
     justifyContent: 'center',
     justify: "center",
-    marginLeft:160,
-    marginBottom:30,
-    width: 1200
   },
 });
 
@@ -61,19 +58,15 @@ export class Trailer extends Component {
     <Typography className={classes.trailer}>Trailer</Typography>
       <LinearProgress className={classes.barCover} variant="determinate" classes={{
        barColorPrimary: classes.barCover 
-       }} /> 
-       <div className={classes.root}>
-        <Grid container className={classes.paper} spacing={2}>
+       }} />
          <div className = {classes.videoContainer}>
            <ReactPlayer
             url={"https://www.youtube.com/watch?v=" + video.key}
-            width="1100px"
+            width="1000px"
             height="500px"
             controls={true}
           ></ReactPlayer>
        </div>
-      </Grid>
-     </div>
     </div>
     ))}
     </div>

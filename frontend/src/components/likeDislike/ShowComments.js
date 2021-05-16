@@ -23,18 +23,31 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = theme =>({
   root: {
-    width: 600,
-    height:300,
+    display: 'block',
+    color: "#fff",
+    backgroundColor: "#141414",
+    marginTop:50,
+    alignItems: 'left',
+    justifyContent: 'left',
+    justify: "left",
+    margin:"auto",
+    width:30,
+    maxWidth:350,
+  },
+  rootComments: {
+    display: 'inline-block',
     color: "#fff",
     backgroundColor: "#141414",
     border: "1px solid #282c34",
     borderRadius: 3,
-    boxShadow: theme.shadows[5],
-    marginTop:50,
-    position: 'relative',
-    overflow: 'auto',
-    maxHeight: 300,
-    maxWidth:800
+    alignItems: 'left',
+    justifyContent: 'left',
+    justify: "left",
+    margin:"auto",
+    maxWidth:350,
+    width:350,
+    height:250,
+    marginTop:30,
   },
   inline: {
     color: "#fff",
@@ -42,20 +55,13 @@ const useStyles = theme =>({
     marginTop:5,
     marginLeft:5
   },
-  paper: {
-    width: 500,
-    height: 300,
-    backgroundColor: "#141414",
-    border: "1px solid #282c34",
-    borderRadius: 3,
-    color: "white",
-    boxShadow: theme.shadows[5],
-    marginTop:50
-   },
    rating:{
-    marginLeft: 20,
+    width:400,
     marginTop:10,
     fontSize: '26px',
+    border: "none",
+    margin:"auto"
+
    },
    iconCover: {
     marginLeft: 10,
@@ -91,7 +97,7 @@ export class ShowComments extends Component {
     const { loading, showComments,pageNumber } = this.props;
     const {classes} = this.props;
     let commentInfo = (
-      <div>
+      <div className={classes.root}>
       <Typography className={classes.comment} gutterBottom>
        Ratings
      </Typography>
@@ -101,7 +107,8 @@ export class ShowComments extends Component {
        classes={{
          barColorPrimary: classes.barCover,
        }} />
-      <Card className={classes.root}>
+
+      <div className={classes.rootComments}>
       <Typography 
       variant="h4"
       className={classes.rating}>
@@ -111,13 +118,11 @@ export class ShowComments extends Component {
                     fontSize="large"
                     variant="outlined"
                     className={classes.iconCover}
-                  />
-  
-         
+                  />       
       </Typography>
+
       {showComments.map(comment => (
-        
-          <List className={classes.rating}>
+          <List >
                  <ListItem alignItems="flex-start">
                    <ListItemAvatar>
               {comment.Like === true ? <ThumbUpIcon       
@@ -143,11 +148,9 @@ export class ShowComments extends Component {
                  <Divider className={classes.divider} variant="middle" />
            </List>
            ))}
-           {/* <button onClick={() => this.handleClick()}>
-           Click me
-           </button> */}
-           </Card>
            </div>
+           </div>
+
       );
 
     let content = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : commentInfo;

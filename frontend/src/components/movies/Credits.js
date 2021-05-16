@@ -30,7 +30,7 @@ const useStyles = theme =>({
   item: {
     background: '#141414',
     color:'#fff',
-    textAlign : "center",
+    textAlign : "left",
     border: "none", 
     boxShadow: "none",
     height:380,
@@ -52,7 +52,8 @@ const useStyles = theme =>({
     marginTop: "10px",
     marginBottom: "10px",
     textAlign : "left",
-    marginLeft:125
+    alignItems: "left",
+    justifyContent: "left",
   },
   noimage: {
     borderRadius: '50%',
@@ -65,10 +66,12 @@ const useStyles = theme =>({
     width: '125px'
   },
   barCover:{
+    textAlign : "left",
+    alignItems: "left",
+    justifyContent: "left",
     height: 10,
     borderRadius: 5,
     width:50,
-    marginLeft:125,
     marginBottom: "20px",
     background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)'
   },
@@ -107,14 +110,6 @@ export class Credits extends Component {
       credits!= "" &&
         <Carousel breakPoints={breakPoints}>
         {credits.map(castMember => (
-          <Grid
-                 container
-                 justify="center"
-                 alignItems="center"
-                 direction="column"
-                 style={{ minHeight:"200vh"}, { maxHeight:"200vh"}}
-           >
-    <Grid item>
       <Link to={`/person/${castMember.id}`}>
         <Card className={classes.item} key={castMember.name}>
               {castMember.profile_path ? (
@@ -151,8 +146,6 @@ export class Credits extends Component {
       )}
      </Card>
      </Link>
-   </Grid>
-  </Grid>
   ))}
   </Carousel>
   let contents = loading ? <div className={classes.circular}> <CircularProgress size="100px" /></div> : castList;

@@ -13,7 +13,7 @@ import NotFound from './NotFound';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = theme =>({
-root:{
+rootBig:{
   background: "#141414",
     color: "#fff",
     display: "inline-block",
@@ -21,15 +21,52 @@ root:{
     // boxShadow: "none",
     alignItems: "center",
     justifyContent: "center",
+    margin: "auto",
+    height:"100%",
+    width:"100%",
+    maxHeight:"100%",
+    maxWidth:"100%"
   },
-  trailer: {
-    fontWeight:'Bold',
-    fontSize: "32px",
-    marginTop: "30px",
-    marginBottom: "10px",
+  rootSmall :{
+    background: "#141414",
+    color: "#fff",
+    display: "inline-block",
+    // border: "none",
+    // boxShadow: "none",
+    alignItems: "left",
+    justifyContent: "left",
+    margin: "auto",
+    height:"100%",
+    width:"100%",
+    maxHeight:"100%",
+    maxWidth:"100%"
+  },
+  trailerSmall: {
+    // border: "none",
+    // boxShadow: "none",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign : "center",
+    margin:"auto",
+    width:300,
+  },
+  trailer:{
+    alignItems: "left",
+    justifyContent: "left",
     textAlign : "left",
-    marginLeft:125
   },
+  showcommentsSmall: {
+    display:"block",
+    alignItems: "left",
+    justifyContent: "left",
+    textAlign : "left",
+    margin:"auto",
+    maxWidth:20,
+    width:20
+  },
+ credits:{
+   marginLeft:125
+ },
   barCover:{
     height: 10,
     borderRadius: 5,
@@ -38,33 +75,37 @@ root:{
     marginBottom: "20px",
     background:'linear-gradient(45deg, #9d50bb 30%, #6e48aa 90%)'
   },
-  videoContainer: {
-    display: 'flex',
-    border: "none", 
-    boxShadow: "none",
-    alignItems: 'center',
-    justifyContent: 'center',
-    justify: "center",
-    marginLeft:160,
-    marginBottom:30,
-    width: 1200
-  },
-  makecomment: {
-    marginLeft:120,
-    marginTop:50,
-    display: 'flex'
-  },
   makecomments: {
-    marginLeft:20,
-    marginTop:50,
-    display: 'flex'
+    display:"flex",
+    margin:"auto",
+    alignItems: "left",
+    justifyContent: "left",
+    textAlign : "left",
   },
-  rating: {
-    display:"flex"
+  showcomments: {
+    display:"flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign : "center",
+    marginLeft: 250
+  },
+  ratingBig: {
+    display:"flex",
+    margin:"auto"
+  },
+  ratingSmall:{
+    display:"inline-block",
+    margin:"auto"
   }
 });
 class MoviePage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { matches: window.matchMedia("(min-width: 768px)").matches };
+  }
     componentDidMount() {
+      const handler = e => this.setState({matches: e.matches});
+      window.matchMedia("(min-width: 768px)").addListener(handler);
       // setTimeout(() => {
         this.props.fetchMovie(this.props.match.params.id);
         this.props.fetchCredits(this.props.match.params.id);
@@ -74,7 +115,7 @@ class MoviePage extends Component {
       // },1000)
       }
     render() { 
-        const { loading, movie , credits,auth,isAuthenticated } = this.props;
+        const { loading,movie,auth } = this.props;
         const { id } = this.props.match.params;
         const {classes} = this.props;  
         let movieInfo =  
@@ -83,13 +124,19 @@ class MoviePage extends Component {
         </div>
                let content = loading ?<div className={classes.circular}> <CircularProgress size="100px" /></div> : movieInfo;
                return <div>
+                 {this.state.matches && (
+                           <div>
                           {id == movie.id ? ( 
-                          <div className={classes.root}>
+                          <div className={classes.rootBig}>
                            {content}
+                           <div className={classes.credits}>
                            <Credits id={id}/> 
+                           </div>
+                           <div className={classes.trailer}>
                            <Trailer />
-                           <div className={classes.rating}>
-                           <div className={classes.makecomment}>
+                           </div>
+                           <div className={classes.ratingBig}>
+                           <div className={classes.showcomments}>
                            <ShowComments />
                            </div>
                            <div className={classes.makecomments}>
@@ -97,12 +144,40 @@ class MoviePage extends Component {
                            <MakeComment movieId={id} /> 
                            }
                            </div>
-                           </div>
-                           </div>
+                          </div>
+                         </div>
                           ):(
                             <NotFound />
                           )
                            }
+                  </div>)}
+
+                 {!this.state.matches && (
+                      <div>
+                        {id == movie.id ? ( 
+                          <div className={classes.rootSmall}>
+                           {content}
+                           <Credits id={id}/> 
+                           <div className={classes.trailerSmall}>
+                           <Trailer />
+                           </div>
+                           <div className={classes.ratingSmall}>
+                           <div className={classes.showcommentsSmall}>
+                           <ShowComments />
+                           </div>
+                           <div className={classes.showcommentsSmall}>
+                           {auth && auth.isAuthenticated && 
+                           <MakeComment movieId={id} /> 
+                           }
+                           </div>
+                          </div>
+                         </div>
+                          ):(
+                            <NotFound />
+                          )
+                           }</div>
+                           )}
+                          
                       </div>;
                         }
               }

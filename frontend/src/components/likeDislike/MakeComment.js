@@ -17,22 +17,23 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const useStyles = makeStyles((theme) => ({
-    modal: {
-        alignItems: "center",
-        justifyContent: "center",
-        // display:"block"
-    },
     paper: {
-        width: 500,
-        height: 300,
-        backgroundColor: "#141414",
-        border: "1px solid #282c34",
-        borderRadius: 3,
-        color: "white",
-        boxShadow: theme.shadows[5],
-        marginLeft: 40,
-        marginTop:120,
-        maxWidth:600
+            display: 'flex',
+            color: "#fff",
+            backgroundColor: "#141414",
+            border: "1px solid #282c34",
+            borderRadius: 3,
+            marginTop:50,
+            alignItems: 'right',
+            justifyContent: 'right',
+            justify: "left",
+            margin:"auto",
+            marginRight:100,
+            maxWidth:350,
+            width:350,
+            height:250,
+            marginTop:150,
+            
     },
     comment: {
         fontWeight: "Bold",
@@ -94,10 +95,7 @@ function MakeComment(props) {
 
 
     return (
-        <>
-        <div className={classes.modal}>
-                   
-                        <div className={classes.paper}>
+                     <div className={classes.paper}>
                         <div className="commentModal">
                             {msg ? <Alert severity="error"> {msg}</Alert> : null}
                             <div className="commentModal__about">
@@ -123,9 +121,7 @@ function MakeComment(props) {
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    </div>
-        </>
+                  </div>
     );
 }
 
